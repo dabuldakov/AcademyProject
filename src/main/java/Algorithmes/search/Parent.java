@@ -1,4 +1,4 @@
-package search;
+package Algorithmes.search;
 
 public class Parent {
     private long sum;

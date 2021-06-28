@@ -1,4 +1,4 @@
-package search;
+package Algorithmes.search;
 
 class LineSearch extends Parent implements Searcher{
 

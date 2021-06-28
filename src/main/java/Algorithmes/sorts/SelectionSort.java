@@ -1,7 +1,6 @@
-package sorts;
+package Algorithmes.sorts;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SelectionSort implements Sort{
 
