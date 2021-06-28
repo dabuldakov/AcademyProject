@@ -1,7 +1,7 @@
-package jsonParserPractice;
+package homeWork.jsonParserPractice;
 
-import jsonParserPractice.model.City;
-import jsonParserPractice.model.Industry;
+import homeWork.jsonParserPractice.model.City;
+import homeWork.jsonParserPractice.model.Industry;
 import com.google.gson.*;
 
 import java.util.ArrayList;

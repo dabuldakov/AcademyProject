@@ -1,4 +1,4 @@
-package inOutStream;
+package homeWork.inOutStream;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

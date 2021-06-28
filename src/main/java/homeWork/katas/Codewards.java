@@ -1,4 +1,4 @@
-package katas;
+package homeWork.katas;
 //import com.ibm.jvm.format.Util;
 
 import java.lang.reflect.Array;

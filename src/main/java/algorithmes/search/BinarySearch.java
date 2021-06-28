@@ -1,4 +1,4 @@
-package search;
+package algorithmes.search;
 
 class BinarySearch extends Parent implements Searcher{
 

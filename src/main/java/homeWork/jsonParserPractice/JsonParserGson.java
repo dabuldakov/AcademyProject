@@ -1,6 +1,6 @@
-package jsonParserPractice;
+package homeWork.jsonParserPractice;
 
-import jsonParserPractice.model.City;
+import homeWork.jsonParserPractice.model.City;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.FileReader;

@@ -21,6 +21,7 @@ public class Main {
         myMap.put(square1, 15);
         myMap.put(square2, 17);
         myMap.put(square3, 17);
+        myMap.put(square3, 12);
 
 
         for (Shape shape : myMap.keySet()) {

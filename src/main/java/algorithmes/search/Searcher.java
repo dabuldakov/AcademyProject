@@ -1,4 +1,4 @@
-package search;
+package algorithmes.search;
 
 public interface Searcher {
     Answer search(int[] array, int number);

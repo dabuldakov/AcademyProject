@@ -1,4 +1,4 @@
-package sorts;
+package algorithmes.sorts;
 
 public interface Sort {
 
