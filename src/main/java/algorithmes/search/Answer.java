@@ -1,4 +1,4 @@
-package Algorithmes.search;
+package algorithmes.search;
 
 class Answer {
     private int lookingIndex;

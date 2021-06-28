@@ -1,4 +1,4 @@
-package jsonParserPractice.model;
+package homeWork.jsonParserPractice.model;
 
 public class Industry {
     private int id;

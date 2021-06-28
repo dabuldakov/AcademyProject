@@ -1,4 +1,4 @@
-package Algorithmes.sorts;
+package algorithmes.sorts;
 
 import java.util.ArrayList;
 
