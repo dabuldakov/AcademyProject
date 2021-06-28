@@ -1,0 +1,22 @@
+{
+  "id": 123,
+  "name": "Tomsk",
+  "citizens": 600000,
+  "region": "Tomskaya Oblast",
+  "date": "11-06-2021",
+  "industryList": [
+    {
+      "id": 1,
+      "name": null
+    },
+    {
+      "id": 2,
+      "name": "Chemestry"
+    },
+    {
+      "id": 3,
+      "name": "Automobile"
+    }
+  ]
+}
+
