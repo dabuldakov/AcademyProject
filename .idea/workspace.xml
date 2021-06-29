@@ -5,46 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ddc9d748-5435-4439-aac0-bdb3a1a45e5c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/BubbleSort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/sortImpl/BubbleSort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/QuickSort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/sortImpl/QuickSort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/SelectionSort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/sortImpl/SelectionSort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/Sort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/sortInterface/Sort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/UtilsStudy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/util/UtilsStudy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Different$Animals.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Different.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MyLinkedList$Node.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MyLinkedList.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/PreviousMaximumNumber.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/inOutStream/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jsonParserPractice/JsonParserGson.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jsonParserPractice/JsonParserSimple.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jsonParserPractice/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jsonParserPractice/model/City.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jsonParserPractice/model/Industry.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/katas/Codewards.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mathTasks/HorizontalDynamic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mathTasks/HorizontalDynamic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/search/Answer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/search/BinarySearch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/search/Helper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/search/LineSearch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/search/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/search/Parent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/search/Searcher.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/search/StreamSearch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/shape/Circle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/shape/Circle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/shape/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/shape/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/shape/Shape.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/shape/Shape.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/shape/Square.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/shape/Square.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/shape/Triangle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/shape/Triangle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sorts/BubbleSort.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sorts/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sorts/QuickSort.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sorts/SelectionSort.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sorts/Sort.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sorts/UtilsStudy.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,6 +165,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -369,6 +333,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="LAST_COMMIT_MESSAGE" value="" />
