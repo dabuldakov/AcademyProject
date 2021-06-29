@@ -10,5 +10,4 @@
 
 .idea/*
 out/*
-target/*
-/target/
+target/
