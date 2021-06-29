@@ -8,6 +8,6 @@
 *.phd
 *.trc
 
-.idea/*
+.idea/
 out/*
 target/
