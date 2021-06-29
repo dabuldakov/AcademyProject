@@ -1,12 +1,14 @@
-package algorithmes.sorts;
+package algorithmes.sorts.sortImpl;
+
+import algorithmes.sorts.sortInterface.Sort;
 
 import java.util.ArrayList;
 
-public class SelectionSort implements Sort{
+public class SelectionSort implements Sort {
 
     private int[] array;
 
-    SelectionSort(int[] array) {
+    public SelectionSort(int[] array) {
         this.array = array;
     }
 

@@ -1,10 +1,12 @@
-package algorithmes.sorts;
+package algorithmes.sorts.sortImpl;
 
-public class BubbleSort implements Sort{
+import algorithmes.sorts.sortInterface.Sort;
+
+public class BubbleSort implements Sort {
 
     private int[] array;
 
-    BubbleSort(int[] array) {
+    public BubbleSort(int[] array) {
         this.array = array;
     }
 

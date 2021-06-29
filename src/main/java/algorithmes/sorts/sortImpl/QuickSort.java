@@ -1,4 +1,6 @@
-package algorithmes.sorts;
+package algorithmes.sorts.sortImpl;
+
+import algorithmes.sorts.sortInterface.Sort;
 
 import java.util.ArrayList;
 
@@ -6,7 +8,7 @@ public class QuickSort implements Sort {
 
     private int[] array;
 
-    QuickSort(int[] array) {
+    public QuickSort(int[] array) {
         this.array = array;
     }
 
