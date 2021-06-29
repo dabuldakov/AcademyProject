@@ -8,7 +8,6 @@
 *.phd
 *.trc
 *.json
-*.pom
 
 .idea/*
 out/*
