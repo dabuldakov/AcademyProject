@@ -7,13 +7,7 @@
 *.iml
 *.phd
 *.trc
-*.json
 
 .idea/*
 out/*
 target/*
-
-homeWork/*
-mathTask/*
-shape/*
-search/*
