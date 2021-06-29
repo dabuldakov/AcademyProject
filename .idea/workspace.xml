@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc9d748-5435-4439-aac0-bdb3a1a45e5c" name="Default Changelist" comment="git ignore test">
+    <list default="true" id="ddc9d748-5435-4439-aac0-bdb3a1a45e5c" name="Default Changelist" comment="moved to utils sort methods">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <list id="01ccb938-b64a-429e-bd3f-677942e8689b" name="moved to utils sort methods" comment="moved to utils sort methods">
+      <change afterPath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/util/UtilsStudy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithmes/sorts/util/UtilsStudy.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +52,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -102,6 +110,21 @@
         <option value="$PROJECT_DIR$/src/main/java/shape/Main.java" />
       </list>
     </option>
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/.idea/workspace.xml">
+      <ranges>
+        <range start1="6" end1="7" start2="6" end2="11" changelist="ddc9d748-5435-4439-aac0-bdb3a1a45e5c" />
+        <range start1="8" end1="8" start2="12" end2="14" changelist="ddc9d748-5435-4439-aac0-bdb3a1a45e5c" />
+        <range start1="47" end1="47" start2="53" end2="54" changelist="01ccb938-b64a-429e-bd3f-677942e8689b" />
+        <range start1="184" end1="184" start2="191" end2="196" changelist="01ccb938-b64a-429e-bd3f-677942e8689b" />
+        <range start1="224" end1="231" start2="236" end2="236" changelist="01ccb938-b64a-429e-bd3f-677942e8689b" />
+        <range start1="244" end1="244" start2="249" end2="256" changelist="01ccb938-b64a-429e-bd3f-677942e8689b" />
+        <range start1="268" end1="268" start2="280" end2="281" changelist="ddc9d748-5435-4439-aac0-bdb3a1a45e5c" />
+        <range start1="295" end1="296" start2="308" end2="337" changelist="01ccb938-b64a-429e-bd3f-677942e8689b" />
+        <range start1="353" end1="354" start2="394" end2="396" changelist="01ccb938-b64a-429e-bd3f-677942e8689b" />
+      </ranges>
+    </file>
   </component>
   <component name="MavenProjectNavigator">
     <treeState>
@@ -271,6 +294,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="ddc9d748-5435-4439-aac0-bdb3a1a45e5c" name="Default Changelist" comment="" />
+      <changelist id="01ccb938-b64a-429e-bd3f-677942e8689b" name="moved to utils sort methods" comment="" />
       <created>1620104718651</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
