@@ -1,4 +1,4 @@
-package algorithmes.sorts;
+package algorithmes.sorts.sortInterface;
 
 public interface Sort {
 
@@ -8,13 +8,13 @@ public interface Sort {
 
     String getName();
 
-    default void swap(int[] array, int a, int b){
+    default void swap(int[] array, int a, int b) {
         int save = array[a];
         array[a] = array[b];
         array[b] = save;
     }
 
-    default void print(){
+    default void print() {
         for (int el : this.getArray()) {
             System.out.print("[" + el + "]");
         }

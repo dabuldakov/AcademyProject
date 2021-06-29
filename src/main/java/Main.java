@@ -1,11 +1,14 @@
-package algorithmes.sorts;
+import algorithmes.sorts.sortImpl.BubbleSort;
+import algorithmes.sorts.sortImpl.QuickSort;
+import algorithmes.sorts.sortImpl.SelectionSort;
+import algorithmes.sorts.sortInterface.Sort;
 
 import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
 
-        int[] array = prepareArray(30);
+        int[] array = prepareArray(7);
         int[] array2 = copyArray(array);
         int[] array3 = copyArray(array);
 
@@ -18,7 +21,7 @@ public class Main {
 
     }
 
-    private static void printSort(Sort sort){
+    private static void printSort(Sort sort) {
         sort.print();
         long startTime = System.currentTimeMillis();
         sort.sort(sort.getArray());
@@ -28,7 +31,7 @@ public class Main {
         System.out.println("---------------------");
     }
 
-    private static int[] prepareArray(int size){
+    private static int[] prepareArray(int size) {
         int[] array = new int[size];
         Random random = new Random();
         for (int i = 0; i < size; i++) {
@@ -37,7 +40,7 @@ public class Main {
         return array;
     }
 
-    private static int[] copyArray(int[] array){
+    private static int[] copyArray(int[] array) {
         int[] copy = new int[array.length];
         System.arraycopy(array, 0, copy, 0, array.length);
         return copy;
