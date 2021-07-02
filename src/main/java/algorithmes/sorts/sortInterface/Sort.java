@@ -3,9 +3,7 @@ package algorithmes.sorts.sortInterface;
 public interface Sort {
 
     void sort(int[] array);
-
     int[] getArray();
-
     String getName();
 
     default void swap(int[] array, int a, int b) {

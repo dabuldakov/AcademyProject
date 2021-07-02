@@ -13,6 +13,16 @@ public class Main {
         int[] array2 = UtilsStudy.copyArray(array);
         int[] array3 = UtilsStudy.copyArray(array);
 
+        //task14: important
+        //task14: important
+        //task14: important
+        //task14: important
+        //task14: important
+        //task14: important
+        //task14: important
+        //task14: important
+        //task14: important
+
         Sort quickSort = new QuickSort(array);
         Sort bubbleSort = new BubbleSort(array2);
         Sort selectionSort = new SelectionSort(array3);
