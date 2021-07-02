@@ -5,13 +5,13 @@ import Restaurant.Customer.Customer;
 import Restaurant.Dish.DishArray;
 import Restaurant.Registration;
 
-public class RegistrationOrder implements Registration {
+public class DBOrder implements Registration {
 
-    private Array array;
+    private OrderArray array;
     private int id;
 
-    public RegistrationOrder() {
-        array = new Array();
+    public DBOrder() {
+        array = new OrderArray();
     }
 
     public Order createOrder(DishArray dishArray, Customer customer){
@@ -24,7 +24,7 @@ public class RegistrationOrder implements Registration {
     }
 
     @Override
-    public Array getArray() {
+    public OrderArray getArray() {
         return array;
     }
 

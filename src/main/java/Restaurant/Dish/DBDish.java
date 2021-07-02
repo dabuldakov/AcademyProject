@@ -3,7 +3,7 @@ package Restaurant.Dish;
 import Restaurant.Array;
 import Restaurant.Registration;
 
-public class RegistrationDish implements Registration {
+public class DBDish implements Registration {
 
     Array array;
 

@@ -14,20 +14,22 @@ public class OrderArray extends Array {
     }
 
     public OrderArray getOrdersByCustomer(Customer customer, OrderArray orderArray) {
-        OrderArray array = new OrderArray(new Customer());
-        Order[] orders = (Order[]) orderArray.getArray();
+        OrderArray array = new OrderArray();
+        Object[] orders = orderArray.getArray();
         for (int i = 0; i < orderArray.size(); i++) {
-            if (orders[0].getCustomer().equals(customer))
+            Order order = (Order) orders[i];
+            if (order.getCustomer().equals(customer))
                 array.add(orders[i]);
         }
         return array;
     }
 
     public OrderArray getOrdersByStatus(Status status, OrderArray orderArray) {
-        OrderArray array = new OrderArray(new Customer());
-        Order[] orders = (Order[]) orderArray.getArray();
+        OrderArray array = new OrderArray();
+        Object[] orders = orderArray.getArray();
         for (int i = 0; i < orderArray.size(); i++) {
-            if (orders[0].getStatus().equals(status))
+            Order order = (Order) orders[i];
+            if (order.getStatus().equals(status))
                 array.add(orders[i]);
         }
         return array;
