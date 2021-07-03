@@ -63,7 +63,5 @@ public class Main {
         OrderArray arrayWithStatus = dbOrder.getArray();
         OrderArray ordersByStatus = arrayWithStatus.getOrdersByStatus(Status.COOKING, dbOrder.getArray());
         ordersByStatus.print();
-
-        System.out.println("test");
     }
 }
