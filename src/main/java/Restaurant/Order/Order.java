@@ -6,22 +6,22 @@ import Restaurant.Customer.Customer;
 import java.util.Objects;
 
 public class Order {
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_BLACK = "\u001B[30m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_PURPLE = "\u001B[35m";
+    private static final String ANSI_CYAN = "\u001B[36m";
+    private static final String ANSI_WHITE = "\u001B[37m";
 
-    int id;
-    Array dishList;
-    OrderStatus orderStatus;
-    Customer customer;
+    private int id;
+    private Array dishList;
+    private OrderStatus orderStatus;
+    private Customer customer;
 
-    public Order(int id, Array dishList, OrderStatus orderStatus, Customer customer) {
+    Order(int id, Array dishList, OrderStatus orderStatus, Customer customer) {
         this.id = id;
         this.dishList = dishList;
         this.orderStatus = orderStatus;
@@ -53,7 +53,7 @@ public class Order {
         this.id = id;
     }
 
-    public OrderStatus getOrderStatus() {
+    OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
@@ -61,7 +61,7 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public Customer getCustomer() {
+    Customer getCustomer() {
         return customer;
     }
 

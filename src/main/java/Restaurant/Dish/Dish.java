@@ -1,14 +1,12 @@
 package Restaurant.Dish;
 
-import Restaurant.Array;
-
 import java.util.Objects;
 
 public class Dish {
-    String name;
-    int cost;
+    private String name;
+    private int cost;
 
-    public Dish(String name, int cost) {
+    Dish(String name, int cost) {
         this.name = name;
         this.cost = cost;
     }

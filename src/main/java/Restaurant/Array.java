@@ -94,7 +94,7 @@ public class Array {
         return false;
     }
 
-    public void print() {
+    void print() {
         System.out.println("-----------------------");
         for (int i = 0; i < length; i++) {
             System.out.println("[" + i + "] " + array[i]);

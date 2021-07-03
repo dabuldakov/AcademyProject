@@ -16,7 +16,7 @@ public class DishRepository {
         Object[] dishes = dishArray.getArray();
         for (int i = 0; i < dishes.length; i++) {
             Dish dish = (Dish) dishes[i];
-            if (dish.name.equals(name)){
+            if (dish.getName().equals(name)){
                 return dish;
             }
         }

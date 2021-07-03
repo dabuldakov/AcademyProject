@@ -3,9 +3,19 @@ package Restaurant.Customer;
 import java.util.Objects;
 
 public class Customer{
-    String name;
-    int phone;
-    String address;
+    private String name;
+    private int phone;
+    private String address;
+
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_BLACK = "\u001B[30m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_PURPLE = "\u001B[35m";
+    private static final String ANSI_CYAN = "\u001B[36m";
+    private static final String ANSI_WHITE = "\u001B[37m";
 
     public Customer(String name, int phone, String address) {
         this.name = name;
@@ -13,13 +23,10 @@ public class Customer{
         this.address = address;
     }
 
-    public Customer() {
-    }
-
     @Override
     public String toString() {
         return "Customer{" +
-                "name='" + name + '\'' +
+                "name='" + ANSI_GREEN + name + ANSI_RESET +'\'' +
                 ", phone=" + phone +
                 ", address='" + address + '\'' +
                 '}';

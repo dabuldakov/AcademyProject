@@ -15,7 +15,7 @@ public class CustomerRepository {
         Object[] customers = customerArray.getArray();
         for (int i = 0; i < customers.length; i++) {
             Customer customer = (Customer) customers[i];
-            if (customer.name.equals(name)){
+            if (customer.getName().equals(name)){
                 return customer;
             }
         }
