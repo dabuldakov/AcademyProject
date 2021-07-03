@@ -19,14 +19,6 @@ public class Dish {
         this.name = name;
     }
 
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

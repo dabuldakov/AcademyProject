@@ -13,9 +13,9 @@ public class CustomerRepository {
     public Customer getByName(String name) throws NotFoundArrayException {
 
         Object[] customers = customerArray.getArray();
-        for (int i = 0; i < customers.length; i++) {
-            Customer customer = (Customer) customers[i];
-            if (customer.getName().equals(name)){
+        for (Object o : customers) {
+            Customer customer = (Customer) o;
+            if (customer.getName().equals(name)) {
                 return customer;
             }
         }

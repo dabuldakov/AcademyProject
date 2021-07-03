@@ -11,7 +11,7 @@ public class CustomerDB implements Registration {
         createDB();
     }
 
-    public Array createDB(){
+    private void createDB(){
         Array customerArray = new Array();
         Customer customer1 = new Customer("Jon", 650333, "Tomsk city, Lenina street 15");
         Customer customer2 = new Customer("Mark", 777505, "Moskow city, Voikova street 24");
@@ -26,7 +26,6 @@ public class CustomerDB implements Registration {
         customerArray.add(max);
         customerArray.add(anton);
         array = customerArray;
-        return customerArray;
     }
 
     @Override

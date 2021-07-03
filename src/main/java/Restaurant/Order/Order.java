@@ -7,15 +7,7 @@ import java.util.Objects;
 
 public class Order {
     private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_BLACK = "\u001B[30m";
     private static final String ANSI_RED = "\u001B[31m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    private static final String ANSI_YELLOW = "\u001B[33m";
-    private static final String ANSI_BLUE = "\u001B[34m";
-    private static final String ANSI_PURPLE = "\u001B[35m";
-    private static final String ANSI_CYAN = "\u001B[36m";
-    private static final String ANSI_WHITE = "\u001B[37m";
-
     private int id;
     private Array dishList;
     private OrderStatus orderStatus;
@@ -26,9 +18,6 @@ public class Order {
         this.dishList = dishList;
         this.orderStatus = orderStatus;
         this.customer = customer;
-    }
-
-    public Order() {
     }
 
     @Override
@@ -44,13 +33,8 @@ public class Order {
         return Objects.hash(id);
     }
 
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     OrderStatus getOrderStatus() {
@@ -63,18 +47,6 @@ public class Order {
 
     Customer getCustomer() {
         return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Array getDishList() {
-        return dishList;
-    }
-
-    public void setDishList(Array dishList) {
-        this.dishList = dishList;
     }
 
     @Override

@@ -39,7 +39,8 @@ public class Main {
         customerArray.add(max2);
         customerArray.add(max3);
         customerArray.print();
-        int remove = customerArray.remove(max2);
+        int remove = customerArray.removeAll(max2);
+//        boolean remove = customerArray.remove(8);
         System.out.println("Removed customers number: " + remove);
         customerArray.print();
 

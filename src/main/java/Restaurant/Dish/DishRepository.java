@@ -12,15 +12,13 @@ public class DishRepository {
     }
 
     public Dish getByName(String name) throws NotFoundArrayException {
-
         Object[] dishes = dishArray.getArray();
-        for (int i = 0; i < dishes.length; i++) {
-            Dish dish = (Dish) dishes[i];
-            if (dish.getName().equals(name)){
+        for (Object o : dishes) {
+            Dish dish = (Dish) o;
+            if (dish.getName().equals(name)) {
                 return dish;
             }
         }
         throw new NotFoundArrayException("Name not found in DishDB.");
     }
-
 }
