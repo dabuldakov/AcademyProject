@@ -1,14 +1,12 @@
 package Restaurant.Kitchen;
 
-import Restaurant.Order.Order;
-import Restaurant.Order.DBOrder;
-import Restaurant.Order.Status;
+import Restaurant.Order.OrderStatus;
 import Restaurant.Service;
 
 public class KitchenService implements Service {
 
     @Override
-    public Status getStatus() {
-        return Status.COOKING;
+    public OrderStatus getStatus() {
+        return OrderStatus.COOKING;
     }
 }

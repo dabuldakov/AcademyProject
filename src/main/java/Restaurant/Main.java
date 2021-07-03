@@ -1,67 +1,72 @@
 package Restaurant;
 
 import Restaurant.Customer.Customer;
-import Restaurant.Customer.DBCustomer;
+import Restaurant.Customer.CustomerRepository;
+import Restaurant.Customer.CustomerDB;
 import Restaurant.Delivering.DeliveringService;
-import Restaurant.Dish.DishArray;
-import Restaurant.Dish.DBDish;
+import Restaurant.Dish.DishDB;
+import Restaurant.Dish.DishRepository;
+import Restaurant.Exceptions.AddArrayException;
+import Restaurant.Exceptions.NotFoundArrayException;
 import Restaurant.Kitchen.KitchenService;
 import Restaurant.Order.Order;
-import Restaurant.Order.DBOrder;
-import Restaurant.Order.OrderArray;
-import Restaurant.Order.Status;
+import Restaurant.Order.OrderDB;
+import Restaurant.Order.OrderRepository;
+import Restaurant.Order.OrderStatus;
 
 public class Main {
 
-    public static void main(String[] args) throws MyException {
+    public static void main(String[] args) throws NotFoundArrayException, AddArrayException {
 
-        DBCustomer dbCustomer = new DBCustomer();
-        Array customerArray = dbCustomer.createDB();
-        customerArray.print();
-        Customer max = new Customer("Max", 666777, "Tomsk city, Kartashova street 44");
-        Customer anton = new Customer("Anton", 734455, "Krasnodar city, Lesnaya street 98");
-        dbCustomer.add(max);
-        dbCustomer.add(anton);
-        customerArray.print();
+        CustomerDB customerDB = new CustomerDB();
+        Array customerArray = customerDB.getArray();
+        CustomerRepository customerRepository = new CustomerRepository(customerArray);
 
-        DBDish dbDish = new DBDish();
-        Array dishArray = dbDish.createDB();
+        DishDB dishDB = new DishDB();
+        Array dishArray = dishDB.createDB();
+        DishRepository dishRepository = new DishRepository(dishArray);
+
+        OrderDB orderDB = new OrderDB();
+        Array orderArray = orderDB.getArray();
+        OrderRepository orderRepository = new OrderRepository(orderArray);
+
+        customerArray.print();
         dishArray.print();
+        orderArray.print();
 
-        DBOrder dbOrder = new DBOrder();
+//        Customer max2 = new Customer("Max", 666777, "Tomsk city, Kartashova street 44");
+//        customerDB.add(max2);
 
-        DishArray orderDish1 = new DishArray();
-        orderDish1.add(dbDish.bread);
-        orderDish1.add(dbDish.borsh);
+        Array orderDish1 = new Array();
+        orderDish1.add(dishRepository.getByName("Borsh"));
+        orderDish1.add(dishRepository.getByName("Bread"));
+        Array orderDish2 = new Array();
+        orderDish2.add(dishRepository.getByName("Losos"));
+        orderDish2.add(dishRepository.getByName("Juice"));
+        orderDish2.add(dishRepository.getByName("Bread"));
+        orderDish2.add(dishRepository.getByName("Cake"));
+        Order order1 = orderDB.createOrder(orderDish1, customerRepository.getByName("Max"));
+        Order order2 = orderDB.createOrder(orderDish2, customerRepository.getByName("Anton"));
 
-        DishArray orderDish2 = new DishArray();
-        orderDish2.add(dbDish.losos);
-        orderDish2.add(dbDish.cake);
-        orderDish2.add(dbDish.juice);
-
-        Order order1 = dbOrder.createOrder(orderDish1, max);
-        Order order2 = dbOrder.createOrder(orderDish2, anton);
-        Array orderArray = dbOrder.getArray();
         orderArray.print();
 
         KitchenService kitchenService = new KitchenService();
-        kitchenService.run(order1, dbOrder);
-        kitchenService.run(order2, dbOrder);
+        kitchenService.run(order1, orderDB);
+        kitchenService.run(order2, orderDB);
         orderArray.print();
 
         DeliveringService deliveringService = new DeliveringService();
-        deliveringService.run(order1, dbOrder);
+        deliveringService.run(order1, orderDB);
         orderArray.print();
 
         System.out.println("---REPORTS BY CUSTOMER---");
-
-        OrderArray arrayWithCustomer = dbOrder.getArray();
-        OrderArray ordersByCustomer = arrayWithCustomer.getOrdersByCustomer(max, dbOrder.getArray());
+        Array ordersByCustomer = orderRepository.getOrdersByCustomer(customerRepository.getByName("Max"));
         ordersByCustomer.print();
 
         System.out.println("---REPORTS BY STATUS---");
-        OrderArray arrayWithStatus = dbOrder.getArray();
-        OrderArray ordersByStatus = arrayWithStatus.getOrdersByStatus(Status.COOKING, dbOrder.getArray());
+        Array ordersByStatus = orderRepository.getOrdersByStatus(OrderStatus.COOKING);
         ordersByStatus.print();
+
+        System.out.println("Testtt");
     }
 }

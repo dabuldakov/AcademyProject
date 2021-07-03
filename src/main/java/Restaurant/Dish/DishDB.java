@@ -3,19 +3,21 @@ package Restaurant.Dish;
 import Restaurant.Array;
 import Restaurant.Registration;
 
-public class DBDish implements Registration {
+public class DishDB implements Registration {
 
-    Array array;
+    private Array array;
 
-    public final Dish borsh = new Dish("Borsh", 150);
-    public final Dish losos = new Dish("Losos", 270);
-    public final Dish cake = new Dish("Cake", 70);
-    public final Dish juice = new Dish("Juice", 50);
-    public final Dish bread = new Dish("Bread", 5);
+    public DishDB() {
+        createDB();
+    }
 
     public Array createDB(){
-
-        Array dishArray = new DishArray();
+        Dish borsh = new Dish("Borsh", 150);
+        Dish losos = new Dish("Losos", 270);
+        Dish cake = new Dish("Cake", 70);
+        Dish juice = new Dish("Juice", 50);
+        Dish bread = new Dish("Bread", 5);
+        Array dishArray = new Array();
         dishArray.add(borsh);
         dishArray.add(losos);
         dishArray.add(cake);

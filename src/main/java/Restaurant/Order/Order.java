@@ -2,9 +2,7 @@ package Restaurant.Order;
 
 import Restaurant.Array;
 import Restaurant.Customer.Customer;
-import Restaurant.Dish.Dish;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Order {
@@ -20,13 +18,13 @@ public class Order {
 
     int id;
     Array dishList;
-    Status status;
+    OrderStatus orderStatus;
     Customer customer;
 
-    public Order(int id, Array dishList, Status status, Customer customer) {
+    public Order(int id, Array dishList, OrderStatus orderStatus, Customer customer) {
         this.id = id;
         this.dishList = dishList;
-        this.status = status;
+        this.orderStatus = orderStatus;
         this.customer = customer;
     }
 
@@ -55,12 +53,12 @@ public class Order {
         this.id = id;
     }
 
-    public Status getStatus() {
-        return status;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public Customer getCustomer() {
@@ -84,7 +82,7 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", dishList=" + dishList +
-                ", status=" + ANSI_RED + status + ANSI_RESET +
+                ", orderStatus=" + ANSI_RED + orderStatus + ANSI_RESET +
                 ", customer=" + customer +
                 '}';
     }

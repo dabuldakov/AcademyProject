@@ -3,18 +3,16 @@ package Restaurant.Order;
 import Restaurant.Array;
 import Restaurant.Customer.Customer;
 
-public class OrderArray extends Array {
+public class OrderRepository {
 
-    public OrderArray() {
-        super();
+    private Array orderArray;
+
+    public OrderRepository(Array array) {
+        orderArray = array;
     }
 
-    public OrderArray(Object object) {
-        super(object);
-    }
-
-    public OrderArray getOrdersByCustomer(Customer customer, OrderArray orderArray) {
-        OrderArray array = new OrderArray();
+    public Array getOrdersByCustomer(Customer customer) {
+        Array array = new Array();
         Object[] orders = orderArray.getArray();
         for (int i = 0; i < orderArray.size(); i++) {
             Order order = (Order) orders[i];
@@ -24,12 +22,12 @@ public class OrderArray extends Array {
         return array;
     }
 
-    public OrderArray getOrdersByStatus(Status status, OrderArray orderArray) {
-        OrderArray array = new OrderArray();
+    public Array getOrdersByStatus(OrderStatus orderStatus) {
+        Array array = new Array();
         Object[] orders = orderArray.getArray();
         for (int i = 0; i < orderArray.size(); i++) {
             Order order = (Order) orders[i];
-            if (order.getStatus().equals(status))
+            if (order.getOrderStatus().equals(orderStatus))
                 array.add(orders[i]);
         }
         return array;
