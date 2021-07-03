@@ -57,23 +57,31 @@ public class Array {
         return -1;
     }
 
-    public boolean remove(Object o) {
-        int count = 0;
-        for (int i = 0; i < length; i++) {
-            count++;
-            if (array[i].equals(o)) {
-                length = length - 1;
-                Object[] newArray = new Object[length];
-                for (int j = 0; j < count; j++) {
-                    newArray[j] = array[j];
-                }
-                for (int j = count; j < length; j++) {
-                    newArray[j] = array[j];
-                }
-                return true;
+    int remove(Object o) {
+        int deleted = 0;
+        Object[] newArray = new Object[length];
+        for (int i=0; i < length; i++) {
+            if (!array[i].equals(o)) {
+                newArray[i-deleted] = array[i];
+            } else {
+                deleted++;
             }
         }
-        return false;
+        if (deleted>0){
+            cutArray(newArray, deleted);
+            return deleted;
+        }else {
+            return 0;
+        }
+    }
+
+    private void cutArray(Object[] array, int cutNumber){
+        Object[] newArray = new Object[length-cutNumber];
+        for (int i = 0; i < length-cutNumber; i++) {
+            newArray[i] = array[i];
+        }
+        this.array = newArray;
+        this.length = length-cutNumber;
     }
 
     public boolean update(Object existing, Object updateTo) {

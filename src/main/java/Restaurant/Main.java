@@ -34,8 +34,14 @@ public class Main {
         dishArray.print();
         orderArray.print();
 
-//        Customer max2 = new Customer("Max", 666777, "Tomsk city, Kartashova street 44");
-//        customerDB.add(max2);
+        Customer max2 = new Customer("Max", 666777, "Tomsk city, Kartashova street 44");
+        Customer max3 = new Customer("Max", 666777, "Tomsk city, Kartashova street 44");
+        customerArray.add(max2);
+        customerArray.add(max3);
+        customerArray.print();
+        int remove = customerArray.remove(max2);
+        System.out.println("Removed customers number: " + remove);
+        customerArray.print();
 
         Array orderDish1 = new Array();
         orderDish1.add(dishRepository.getByName("Borsh"));
@@ -45,7 +51,7 @@ public class Main {
         orderDish2.add(dishRepository.getByName("Juice"));
         orderDish2.add(dishRepository.getByName("Bread"));
         orderDish2.add(dishRepository.getByName("Cake"));
-        Order order1 = orderDB.createOrder(orderDish1, customerRepository.getByName("Max"));
+        Order order1 = orderDB.createOrder(orderDish1, customerRepository.getByName("Vika"));
         Order order2 = orderDB.createOrder(orderDish2, customerRepository.getByName("Anton"));
 
         orderArray.print();
@@ -60,13 +66,12 @@ public class Main {
         orderArray.print();
 
         System.out.println("---REPORTS BY CUSTOMER---");
-        Array ordersByCustomer = orderRepository.getOrdersByCustomer(customerRepository.getByName("Max"));
+        Array ordersByCustomer = orderRepository.getOrdersByCustomer(customerRepository.getByName("Vika"));
         ordersByCustomer.print();
 
         System.out.println("---REPORTS BY STATUS---");
         Array ordersByStatus = orderRepository.getOrdersByStatus(OrderStatus.COOKING);
         ordersByStatus.print();
 
-        System.out.println("Testtt");
     }
 }
