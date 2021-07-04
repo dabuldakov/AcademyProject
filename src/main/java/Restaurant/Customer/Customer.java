@@ -10,7 +10,7 @@ public class Customer{
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_GREEN = "\u001B[32m";
 
-    Customer(String name, int phone, String address) {
+    public Customer(String name, int phone, String address) {
         this.name = name;
         this.phone = phone;
         this.address = address;

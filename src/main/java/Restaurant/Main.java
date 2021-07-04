@@ -16,7 +16,7 @@ import Restaurant.Order.OrderStatus;
 
 public class Main {
 
-    public static void main(String[] args) throws NotFoundArrayException {
+    public static void main(String[] args) throws NotFoundArrayException, AddArrayException {
         //DATABASE
         CustomerDB customerDB = new CustomerDB();
         CustomerRepository customerRepository = new CustomerRepository(customerDB);
@@ -35,6 +35,11 @@ public class Main {
         dishArray.print();
         orderArray.print();
 
+        //CUSTOMER registration
+        Customer customer = new Customer("Vova", 666777, "Kemerovo city, Lenina street 112");
+        customerRepository.add(customer);
+
+        //CUSTOMER removed
         int remove = customerArray.removeAll(customerRepository.getByName("Max"));
         System.out.println("Removed customers: " + remove);
         customerArray.print();
@@ -43,11 +48,6 @@ public class Main {
         Array orderDish1 = new Array();
         orderDish1.add(dishRepository.getByName("Borsh"));
         orderDish1.add(dishRepository.getByName("Bread"));
-        Array orderDish2 = new Array();
-        orderDish2.add(dishRepository.getByName("Losos"));
-        orderDish2.add(dishRepository.getByName("Juice"));
-        orderDish2.add(dishRepository.getByName("Bread"));
-        orderDish2.add(dishRepository.getByName("Cake"));
         Order order1 = orderRepository.createOrder(orderDish1, customerRepository.getByName("Vika"));
         orderArray.print();
 
