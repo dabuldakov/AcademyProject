@@ -3,7 +3,7 @@ package Restaurant.Customer;
 import Restaurant.Array;
 import Restaurant.Registration;
 
-public class CustomerDB implements Registration {
+public class CustomerDB{
 
     private Array array;
 
@@ -28,7 +28,6 @@ public class CustomerDB implements Registration {
         array = customerArray;
     }
 
-    @Override
     public Array getArray() {
         return array;
     }

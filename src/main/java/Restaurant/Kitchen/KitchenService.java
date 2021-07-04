@@ -6,7 +6,12 @@ import Restaurant.Service;
 public class KitchenService implements Service {
 
     @Override
-    public OrderStatus getStatus() {
+    public OrderStatus getStatusStart() {
         return OrderStatus.COOKING;
+    }
+
+    @Override
+    public OrderStatus getStatusFinished() {
+        return OrderStatus.COOKED;
     }
 }
