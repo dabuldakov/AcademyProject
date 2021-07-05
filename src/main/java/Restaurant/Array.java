@@ -4,18 +4,11 @@ import java.util.Arrays;
 
 public class Array {
 
-    private Object object;
     private Object[] array;
     private int length;
 
     public Array() {
         length = 0;
-    }
-
-    public Array(Object object) {
-        this.object = object;
-        array = new Object[0];
-        add(object);
     }
 
     public Object[] getArray() {
@@ -57,23 +50,50 @@ public class Array {
         return -1;
     }
 
-    public boolean remove(Object o) {
-        int count = 0;
+    boolean remove(int index) {
+        if (index < 0 || index >= length) {
+            return false;
+        } else {
+            Object[] newArray = new Object[length - 1];
+            int offset = 0;
+            for (int i = 0; i < length; i++) {
+                if (index != i) {
+                    newArray[i - offset] = array[i];
+                } else {
+                    offset = 1;
+                }
+            }
+            array = newArray;
+            length = length - 1;
+            return true;
+        }
+    }
+
+    int removeAll(Object o) {
+        int deleted = 0;
+        Object[] newArray = new Object[length];
         for (int i = 0; i < length; i++) {
-            count++;
-            if (array[i].equals(o)) {
-                length = length - 1;
-                Object[] newArray = new Object[length];
-                for (int j = 0; j < count; j++) {
-                    newArray[j] = array[j];
-                }
-                for (int j = count; j < length; j++) {
-                    newArray[j] = array[j];
-                }
-                return true;
+            if (!array[i].equals(o)) {
+                newArray[i - deleted] = array[i];
+            } else {
+                deleted++;
             }
         }
-        return false;
+        if (deleted > 0) {
+            cutArray(newArray, deleted);
+            return deleted;
+        } else {
+            return 0;
+        }
+    }
+
+    private void cutArray(Object[] array, int cutNumber) {
+        Object[] newArray = new Object[length - cutNumber];
+        for (int i = 0; i < length - cutNumber; i++) {
+            newArray[i] = array[i];
+        }
+        this.array = newArray;
+        this.length = length - cutNumber;
     }
 
     public boolean update(Object existing, Object updateTo) {
@@ -86,7 +106,7 @@ public class Array {
         return false;
     }
 
-    public void print() {
+    void print() {
         System.out.println("-----------------------");
         for (int i = 0; i < length; i++) {
             System.out.println("[" + i + "] " + array[i]);
@@ -97,8 +117,7 @@ public class Array {
     @Override
     public String toString() {
         return "Array{" +
-                "object=" + object +
-                ", array=" + Arrays.toString(array) +
+                "array=" + Arrays.toString(array) +
                 ", length=" + length +
                 '}';
     }

@@ -1,5 +1,5 @@
 package Restaurant.Order;
 
-public enum Status {
+public enum OrderStatus {
     CREATED, COOKING, COOKED, DELIVERING, DELIVERED
 }

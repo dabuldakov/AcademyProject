@@ -3,9 +3,12 @@ package Restaurant.Customer;
 import java.util.Objects;
 
 public class Customer{
-    String name;
-    int phone;
-    String address;
+    private String name;
+    private int phone;
+    private String address;
+
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_GREEN = "\u001B[32m";
 
     public Customer(String name, int phone, String address) {
         this.name = name;
@@ -13,13 +16,10 @@ public class Customer{
         this.address = address;
     }
 
-    public Customer() {
-    }
-
     @Override
     public String toString() {
         return "Customer{" +
-                "name='" + name + '\'' +
+                "name='" + ANSI_GREEN + name + ANSI_RESET +'\'' +
                 ", phone=" + phone +
                 ", address='" + address + '\'' +
                 '}';
@@ -44,21 +44,5 @@ public class Customer{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }
