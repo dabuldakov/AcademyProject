@@ -12,7 +12,7 @@ public interface Registration {
         Class<?> oClass = o.getClass();
         Array array = getArray();
         for (int i = 0; i < array.size(); i++) {
-            if (array.getArray()[i].equals(o)){
+            if (array.getArray()[i].equals(o)){///change to contain
                 throw new AddArrayException("This object exist in DB, please add new one. Object: " + o.toString());
             }
         }

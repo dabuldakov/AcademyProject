@@ -1,16 +1,15 @@
 package Restaurant;
 
 import Restaurant.Order.Order;
-import Restaurant.Order.OrderDB;
 import Restaurant.Order.OrderRepository;
 import Restaurant.Order.OrderStatus;
-import org.apache.xpath.operations.Or;
 
 public interface Service {
 
     OrderStatus getStatusStart();
-
     OrderStatus getStatusFinished();
+    String ANSI_RESET = "\u001B[0m";
+    String ANSI_RED = "\u001B[31m";
 
     default void run(Order order, OrderRepository orderRepository){
         for (int i = 0; i < orderRepository.getArray().size(); i++) {
@@ -18,7 +17,7 @@ public interface Service {
             if(findOrder.equals(order)){
                 findOrder.setOrderStatus(getStatusStart());
                 System.out.println("-----------------------");
-                System.out.println(getStatusStart() + " order id: " + order.getId());
+                System.out.println(ANSI_RED + getStatusStart() + ANSI_RESET + " order id: " + order.getId());
             }
         }
     }
@@ -29,7 +28,7 @@ public interface Service {
             if(findOrder.equals(order)){
                 findOrder.setOrderStatus(getStatusFinished());
                 System.out.println("-----------------------");
-                System.out.println(getStatusFinished() + " order id: " + order.getId());
+                System.out.println(ANSI_RED + getStatusFinished() + ANSI_RESET + " order id: " + order.getId());
             }
         }
     }
