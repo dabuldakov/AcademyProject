@@ -1,24 +1,21 @@
 package garbageFactory.Materials;
 
+import garbageFactory.Constants;
+
 public class RecycleMaterialContainer<MATERIAL extends Material> {
 
-    private int id;
     private double weightStart;
     private double weightEnd;
-
     private final Class<MATERIAL> type;
 
-    public RecycleMaterialContainer(int id, double weightStart, Class<MATERIAL> type) {
-        this.weightStart = weightStart;
+    public RecycleMaterialContainer(double weight, Class<MATERIAL> type) {
         this.type = type;
+        this.weightStart = weight;
+        this.weightEnd = 0;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Class<MATERIAL> getType() {
+        return type;
     }
 
     public double getWeightStart() {
@@ -37,7 +34,12 @@ public class RecycleMaterialContainer<MATERIAL extends Material> {
         this.weightEnd = weightEnd;
     }
 
-    public Class<MATERIAL> getType() {
-        return type;
+    @Override
+    public String toString() {
+        return "RecycleMaterialContainer{" +
+                "weightStart=" + weightStart +
+                ", weightEnd=" + weightEnd +
+                ", type=" + Constants.ANSI_PURPLE + type.getSimpleName() + Constants.ANSI_RESET +
+                '}';
     }
 }

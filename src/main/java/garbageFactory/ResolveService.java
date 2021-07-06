@@ -26,8 +26,8 @@ public class ResolveService {
     }
 
     public ArrayList<Production> sort() {
-        ArrayList<Material> arrayList = Main.dbInputMaterials.getArrayList();
-        ArrayList<Material> arrayListLeft = new ArrayList<>();
+        ArrayList<RecycleMaterialContainer> arrayList = Main.dbInputMaterials.getArrayList();
+        ArrayList<RecycleMaterialContainer> arrayListLeft = new ArrayList<>();
 
         ProductionGlass productionGlass = new ProductionGlass();
         ProductionPaper productionPaper = new ProductionPaper();
@@ -38,21 +38,15 @@ public class ResolveService {
         productions.add(productionPaper);
         productions.add(productionPlastic);
 
-        /*Map<Class<Material>, Production> materialProductionMap = new HashMap<>();
-        materialProductionMap.put(, productionGlass);*/
+        Map<Class<? extends Material>, Production> materialProductionMap = new HashMap<>();
+        materialProductionMap.put(Glass.class, productionGlass);
+        materialProductionMap.put(Paper.class, productionPaper);
+        materialProductionMap.put(Plastic.class, productionPlastic);
 
-
-        for (Material material : arrayList) {
-            Class type = material.getType();
-            if (type.equals(Glass.class)) {
-                productionGlass.performed(material);
-            } else if (type.equals(Paper.class)) {
-                productionPaper.performed(material);
-            } else if (type.equals(Plastic.class)) {
-                productionPlastic.performed(material);
-            } else {
-                arrayListLeft.add(material);
-            }
+        for (RecycleMaterialContainer rmc : arrayList) {
+            Class type = rmc.getType();
+            Production production = materialProductionMap.get(type);
+            production.performed(rmc);
         }
         Main.dbInputMaterials.setArrayList(arrayListLeft);
         smena++;

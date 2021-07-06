@@ -1,12 +1,12 @@
 package Restaurant.Dish;
 
+import Restaurant.Constants;
+
 import java.util.Objects;
 
 public class Dish {
     private String name;
     private int cost;
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_RESET = "\u001B[0m";
 
     Dish(String name, int cost) {
         this.name = name;
@@ -37,7 +37,7 @@ public class Dish {
     @Override
     public String toString() {
         return "Dish{" +
-                "name='" + ANSI_PURPLE + name + ANSI_RESET + '\'' +
+                "name='" + Constants.ANSI_PURPLE + name + Constants.ANSI_RESET + '\'' +
                 ", cost=" + cost +
                 '}';
     }

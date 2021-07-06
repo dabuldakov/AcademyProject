@@ -1,14 +1,13 @@
 package Restaurant.Customer;
 
+import Restaurant.Constants;
+
 import java.util.Objects;
 
 public class Customer{
     private String name;
     private int phone;
     private String address;
-
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_GREEN = "\u001B[32m";
 
     public Customer(String name, int phone, String address) {
         this.name = name;
@@ -19,7 +18,7 @@ public class Customer{
     @Override
     public String toString() {
         return "Customer{" +
-                "name='" + ANSI_GREEN + name + ANSI_RESET +'\'' +
+                "name='" + Constants.ANSI_GREEN + name + Constants.ANSI_RESET +'\'' +
                 ", phone=" + phone +
                 ", address='" + address + '\'' +
                 '}';

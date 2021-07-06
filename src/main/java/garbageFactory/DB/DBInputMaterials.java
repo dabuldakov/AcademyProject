@@ -5,26 +5,32 @@ import garbageFactory.Materials.*;
 import java.util.ArrayList;
 
 public class DBInputMaterials {
-    private ArrayList<Material> arrayList;
+    private ArrayList<RecycleMaterialContainer> arrayList;
 
     public DBInputMaterials() {
         this.arrayList = new ArrayList<>();
-        arrayList.add(new Plastic(1, 14, Plastic.class));
-        arrayList.add(new Plastic(2, 17, Plastic.class));
-        arrayList.add(new Plastic(3, 19, Plastic.class));
-        arrayList.add(new Paper(4, 45, Paper.class));
-        arrayList.add(new Paper(5, 60, Paper.class));
-        arrayList.add(new Paper(6, 70, Paper.class));
-        arrayList.add(new Glass(7, 100, Glass.class));
-        arrayList.add(new Glass(8, 150, Glass.class));
-        arrayList.add(new Glass(9, 200, Glass.class));
+        arrayList.add(new RecycleMaterialContainer(15, Glass.class));
+        arrayList.add(new RecycleMaterialContainer(17, Glass.class));
+        arrayList.add(new RecycleMaterialContainer(19, Glass.class));
+        arrayList.add(new RecycleMaterialContainer(13, Glass.class));
+
+        arrayList.add(new RecycleMaterialContainer(35, Plastic.class));
+        arrayList.add(new RecycleMaterialContainer(45, Plastic.class));
+        arrayList.add(new RecycleMaterialContainer(50, Plastic.class));
+
+        arrayList.add(new RecycleMaterialContainer(150, Paper.class));
+        arrayList.add(new RecycleMaterialContainer(200, Paper.class));
+        arrayList.add(new RecycleMaterialContainer(300, Paper.class));
+        arrayList.add(new RecycleMaterialContainer(220, Paper.class));
+        arrayList.add(new RecycleMaterialContainer(270, Paper.class));
+
     }
 
-    public ArrayList<Material> getArrayList() {
+    public ArrayList<RecycleMaterialContainer> getArrayList() {
         return arrayList;
     }
 
-    public void setArrayList(ArrayList<Material> arrayList) {
+    public void setArrayList(ArrayList<RecycleMaterialContainer> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -36,3 +42,4 @@ public class DBInputMaterials {
     }
 
 }
+

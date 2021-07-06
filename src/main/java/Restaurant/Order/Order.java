@@ -1,13 +1,12 @@
 package Restaurant.Order;
 
 import Restaurant.Array;
+import Restaurant.Constants;
 import Restaurant.Customer.Customer;
 
 import java.util.Objects;
 
 public class Order {
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_RED = "\u001B[31m";
     private int id;
     private Array dishList;
     private OrderStatus orderStatus;
@@ -54,7 +53,7 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", dishList=" + dishList +
-                ", orderStatus=" + ANSI_RED + orderStatus + ANSI_RESET +
+                ", orderStatus=" + Constants.ANSI_RED + orderStatus + Constants.ANSI_RESET +
                 ", customer=" + customer +
                 '}';
     }

@@ -13,10 +13,14 @@ public class Main {
 
         ResolveService resolveService = new ResolveService();
         ArrayList<Production> productions = resolveService.sort();
+
         for (Production production : productions) {
             System.out.println("Accumulator material: " + production.getAccumulator() + ", Ratio: " + production.getRatio());
         };
 
+        for (Production production : productions) {
+            System.out.println(production);
+        };
 
 
     }
