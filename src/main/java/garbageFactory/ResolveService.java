@@ -1,14 +1,14 @@
 package garbageFactory;
 
-import garbageFactory.Materials.Product;
-import garbageFactory.Materials.RecycleMaterialContainer;
-import garbageFactory.Materials.Type;
+import garbageFactory.Materials.*;
 import garbageFactory.Production.Production;
 import garbageFactory.Production.ProductionGlass;
 import garbageFactory.Production.ProductionPaper;
 import garbageFactory.Production.ProductionPlastic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResolveService {
     private int smena;
@@ -26,8 +26,8 @@ public class ResolveService {
     }
 
     public ArrayList<Production> sort() {
-        ArrayList<RecycleMaterialContainer> arrayList = Main.dbInputMaterials.getArrayList();
-        ArrayList<RecycleMaterialContainer> arrayListLeft = new ArrayList<>();
+        ArrayList<Material> arrayList = Main.dbInputMaterials.getArrayList();
+        ArrayList<Material> arrayListLeft = new ArrayList<>();
 
         ProductionGlass productionGlass = new ProductionGlass();
         ProductionPaper productionPaper = new ProductionPaper();
@@ -35,21 +35,23 @@ public class ResolveService {
 
         ArrayList<Production> productions = new ArrayList<>();
         productions.add(productionGlass);
-        productions.add(productionPlastic);
         productions.add(productionPaper);
+        productions.add(productionPlastic);
+
+        /*Map<Class<Material>, Production> materialProductionMap = new HashMap<>();
+        materialProductionMap.put(, productionGlass);*/
 
 
-        for (RecycleMaterialContainer rmc : arrayList) {
-            Product product = (Product) rmc;
-            Type type = product.getType();
-            if (type.equals(Type.GLASS)) {
-                productionGlass.performed(product);
-            } else if (type.equals(Type.PAPER)) {
-                productionPaper.performed(product);
-            } else if (type.equals(Type.PLASTIC)) {
-                productionPlastic.performed(product);
+        for (Material material : arrayList) {
+            Class type = material.getType();
+            if (type.equals(Glass.class)) {
+                productionGlass.performed(material);
+            } else if (type.equals(Paper.class)) {
+                productionPaper.performed(material);
+            } else if (type.equals(Plastic.class)) {
+                productionPlastic.performed(material);
             } else {
-                arrayListLeft.add(rmc);
+                arrayListLeft.add(material);
             }
         }
         Main.dbInputMaterials.setArrayList(arrayListLeft);

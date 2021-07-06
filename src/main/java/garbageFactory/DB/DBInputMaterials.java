@@ -1,33 +1,30 @@
 package garbageFactory.DB;
 
-import garbageFactory.Materials.Product;
-import garbageFactory.Materials.RecycleMaterialContainer;
-import garbageFactory.Materials.Type;
+import garbageFactory.Materials.*;
 
 import java.util.ArrayList;
 
 public class DBInputMaterials {
-    ArrayList<RecycleMaterialContainer> arrayList;
+    private ArrayList<Material> arrayList;
 
     public DBInputMaterials() {
         this.arrayList = new ArrayList<>();
-        arrayList.add(new Product(1, Type.GLASS, 15));
-        arrayList.add(new Product(2, Type.PLASTIC, 100));
-        arrayList.add(new Product(3, Type.GLASS, 25));
-        arrayList.add(new Product(4, Type.PAPER, 33));
-        arrayList.add(new Product(5, Type.PLASTIC, 170));
-        arrayList.add(new Product(6, Type.PAPER, 43));
-        arrayList.add(new Product(7, Type.PAPER, 54));
-        arrayList.add(new Product(8, Type.PLASTIC, 150));
-        arrayList.add(new Product(9, Type.GLASS, 20));
-
+        arrayList.add(new Plastic(1, 14, Plastic.class));
+        arrayList.add(new Plastic(2, 17, Plastic.class));
+        arrayList.add(new Plastic(3, 19, Plastic.class));
+        arrayList.add(new Paper(4, 45, Paper.class));
+        arrayList.add(new Paper(5, 60, Paper.class));
+        arrayList.add(new Paper(6, 70, Paper.class));
+        arrayList.add(new Glass(7, 100, Glass.class));
+        arrayList.add(new Glass(8, 150, Glass.class));
+        arrayList.add(new Glass(9, 200, Glass.class));
     }
 
-    public ArrayList<RecycleMaterialContainer> getArrayList() {
+    public ArrayList<Material> getArrayList() {
         return arrayList;
     }
 
-    public void setArrayList(ArrayList<RecycleMaterialContainer> arrayList) {
+    public void setArrayList(ArrayList<Material> arrayList) {
         this.arrayList = arrayList;
     }
 

@@ -1,14 +1,13 @@
 package garbageFactory.Production;
 
-import garbageFactory.Materials.Product;
-import garbageFactory.Materials.RecycleMaterialContainer;
+import garbageFactory.Materials.Material;
 
 import java.util.ArrayList;
 
 public class Production {
     private float ratio;
     private double accumulator;
-    private ArrayList<Product> arrayList;
+    private ArrayList<Material> arrayList;
 
     public Production() {
         this.ratio = 0.7F;
@@ -16,11 +15,11 @@ public class Production {
         arrayList = new ArrayList<>();
     }
 
-    public ArrayList<Product> getArrayList() {
+    public ArrayList<Material> getArrayList() {
         return arrayList;
     }
 
-    public void setArrayList(ArrayList<Product> arrayList) {
+    public void setArrayList(ArrayList<Material> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -49,10 +48,10 @@ public class Production {
         this.ratio = ratio;
     }
 
-    public void performed(Product product){
-        double save = product.getWeightStart() * ratio;
-        product.setWeightEnd(save);
+    public void performed(Material material){
+        double save = material.getWeightStart() * ratio;
+        material.setWeightEnd(save);
         accumulator = accumulator + save;
-        arrayList.add(product);
+        arrayList.add(material);
     }
 }
