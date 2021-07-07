@@ -27,11 +27,11 @@ public class ResolveService {
 
     public ArrayList<Production> sort() {
         ArrayList<RecycleMaterialContainer> arrayList = Main.dbInputMaterials.getArrayList();
-        ArrayList<RecycleMaterialContainer> arrayListLeft = new ArrayList<>();
+        ArrayList<RecycleMaterialContainer> unproductions = new ArrayList<>();
 
-        ProductionGlass productionGlass = new ProductionGlass();
-        ProductionPaper productionPaper = new ProductionPaper();
-        ProductionPlastic productionPlastic = new ProductionPlastic();
+        ProductionGlass productionGlass = new ProductionGlass(Glass.class);
+        ProductionPaper productionPaper = new ProductionPaper(Paper.class);
+        ProductionPlastic productionPlastic = new ProductionPlastic(Plastic.class);
 
         ArrayList<Production> productions = new ArrayList<>();
         productions.add(productionGlass);
@@ -43,12 +43,16 @@ public class ResolveService {
         materialProductionMap.put(Paper.class, productionPaper);
         materialProductionMap.put(Plastic.class, productionPlastic);
 
-        for (RecycleMaterialContainer rmc : arrayList) {
-            Class type = rmc.getType();
+        for (RecycleMaterialContainer container : arrayList) {
+            Class type = container.getType();
             Production production = materialProductionMap.get(type);
-            production.performed(rmc);
+            if(production != null) {
+                production.performed(container);
+            } else {
+                unproductions.add(container);
+            }
         }
-        Main.dbInputMaterials.setArrayList(arrayListLeft);
+        Main.dbInputMaterials.setArrayList(unproductions);
         smena++;
         return productions;
     }

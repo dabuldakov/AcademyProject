@@ -1,17 +1,22 @@
 package garbageFactory.Production;
 
-import garbageFactory.Materials.Glass;
 import garbageFactory.Materials.Paper;
+import garbageFactory.Materials.RecycleMaterialContainer;
 
-public class ProductionPaper extends Production{
+public class ProductionPaper<PAPER extends Paper> extends Production {
     private int id;
+    private Class<PAPER> type;
 
-    public ProductionPaper() {
+    public ProductionPaper(Class type) {
+        super(type);
         super.setRatio(0.7F);
         id = 0;
     }
 
-    public Paper createObject(double weight){
-        return new Paper(++id, weight);
+    @Override
+    public void performed(RecycleMaterialContainer container) {
+        super.performed(container);
+        Paper paper = new Paper(id, container.getWeightEnd());
+        super.getMaterialArrayList().add(paper);
     }
 }

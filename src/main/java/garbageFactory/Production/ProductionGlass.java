@@ -1,18 +1,22 @@
 package garbageFactory.Production;
 
 import garbageFactory.Materials.Glass;
+import garbageFactory.Materials.RecycleMaterialContainer;
 
-import java.util.ArrayList;
-
-public class ProductionGlass extends Production{
+public class ProductionGlass<GLASS extends Glass> extends Production {
     private int id;
+    private Class<GLASS> type;
 
-    public ProductionGlass() {
+    public ProductionGlass(Class type) {
+        super(type);
         super.setRatio(0.9F);
         id = 0;
     }
 
-    public Glass createObject(double weight){
-        return new Glass(++id, weight);
+    @Override
+    public void performed(RecycleMaterialContainer container) {
+        super.performed(container);
+        Glass glass = new Glass(id, container.getWeightEnd());
+        super.getMaterialArrayList().add(glass);
     }
 }

@@ -1,17 +1,23 @@
 package garbageFactory.Production;
 
-import garbageFactory.Materials.Glass;
 import garbageFactory.Materials.Plastic;
+import garbageFactory.Materials.RecycleMaterialContainer;
 
-public class ProductionPlastic extends Production{
+public class ProductionPlastic<PLASTIC extends Plastic> extends Production {
     private int id;
+    private Class<PLASTIC> type;
 
-    public ProductionPlastic() {
+    public ProductionPlastic(Class type) {
+        super(type);
         super.setRatio(0.5F);
         id = 0;
+        this.type = type;
     }
 
-    public Plastic createObject(double weight){
-        return new Plastic(++id, weight);
+    @Override
+    public void performed(RecycleMaterialContainer container) {
+        super.performed(container);
+        Plastic plastic = new Plastic(id, container.getWeightEnd());
+        super.getMaterialArrayList().add(plastic);
     }
 }

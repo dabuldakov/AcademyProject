@@ -1,6 +1,6 @@
 package garbageFactory.Materials;
 
-public class Material{
+public abstract class Material {
     private int id;
     private double weightStart;
     private double weightEnd;
@@ -32,6 +32,15 @@ public class Material{
 
     public void setWeightEnd(double weightEnd) {
         this.weightEnd = weightEnd;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", weightStart=" + weightStart +
+                ", weightEnd=" + weightEnd +
+                '}';
     }
 }
 
