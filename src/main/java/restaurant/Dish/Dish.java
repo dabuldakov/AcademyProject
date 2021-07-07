@@ -1,6 +1,6 @@
-package Restaurant.Dish;
+package restaurant.dish;
 
-import Restaurant.Constants;
+import restaurant.Constants;
 
 import java.util.Objects;
 
@@ -36,7 +36,7 @@ public class Dish {
 
     @Override
     public String toString() {
-        return "Dish{" +
+        return "dish{" +
                 "name='" + Constants.ANSI_PURPLE + name + Constants.ANSI_RESET + '\'' +
                 ", cost=" + cost +
                 '}';

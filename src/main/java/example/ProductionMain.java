@@ -1,6 +1,6 @@
 package example;
 
-import garbageFactory.Materials.Material;
+import garbageFactory.materials.Material;
 
 public class ProductionMain <MATERIAL extends Material, PRODUCT extends Product> {
 

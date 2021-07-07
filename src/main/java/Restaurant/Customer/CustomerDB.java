@@ -1,7 +1,6 @@
-package Restaurant.Customer;
+package restaurant.customer;
 
-import Restaurant.Array;
-import Restaurant.Registration;
+import restaurant.Array;
 
 public class CustomerDB{
 

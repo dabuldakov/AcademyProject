@@ -1,6 +1,6 @@
-package Restaurant.Order;
+package restaurant.order;
 
-import Restaurant.Array;
+import restaurant.Array;
 
 public class OrderDB {
 

@@ -1,10 +1,10 @@
 package garbageFactory;
 
-import garbageFactory.Materials.*;
-import garbageFactory.Production.Production;
-import garbageFactory.Production.ProductionGlass;
-import garbageFactory.Production.ProductionPaper;
-import garbageFactory.Production.ProductionPlastic;
+import garbageFactory.materials.*;
+import garbageFactory.production.Production;
+import garbageFactory.production.ProductionGlass;
+import garbageFactory.production.ProductionPaper;
+import garbageFactory.production.ProductionPlastic;
 
 import java.util.ArrayList;
 import java.util.HashMap;

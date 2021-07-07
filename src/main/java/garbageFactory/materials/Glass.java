@@ -1,4 +1,4 @@
-package garbageFactory.Materials;
+package garbageFactory.materials;
 
 public class Glass extends Material {
 

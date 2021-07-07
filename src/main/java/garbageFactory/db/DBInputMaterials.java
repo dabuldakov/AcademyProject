@@ -1,6 +1,6 @@
-package garbageFactory.DB;
+package garbageFactory.db;
 
-import garbageFactory.Materials.*;
+import garbageFactory.materials.*;
 
 import java.util.ArrayList;
 

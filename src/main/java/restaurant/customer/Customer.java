@@ -1,6 +1,6 @@
-package Restaurant.Customer;
+package restaurant.customer;
 
-import Restaurant.Constants;
+import restaurant.Constants;
 
 import java.util.Objects;
 
@@ -17,7 +17,7 @@ public class Customer{
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "customer{" +
                 "name='" + Constants.ANSI_GREEN + name + Constants.ANSI_RESET +'\'' +
                 ", phone=" + phone +
                 ", address='" + address + '\'' +

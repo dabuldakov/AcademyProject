@@ -1,8 +1,8 @@
-package Restaurant.Order;
+package restaurant.order;
 
-import Restaurant.Array;
-import Restaurant.Constants;
-import Restaurant.Customer.Customer;
+import restaurant.Array;
+import restaurant.Constants;
+import restaurant.customer.Customer;
 
 import java.util.Objects;
 
@@ -50,7 +50,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "order{" +
                 "id=" + id +
                 ", dishList=" + dishList +
                 ", orderStatus=" + Constants.ANSI_RED + orderStatus + Constants.ANSI_RESET +

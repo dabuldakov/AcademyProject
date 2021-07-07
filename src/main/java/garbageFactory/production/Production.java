@@ -1,7 +1,7 @@
-package garbageFactory.Production;
+package garbageFactory.production;
 
-import garbageFactory.Materials.Material;
-import garbageFactory.Materials.RecycleMaterialContainer;
+import garbageFactory.materials.Material;
+import garbageFactory.materials.RecycleMaterialContainer;
 
 import java.util.ArrayList;
 

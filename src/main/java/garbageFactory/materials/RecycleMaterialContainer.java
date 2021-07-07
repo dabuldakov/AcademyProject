@@ -1,4 +1,4 @@
-package garbageFactory.Materials;
+package garbageFactory.materials;
 
 import garbageFactory.Constants;
 

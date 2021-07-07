@@ -1,4 +1,4 @@
-package garbageFactory.Materials;
+package garbageFactory.materials;
 
 public class Plastic extends Material{
 

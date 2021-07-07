@@ -1,6 +1,6 @@
-package Restaurant;
+package restaurant;
 
-import Restaurant.Exceptions.AddArrayException;
+import restaurant.exceptions.AddArrayException;
 
 public interface Registration {
 
@@ -13,7 +13,7 @@ public interface Registration {
         Array array = getArray();
         for (int i = 0; i < array.size(); i++) {
             if (array.getArray()[i].equals(o)){///change to contain
-                throw new AddArrayException("This object exist in DB, please add new one. Object: " + o.toString());
+                throw new AddArrayException("This object exist in db, please add new one. Object: " + o.toString());
             }
         }
         System.out.println(oClass.getName() + " registered.");

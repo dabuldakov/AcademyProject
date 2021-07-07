@@ -1,4 +1,4 @@
-package Restaurant;
+package restaurant;
 
 public class Constants {
     public static final String ANSI_RESET = "\u001B[0m";

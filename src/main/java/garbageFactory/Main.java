@@ -1,8 +1,8 @@
 package garbageFactory;
 
-import garbageFactory.DB.DBInputMaterials;
-import garbageFactory.Materials.*;
-import garbageFactory.Production.Production;
+import garbageFactory.db.DBInputMaterials;
+import garbageFactory.materials.*;
+import garbageFactory.production.Production;
 
 import java.util.ArrayList;
 import java.util.Random;

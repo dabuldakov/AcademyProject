@@ -1,18 +1,18 @@
-package Restaurant;
+package restaurant;
 
-import Restaurant.Customer.Customer;
-import Restaurant.Customer.CustomerRepository;
-import Restaurant.Customer.CustomerDB;
-import Restaurant.Delivering.DeliveringService;
-import Restaurant.Dish.DishDB;
-import Restaurant.Dish.DishRepository;
-import Restaurant.Exceptions.AddArrayException;
-import Restaurant.Exceptions.NotFoundArrayException;
-import Restaurant.Kitchen.KitchenService;
-import Restaurant.Order.Order;
-import Restaurant.Order.OrderDB;
-import Restaurant.Order.OrderRepository;
-import Restaurant.Order.OrderStatus;
+import restaurant.customer.Customer;
+import restaurant.customer.CustomerRepository;
+import restaurant.customer.CustomerDB;
+import restaurant.delivering.DeliveringService;
+import restaurant.dish.DishDB;
+import restaurant.dish.DishRepository;
+import restaurant.exceptions.AddArrayException;
+import restaurant.exceptions.NotFoundArrayException;
+import restaurant.kitchen.KitchenService;
+import restaurant.order.Order;
+import restaurant.order.OrderDB;
+import restaurant.order.OrderRepository;
+import restaurant.order.OrderStatus;
 
 public class Main {
 

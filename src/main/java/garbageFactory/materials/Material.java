@@ -1,4 +1,4 @@
-package garbageFactory.Materials;
+package garbageFactory.materials;
 
 public abstract class Material {
     private int id;

@@ -1,7 +1,7 @@
-package Restaurant.Kitchen;
+package restaurant.kitchen;
 
-import Restaurant.Order.OrderStatus;
-import Restaurant.Service;
+import restaurant.order.OrderStatus;
+import restaurant.Service;
 
 public class KitchenService implements Service {
 

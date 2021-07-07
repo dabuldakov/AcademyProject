@@ -1,8 +1,8 @@
-package Restaurant;
+package restaurant;
 
-import Restaurant.Order.Order;
-import Restaurant.Order.OrderRepository;
-import Restaurant.Order.OrderStatus;
+import restaurant.order.Order;
+import restaurant.order.OrderRepository;
+import restaurant.order.OrderStatus;
 
 public interface Service {
 

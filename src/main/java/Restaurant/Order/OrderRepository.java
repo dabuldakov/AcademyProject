@@ -1,8 +1,8 @@
-package Restaurant.Order;
+package restaurant.order;
 
-import Restaurant.Array;
-import Restaurant.Customer.Customer;
-import Restaurant.Registration;
+import restaurant.Array;
+import restaurant.customer.Customer;
+import restaurant.Registration;
 
 public class OrderRepository implements Registration {
 
@@ -22,7 +22,7 @@ public class OrderRepository implements Registration {
         Order order = new Order(id, dishArray, OrderStatus.CREATED, customer);
         orderArray.add(order);
         System.out.println("-----------------------");
-        System.out.println("Order [" + id + "] added in OrderDB");
+        System.out.println("order [" + id + "] added in OrderDB");
         return order;
     }
 

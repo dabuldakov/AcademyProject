@@ -1,7 +1,7 @@
-package garbageFactory.Production;
+package garbageFactory.production;
 
-import garbageFactory.Materials.Paper;
-import garbageFactory.Materials.RecycleMaterialContainer;
+import garbageFactory.materials.Paper;
+import garbageFactory.materials.RecycleMaterialContainer;
 
 public class ProductionPaper<PAPER extends Paper> extends Production {
     private int id;
