@@ -19,10 +19,6 @@ public class DBInputMaterials {
         this.arrayList = arrayList;
     }
 
-    public void add(RecycleMaterialContainer<? extends Material> recycleMaterialContainer){
-        arrayList.add(recycleMaterialContainer);
-    }
-
     @Override
     public String toString() {
         return "DBInputMaterials{" +

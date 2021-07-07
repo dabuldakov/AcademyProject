@@ -1,5 +1,6 @@
 package garbageFactory;
 
+import garbageFactory.db.DBRepository;
 import garbageFactory.materials.*;
 import garbageFactory.production.Production;
 import garbageFactory.production.ProductionGlass;
@@ -12,12 +13,18 @@ import java.util.Map;
 
 public class ResolveService {
     private int smena;
+    private DBRepository dbRepository;
+    private ArrayList<RecycleMaterialContainer> arrayList;
+    private ArrayList<RecycleMaterialContainer> unproductions;
 
-    public ResolveService() {
+    ResolveService(DBRepository dbRepository) {
         smena = 0;
+        this.dbRepository = dbRepository;
+        arrayList = dbRepository.getDbInputMaterials().getArrayList();
+        unproductions = new ArrayList<>();
     }
 
-    public int getSmena() {
+    int getSmena() {
         return smena;
     }
 
@@ -25,9 +32,7 @@ public class ResolveService {
         this.smena = smena;
     }
 
-    public ArrayList<Production> sort() {
-        ArrayList<RecycleMaterialContainer> arrayList = Main.dbInputMaterials.getArrayList();
-        ArrayList<RecycleMaterialContainer> unproductions = new ArrayList<>();
+    ArrayList<Production> sort() {
 
         ProductionGlass productionGlass = new ProductionGlass(Glass.class);
         ProductionPaper productionPaper = new ProductionPaper(Paper.class);
@@ -52,7 +57,7 @@ public class ResolveService {
                 unproductions.add(container);
             }
         }
-        Main.dbInputMaterials.setArrayList(unproductions);
+        dbRepository.getDbInputMaterials().setArrayList(unproductions);
         smena++;
         return productions;
     }
