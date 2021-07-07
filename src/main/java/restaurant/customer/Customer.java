@@ -1,6 +1,6 @@
-package restaurant2.customer;
+package restaurant.customer;
 
-import restaurant2.Constants;
+import restaurant.Constants;
 
 import java.util.Objects;
 

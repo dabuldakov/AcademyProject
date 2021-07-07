@@ -1,8 +1,8 @@
-package restaurant2.order;
+package restaurant.order;
 
-import restaurant2.Array;
-import restaurant2.customer.Customer;
-import restaurant2.Registration;
+import restaurant.Array;
+import restaurant.customer.Customer;
+import restaurant.Registration;
 
 public class OrderRepository implements Registration {
 

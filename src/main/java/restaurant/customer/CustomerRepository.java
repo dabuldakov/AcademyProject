@@ -1,8 +1,8 @@
-package restaurant2.customer;
+package restaurant.customer;
 
-import restaurant2.Array;
-import restaurant2.exceptions.NotFoundArrayException;
-import restaurant2.Registration;
+import restaurant.Array;
+import restaurant.exceptions.NotFoundArrayException;
+import restaurant.Registration;
 
 public class CustomerRepository implements Registration {
     private Array customerArray;

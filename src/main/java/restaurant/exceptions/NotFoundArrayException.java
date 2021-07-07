@@ -1,4 +1,4 @@
-package restaurant2.exceptions;
+package restaurant.exceptions;
 
 public class NotFoundArrayException extends Exception {
     public NotFoundArrayException(String message) {

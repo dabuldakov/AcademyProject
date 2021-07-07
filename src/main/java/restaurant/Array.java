@@ -1,4 +1,4 @@
-package restaurant2;
+package restaurant;
 
 import java.util.Arrays;
 

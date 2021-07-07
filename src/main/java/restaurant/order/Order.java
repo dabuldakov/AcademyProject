@@ -1,8 +1,8 @@
-package restaurant2.order;
+package restaurant.order;
 
-import restaurant2.Array;
-import restaurant2.Constants;
-import restaurant2.customer.Customer;
+import restaurant.Array;
+import restaurant.Constants;
+import restaurant.customer.Customer;
 
 import java.util.Objects;
 
