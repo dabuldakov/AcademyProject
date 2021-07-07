@@ -1,6 +1,6 @@
-package restaurant.dish;
+package restaurant2.dish;
 
-import restaurant.Array;
+import restaurant2.Array;
 
 public class DishDB{
 

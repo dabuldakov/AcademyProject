@@ -1,6 +1,6 @@
-package restaurant;
+package restaurant2;
 
-import restaurant.exceptions.AddArrayException;
+import restaurant2.exceptions.AddArrayException;
 
 public interface Registration {
 

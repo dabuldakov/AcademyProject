@@ -1,8 +1,8 @@
-package restaurant.dish;
+package restaurant2.dish;
 
-import restaurant.Array;
-import restaurant.exceptions.NotFoundArrayException;
-import restaurant.Registration;
+import restaurant2.Array;
+import restaurant2.exceptions.NotFoundArrayException;
+import restaurant2.Registration;
 
 public class DishRepository implements Registration {
 

@@ -1,7 +1,7 @@
-package restaurant.delivering;
+package restaurant2.delivering;
 
-import restaurant.order.OrderStatus;
-import restaurant.Service;
+import restaurant2.order.OrderStatus;
+import restaurant2.Service;
 
 public class DeliveringService implements Service {
     @Override

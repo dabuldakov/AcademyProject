@@ -1,6 +1,6 @@
-package restaurant.customer;
+package restaurant2.customer;
 
-import restaurant.Array;
+import restaurant2.Array;
 
 public class CustomerDB{
 
