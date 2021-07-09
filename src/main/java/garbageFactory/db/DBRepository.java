@@ -21,7 +21,7 @@ public class DBRepository {
         this.dbInputMaterials = dbInputMaterials;
     }
 
-    public void add(RecycleMaterialContainer<? extends Material> recycleMaterialContainer){
+    public void addMaterial(RecycleMaterialContainer<? extends Material> recycleMaterialContainer){
         dbInputMaterials.getArrayList().add(recycleMaterialContainer);
     }
 }

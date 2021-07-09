@@ -1,18 +1,18 @@
 package restaurant.order;
 
-import restaurant.Array;
+import restaurant.ArrayList;
 
 public class OrderDB {
 
-    private Array array;
+    private ArrayList arrayList;
     private int id;
 
     public OrderDB() {
-        array = new Array();
+        arrayList = new ArrayList();
     }
 
-    public Array getArray() {
-        return array;
+    public ArrayList getArrayList() {
+        return arrayList;
     }
 
     public int getId() {

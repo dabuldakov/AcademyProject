@@ -17,7 +17,8 @@ public class ProductionPlastic<PLASTIC extends Plastic> extends Production {
     @Override
     public void performed(RecycleMaterialContainer container) {
         super.performed(container);
-        Plastic plastic = new Plastic(id, container.getWeightEnd());
+        Plastic plastic = new Plastic(id, container.getWeightStart());
+        plastic.setWeightEnd(container.getWeightEnd());
         super.getMaterialArrayList().add(plastic);
     }
 }

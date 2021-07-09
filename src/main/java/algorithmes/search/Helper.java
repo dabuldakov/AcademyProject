@@ -8,7 +8,7 @@ class Helper {
 
     static void goSearch(Searcher searcher, int count){
         for (int [] array: searcher.getArrays()) {
-            System.out.println("Array size: " + array.length);
+            System.out.println("ArrayList length: " + array.length);
             for (int i = 0; i < count; i++) {
                 prepareAnswer(searcher, array);
             }

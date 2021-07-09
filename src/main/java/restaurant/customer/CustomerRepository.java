@@ -1,35 +1,41 @@
 package restaurant.customer;
 
-import restaurant.Array;
+import restaurant.ArrayList;
 import restaurant.exceptions.NotFoundArrayException;
 import restaurant.Registration;
 
 public class CustomerRepository implements Registration {
-    private Array customerArray;
+    private ArrayList customerArrayList;
 
     public CustomerRepository(CustomerDB customerDB) {
-        customerArray = customerDB.getArray();
+        customerArrayList = customerDB.getArrayList();
     }
 
     public Customer getByName(String name) throws NotFoundArrayException {
 
-        Object[] customers = customerArray.getArray();
+        for (int i = 0; i < customerArrayList.length(); i++) {
+            Customer customer = (Customer) customerArrayList.get(i);
+            if (customer.getName().equals(name))
+                return customer;
+        }
+
+/*        Object[] customers = customerArrayList.getArrayList();
         for (Object o : customers) {
             Customer customer = (Customer) o;
             if (customer.getName().equals(name)) {
                 return customer;
             }
-        }
+        }*/
         throw new NotFoundArrayException("Name not found in CustomerDB.");
     }
 
     @Override
-    public Array getArray() {
-        return customerArray;
+    public ArrayList getArray() {
+        return customerArrayList;
     }
 
     @Override
-    public void setArray(Array array) {
-        customerArray = array;
+    public void setArray(ArrayList arrayList) {
+        customerArrayList = arrayList;
     }
 }

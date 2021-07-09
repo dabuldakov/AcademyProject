@@ -20,57 +20,57 @@ public class Main {
         //DATABASE
         CustomerDB customerDB = new CustomerDB();
         CustomerRepository customerRepository = new CustomerRepository(customerDB);
-        Array customerArray = customerDB.getArray();
+        ArrayList customerArrayList = customerDB.getArrayList();
 
         DishDB dishDB = new DishDB();
         DishRepository dishRepository = new DishRepository(dishDB);
-        Array dishArray = dishDB.createDB();
+        ArrayList dishArrayList = dishDB.createDB();
 
         OrderDB orderDB = new OrderDB();
         OrderRepository orderRepository = new OrderRepository(orderDB);
-        Array orderArray = orderDB.getArray();
+        ArrayList orderArrayList = orderDB.getArrayList();
 
         //PRINT
-        customerArray.print();
-        dishArray.print();
-        orderArray.print();
+        customerArrayList.print();
+        dishArrayList.print();
+        orderArrayList.print();
 
         //CUSTOMER registration
         Customer customer = new Customer("Vova", 666777, "Kemerovo city, Lenina street 112");
         customerRepository.add(customer);
 
         //CUSTOMER removed
-        int remove = customerArray.removeAll(customerRepository.getByName("Max"));
+        int remove = customerArrayList.removeAll(customerRepository.getByName("Max"));
         System.out.println("Removed customers: " + remove);
-        customerArray.print();
+        customerArrayList.print();
 
         //ORDER
-        Array orderDish1 = new Array();
+        ArrayList orderDish1 = new ArrayList();
         orderDish1.add(dishRepository.getByName("Borsh"));
         orderDish1.add(dishRepository.getByName("Bread"));
         Order order1 = orderRepository.createOrder(orderDish1, customerRepository.getByName("Vika"));
-        orderArray.print();
+        orderArrayList.print();
 
         //SERVICES
         KitchenService kitchenService = new KitchenService();
         kitchenService.run(order1, orderRepository);
-        orderArray.print();
+        orderArrayList.print();
         kitchenService.finished(order1, orderRepository);
-        orderArray.print();
+        orderArrayList.print();
 
         DeliveringService deliveringService = new DeliveringService();
         deliveringService.run(order1, orderRepository);
-        orderArray.print();
+        orderArrayList.print();
         deliveringService.finished(order1, orderRepository);
-        orderArray.print();
+        orderArrayList.print();
 
         //REPORTS
         System.out.println("---REPORTS BY CUSTOMER---");
-        Array ordersByCustomer = orderRepository.getOrdersByCustomer(customerRepository.getByName("Vika"));
+        ArrayList ordersByCustomer = orderRepository.getOrdersByCustomer(customerRepository.getByName("Vika"));
         ordersByCustomer.print();
 
         System.out.println("---REPORTS BY STATUS---");
-        Array ordersByStatus = orderRepository.getOrdersByStatus(OrderStatus.DELIVERED);
+        ArrayList ordersByStatus = orderRepository.getOrdersByStatus(OrderStatus.DELIVERED);
         ordersByStatus.print();
 
     }

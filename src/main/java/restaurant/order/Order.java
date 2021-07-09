@@ -1,6 +1,6 @@
 package restaurant.order;
 
-import restaurant.Array;
+import restaurant.ArrayList;
 import restaurant.Constants;
 import restaurant.customer.Customer;
 
@@ -8,11 +8,11 @@ import java.util.Objects;
 
 public class Order {
     private int id;
-    private Array dishList;
+    private ArrayList dishList;
     private OrderStatus orderStatus;
     private Customer customer;
 
-    Order(int id, Array dishList, OrderStatus orderStatus, Customer customer) {
+    Order(int id, ArrayList dishList, OrderStatus orderStatus, Customer customer) {
         this.id = id;
         this.dishList = dishList;
         this.orderStatus = orderStatus;

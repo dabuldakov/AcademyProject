@@ -1,69 +1,83 @@
 package restaurant.order;
 
-import restaurant.Array;
+import restaurant.ArrayList;
 import restaurant.customer.Customer;
 import restaurant.Registration;
 
 public class OrderRepository implements Registration {
 
-    private Array orderArray;
+    private ArrayList orderArrayList;
     private int id;
     private OrderDB orderDB;
 
     public OrderRepository(OrderDB orderDB) {
-        this.orderArray = orderDB.getArray();
+        this.orderArrayList = orderDB.getArrayList();
         this.id = orderDB.getId();
         this.orderDB = orderDB;
     }
 
-    public Order createOrder(Array dishArray, Customer customer){
+    public Order createOrder(ArrayList dishArrayList, Customer customer){
         id = id + 1;
         orderDB.setId(id);
-        Order order = new Order(id, dishArray, OrderStatus.CREATED, customer);
-        orderArray.add(order);
+        Order order = new Order(id, dishArrayList, OrderStatus.CREATED, customer);
+        orderArrayList.add(order);
         System.out.println("-----------------------");
         System.out.println("order [" + id + "] added in OrderDB");
         return order;
     }
 
-    public Array getOrdersByCustomer(Customer customer) {
-        Array array = new Array();
-        Object[] orders = orderArray.getArray();
-        for (int i = 0; i < orderArray.size(); i++) {
+    public ArrayList getOrdersByCustomer(Customer customer) {
+        ArrayList arrayList = new ArrayList();
+
+        for (int i = 0; i < orderArrayList.length(); i++) {
+            Order order = (Order) orderArrayList.get(i);
+            if(order.getCustomer().equals(customer))
+                arrayList.add(order);
+        }
+
+/*        Object[] orders = orderArrayList.getArrayList();
+        for (int i = 0; i < orderArrayList.length(); i++) {
             Order order = (Order) orders[i];
             if (order.getCustomer().equals(customer))
-                array.add(orders[i]);
-        }
-        return array;
+                arrayList.add(orders[i]);
+        }*/
+        return arrayList;
     }
 
-    public Array getOrdersByStatus(OrderStatus orderStatus) {
-        Array array = new Array();
-        Object[] orders = orderArray.getArray();
-        for (int i = 0; i < orderArray.size(); i++) {
+    public ArrayList getOrdersByStatus(OrderStatus orderStatus) {
+        ArrayList arrayList = new ArrayList();
+
+        for (int i = 0; i < orderArrayList.length(); i++) {
+            Order order = (Order) orderArrayList.get(i);
+            if(order.getOrderStatus().equals(orderStatus))
+                arrayList.add(order);
+        }
+        /*
+        Object[] orders = orderArrayList.getArrayList();
+        for (int i = 0; i < orderArrayList.length(); i++) {
             Order order = (Order) orders[i];
             if (order.getOrderStatus().equals(orderStatus))
-                array.add(orders[i]);
-        }
-        return array;
+                arrayList.add(orders[i]);
+        }*/
+        return arrayList;
     }
 
     @Override
-    public Array getArray() {
-        return orderArray;
+    public ArrayList getArray() {
+        return orderArrayList;
     }
 
     @Override
-    public void setArray(Array array) {
-        orderArray = array;
+    public void setArray(ArrayList arrayList) {
+        orderArrayList = arrayList;
     }
 
-    public Array getOrderArray() {
-        return orderArray;
+    public ArrayList getOrderArrayList() {
+        return orderArrayList;
     }
 
-    public void setOrderArray(Array orderArray) {
-        this.orderArray = orderArray;
+    public void setOrderArrayList(ArrayList orderArrayList) {
+        this.orderArrayList = orderArrayList;
     }
 
     public int getId() {

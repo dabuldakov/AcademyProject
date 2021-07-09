@@ -12,8 +12,8 @@ public interface Service {
     String ANSI_RED = "\u001B[31m";
 
     default void run(Order order, OrderRepository orderRepository){
-        for (int i = 0; i < orderRepository.getArray().size(); i++) {
-            Order findOrder = (Order) orderRepository.getArray().getArray()[i];
+        for (int i = 0; i < orderRepository.getArray().length(); i++) {
+            Order findOrder = (Order) orderRepository.getArray().get(i);
             if(findOrder.equals(order)){
                 findOrder.setOrderStatus(getStatusStart());
                 System.out.println("-----------------------");
@@ -23,8 +23,8 @@ public interface Service {
     }
 
     default void finished(Order order, OrderRepository orderRepository){
-        for (int i = 0; i < orderRepository.getArray().size(); i++) {
-            Order findOrder = (Order) orderRepository.getArray().getArray()[i];
+        for (int i = 0; i < orderRepository.getArray().length(); i++) {
+            Order findOrder = (Order) orderRepository.getArray().get(i);
             if(findOrder.equals(order)){
                 findOrder.setOrderStatus(getStatusFinished());
                 System.out.println("-----------------------");

@@ -16,7 +16,8 @@ public class ProductionGlass<GLASS extends Glass> extends Production {
     @Override
     public void performed(RecycleMaterialContainer container) {
         super.performed(container);
-        Glass glass = new Glass(id, container.getWeightEnd());
+        Glass glass = new Glass(id, container.getWeightStart());
+        glass.setWeightEnd(container.getWeightEnd());
         super.getMaterialArrayList().add(glass);
     }
 }

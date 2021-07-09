@@ -16,7 +16,8 @@ public class ProductionPaper<PAPER extends Paper> extends Production {
     @Override
     public void performed(RecycleMaterialContainer container) {
         super.performed(container);
-        Paper paper = new Paper(id, container.getWeightEnd());
+        Paper paper = new Paper(id, container.getWeightStart());
+        paper.setWeightEnd(container.getWeightEnd());
         super.getMaterialArrayList().add(paper);
     }
 }

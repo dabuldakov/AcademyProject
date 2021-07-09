@@ -4,19 +4,18 @@ import restaurant.exceptions.AddArrayException;
 
 public interface Registration {
 
-    Array getArray();
+    ArrayList getArray();
 
-    void setArray(Array array);
+    void setArray(ArrayList arrayList);
 
     default void add(Object o) throws AddArrayException {
         Class<?> oClass = o.getClass();
-        Array array = getArray();
-        for (int i = 0; i < array.size(); i++) {
-            if (array.getArray()[i].equals(o)){///change to contain
-                throw new AddArrayException("This object exist in db, please add new one. Object: " + o.toString());
-            }
-        }
-        System.out.println(oClass.getName() + " registered.");
-        array.add(o);
+        ArrayList arrayList = getArray();
+
+        if (arrayList.contain(o))
+            throw new AddArrayException("This object exist in db, please addMaterial new one. Object: " + o.toString());
+
+        System.out.println(oClass.getSimpleName() + " registered.");
+        arrayList.add(o);
     }
 }

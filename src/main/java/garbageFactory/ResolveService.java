@@ -15,13 +15,29 @@ public class ResolveService {
     private int smena;
     private DBRepository dbRepository;
     private ArrayList<RecycleMaterialContainer> arrayList;
-    private ArrayList<RecycleMaterialContainer> unproductions;
+    private ArrayList<RecycleMaterialContainer> unProductions;
+    private Map<Class<? extends Material>, Production> materialProductionMap;
+    private ArrayList<Production> productions;
 
     ResolveService(DBRepository dbRepository) {
         smena = 0;
         this.dbRepository = dbRepository;
         arrayList = dbRepository.getDbInputMaterials().getArrayList();
-        unproductions = new ArrayList<>();
+        unProductions = new ArrayList<>();
+
+        ProductionGlass productionGlass = new ProductionGlass(Glass.class);
+        ProductionPaper productionPaper = new ProductionPaper(Paper.class);
+        ProductionPlastic productionPlastic = new ProductionPlastic(Plastic.class);
+
+        productions = new ArrayList<>();
+        productions.add(productionGlass);
+        productions.add(productionPaper);
+        productions.add(productionPlastic);
+
+        materialProductionMap = new HashMap<>();
+        materialProductionMap.put(Glass.class, productionGlass);
+        materialProductionMap.put(Paper.class, productionPaper);
+        materialProductionMap.put(Plastic.class, productionPlastic);
     }
 
     int getSmena() {
@@ -33,31 +49,16 @@ public class ResolveService {
     }
 
     ArrayList<Production> sort() {
-
-        ProductionGlass productionGlass = new ProductionGlass(Glass.class);
-        ProductionPaper productionPaper = new ProductionPaper(Paper.class);
-        ProductionPlastic productionPlastic = new ProductionPlastic(Plastic.class);
-
-        ArrayList<Production> productions = new ArrayList<>();
-        productions.add(productionGlass);
-        productions.add(productionPaper);
-        productions.add(productionPlastic);
-
-        Map<Class<? extends Material>, Production> materialProductionMap = new HashMap<>();
-        materialProductionMap.put(Glass.class, productionGlass);
-        materialProductionMap.put(Paper.class, productionPaper);
-        materialProductionMap.put(Plastic.class, productionPlastic);
-
         for (RecycleMaterialContainer container : arrayList) {
             Class type = container.getType();
             Production production = materialProductionMap.get(type);
             if(production != null) {
                 production.performed(container);
             } else {
-                unproductions.add(container);
+                unProductions.add(container);
             }
         }
-        dbRepository.getDbInputMaterials().setArrayList(unproductions);
+        dbRepository.getDbInputMaterials().setArrayList(unProductions);
         smena++;
         return productions;
     }

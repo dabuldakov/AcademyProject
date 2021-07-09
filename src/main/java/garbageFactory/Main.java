@@ -6,7 +6,6 @@ import garbageFactory.materials.*;
 import garbageFactory.production.Production;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Main {
 
@@ -43,21 +42,21 @@ public class Main {
     }
 
     private static void generateDB(DBRepository dbRepository) {
-        dbRepository.add(new RecycleMaterialContainer<>(17, Glass.class));
-        dbRepository.add(new RecycleMaterialContainer<>(19, Glass.class));
-        dbRepository.add(new RecycleMaterialContainer<>(13, Glass.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(17, Glass.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(19, Glass.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(13, Glass.class));
 
-        dbRepository.add(new RecycleMaterialContainer<>(35, Plastic.class));
-        dbRepository.add(new RecycleMaterialContainer<>(45, Plastic.class));
-        dbRepository.add(new RecycleMaterialContainer<>(50, Plastic.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(35, Plastic.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(45, Plastic.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(50, Plastic.class));
 
-        dbRepository.add(new RecycleMaterialContainer<>(150, Paper.class));
-        dbRepository.add(new RecycleMaterialContainer<>(200, Paper.class));
-        dbRepository.add(new RecycleMaterialContainer<>(300, Paper.class));
-        dbRepository.add(new RecycleMaterialContainer<>(220, Paper.class));
-        dbRepository.add(new RecycleMaterialContainer<>(270, Paper.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(150, Paper.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(200, Paper.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(300, Paper.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(220, Paper.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(270, Paper.class));
 
-        dbRepository.add(new RecycleMaterialContainer<>(1000, Wood.class));
-        dbRepository.add(new RecycleMaterialContainer<>(1300, Wood.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(1000, Wood.class));
+        dbRepository.addMaterial(new RecycleMaterialContainer<>(1300, Wood.class));
     }
 }
