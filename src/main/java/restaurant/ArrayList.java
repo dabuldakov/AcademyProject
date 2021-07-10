@@ -8,6 +8,7 @@ public class ArrayList {
     private int length;
     private int buffer;
     private final float koef = 0.5F;
+    private final float koefExtra = 1.5F;
 
     public ArrayList() {
         length = 0;
@@ -21,7 +22,7 @@ public class ArrayList {
 
     public void add(Object o) {
         if (length == buffer) {
-            buffer = (int) (length * 1.5);
+            buffer = (int) (length * koefExtra);
             Object[] newArray = new Object[buffer];
             for (int i = 0; i < length; i++) {
                 newArray[i] = array[i];
@@ -57,7 +58,7 @@ public class ArrayList {
             return -1;
     }
 
-    boolean remove(int index) {
+    public boolean remove(int index) {
         if (index < 0 || index >= length) {
             return false;
         } else {
@@ -107,9 +108,29 @@ public class ArrayList {
         }
     }*/
 
+    public int removeAll(Object o) {
+        int offset = 0;
+        for (int i = 0; i < length; i++) {
+            if (array[i].equals(o)) {
+                offset++;
+                array[i] = array[i + offset];
+            } else if (offset > 0) {
+                array[i] = array[i + offset];
+            }
+        }
+        length = length - offset;
+        if (offset > 0) {
+            if ((float) length / buffer < koef) {
+                cutArray();
+            }
+            return offset;
+        } else {
+            return 0;
+        }
+    }
 
 
-    int removeAll(Object o) {
+    /*public int removeAll(Object o) {
         int deleted = 0;
         Object[] newArray = new Object[length];
         for (int i = 0; i < length; i++) {
@@ -128,15 +149,15 @@ public class ArrayList {
         } else {
             return 0;
         }
-    }
+    }*/
 
-    private void cutArray(Object[] array, int cutNumber) {
-        Object[] newArray = new Object[length - cutNumber];
-        for (int i = 0; i < length - cutNumber; i++) {
+    private void cutArray() {
+        buffer = (int) (length * koefExtra);
+        Object[] newArray = new Object[buffer];
+        for (int i = 0; i < length; i++) {
             newArray[i] = array[i];
         }
         this.array = newArray;
-        this.length = length - cutNumber;
     }
 
     public boolean update(Object existing, Object updateTo) {

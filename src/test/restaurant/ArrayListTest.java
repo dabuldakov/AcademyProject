@@ -116,6 +116,27 @@ class ArrayListTest {
 
     @Test
     void removeAll() {
+
+        //given
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < 20; i++) {
+            String s = "" + i;
+            arrayList.add(s);
+        }
+
+        arrayList.add("15");
+        arrayList.add("15");
+        arrayList.add("15");
+
+        arrayList.print();
+
+        //when
+        arrayList.removeAll("15");
+        arrayList.print();
+
+        //then
+        assertEquals(19, arrayList.length());
+
     }
 
     @Test
