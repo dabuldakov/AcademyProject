@@ -1,4 +1,4 @@
-package threds;
+package threds.inOutFile;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

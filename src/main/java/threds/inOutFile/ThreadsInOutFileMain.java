@@ -1,11 +1,11 @@
-package threds;
+package threds.inOutFile;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Main {
+public class ThreadsInOutFileMain {
 
     public static void main(String[] args) throws IOException {
 
