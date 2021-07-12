@@ -19,6 +19,7 @@ class Fabric {
     void produce() throws InterruptedException {
         while (true) {
             synchronized (lock) {
+                lock.notify();
                 while (queue.size() == MAX_QUEUE_LENGTH) {
                     lock.wait();
                 }
@@ -28,7 +29,6 @@ class Fabric {
                 System.out.println(Constants.ANSI_RED + "Producer" + Constants.ANSI_RESET + " offer number: " + data +
                         " Producer count: " + countProducer +
                         " Queue size: " + queue.size());
-                lock.notify();
             }
         }
     }
@@ -36,6 +36,7 @@ class Fabric {
     void consume() throws InterruptedException {
         while (true) {
             synchronized (lock) {
+                lock.notify();
                 while (queue.size() == 0) {
                     lock.wait();
                 }
@@ -45,7 +46,6 @@ class Fabric {
                 System.out.println(Constants.ANSI_GREEN + "Consumer" + Constants.ANSI_RESET + " poll  number: " + poll +
                         " Consumer count: " + countConsumer +
                         " Queue size: " + queue.size());
-                lock.notify();
             }
         }
     }
