@@ -1,4 +1,4 @@
-package threds.inOutFile;
+package threds.queueInOutFile;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -10,7 +10,7 @@ class Fabric {
 
     private static final int MAX_QUEUE_LENGTH = 10;
     private static Queue<Integer> queue = new LinkedList<>();
-    private Random random = new Random();
+    private final Random random = new Random();
     private int countProducer;
     private int countConsumer;
     private final Object lock = new Object();

@@ -3,8 +3,6 @@ package garbageFactory.db;
 import garbageFactory.materials.Material;
 import garbageFactory.materials.RecycleMaterialContainer;
 
-import java.util.ArrayList;
-
 public class DBRepository {
 
     private DBInputMaterials dbInputMaterials;

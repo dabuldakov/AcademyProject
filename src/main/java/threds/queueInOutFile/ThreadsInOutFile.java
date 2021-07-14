@@ -1,9 +1,6 @@
-package threds.inOutFile;
+package threds.queueInOutFile;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 class ThreadsInOutFile{
 

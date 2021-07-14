@@ -1,7 +1,5 @@
 package restaurant;
 
-import java.util.Arrays;
-
 public class ArrayList {
 
     private Object[] array;

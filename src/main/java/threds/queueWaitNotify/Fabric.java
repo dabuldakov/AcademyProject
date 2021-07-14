@@ -19,16 +19,16 @@ class Fabric {
     void produce() throws InterruptedException {
         while (true) {
             synchronized (lock) {
-                lock.notify();
                 while (queue.size() == MAX_QUEUE_LENGTH) {
                     lock.wait();
                 }
                 countProducer++;
-                int data = random.nextInt(1000);
+                int data = random.nextInt(500);
                 queue.offer(data);
                 System.out.println(Constants.ANSI_RED + "Producer" + Constants.ANSI_RESET + " offer number: " + data +
                         " Producer count: " + countProducer +
                         " Queue size: " + queue.size());
+                lock.notify();
             }
         }
     }
@@ -36,16 +36,16 @@ class Fabric {
     void consume() throws InterruptedException {
         while (true) {
             synchronized (lock) {
-                lock.notify();
                 while (queue.size() == 0) {
                     lock.wait();
                 }
                 Integer poll = queue.poll();
                 countConsumer++;
-                Thread.sleep(100);
+                Thread.sleep(500);
                 System.out.println(Constants.ANSI_GREEN + "Consumer" + Constants.ANSI_RESET + " poll  number: " + poll +
                         " Consumer count: " + countConsumer +
                         " Queue size: " + queue.size());
+                lock.notify();
             }
         }
     }
