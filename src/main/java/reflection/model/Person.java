@@ -1,4 +1,6 @@
-package reflection;
+package reflection.model;
+
+import reflection.mapper.JsonParse;
 
 public class Person {
     private String name;
@@ -12,6 +14,30 @@ public class Person {
     }
 
     public Person() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
     }
 
     @Override

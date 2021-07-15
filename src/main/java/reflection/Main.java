@@ -1,5 +1,9 @@
 package reflection;
 
+import reflection.mapper.Mapper;
+import reflection.model.House;
+import reflection.model.Person;
+
 import java.lang.reflect.InvocationTargetException;
 
 public class Main {
@@ -31,6 +35,7 @@ public class Main {
                 "  \"reappearing\": false,\n" +
                 "  \"description\": null\n" +
                 "}");
+        System.out.println("-----Deserialize------");
         System.out.println(house);
 
     }

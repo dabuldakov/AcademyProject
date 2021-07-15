@@ -1,4 +1,4 @@
-package reflection;
+package reflection.mapper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -20,7 +20,7 @@ public class Mapper<TYPE extends Object> {
         object = constructor.newInstance();
     }
 
-    public String serialize(Object object) throws IllegalAccessException {
+    public String serialize(Object object) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
         StringBuilder builder = new StringBuilder();
         builder.append("{");
         int length = declaredFields.length;
@@ -32,6 +32,7 @@ public class Mapper<TYPE extends Object> {
             String value = "";
             field.setAccessible(true);
 
+
             if (type.equals(long.class)) {
                 long longNumber = (long) field.get(object);
                 value = String.valueOf(longNumber);
@@ -40,6 +41,14 @@ public class Mapper<TYPE extends Object> {
             } else if (type.equals(int.class)) {
                 int intNumber = (int) field.get(object);
                 value = String.valueOf(intNumber);
+            } else if (field.get(object) == null){
+                value = "null";
+            } else if(type.equals((boolean.class))){
+                value = field.get(object).toString();
+            } else {
+                Class<?> typeField = field.getType();
+                Mapper<?> insideObject = new Mapper<>(typeField);
+                value = insideObject.serialize(field.get(object));
             }
 
             builder.append("\"").append(fieldName).append("\"").append(":").append(value);

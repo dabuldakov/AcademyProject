@@ -1,4 +1,4 @@
-package reflection;
+package reflection.mapper;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

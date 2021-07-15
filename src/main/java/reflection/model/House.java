@@ -1,4 +1,4 @@
-package reflection;
+package reflection.model;
 
 public class House {
     private int id;
