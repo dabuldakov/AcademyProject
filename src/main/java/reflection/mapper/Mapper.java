@@ -149,11 +149,11 @@ public class Mapper<TYPE extends Object> {
                 Class<?> type = field.getType();
 
                 if (type.equals(long.class))
-                    field.set(object, Long.valueOf(strings[1].replace(" ", "")));
+                    field.set(object, Long.valueOf(strings[1]));
                 else if (type.equals(String.class))
-                    field.set(object, strings[1].replace("\"", "").replace("\n", ""));
+                    field.set(object, strings[1].replace("\n", ""));
                 else if (type.equals(int.class)) {
-                    field.set(object, Integer.parseInt(strings[1].replace(" ", "")));
+                    field.set(object, Integer.parseInt(strings[1]));
                 } else if (type.equals(boolean.class)) {
                     field.set(object, (strings[1].equals("true")));
                 } else if (strings[1].equals("null")) {
