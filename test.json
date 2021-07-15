@@ -1,9 +1,20 @@
 {
   "name": "Arnold",
-  "phoneNumber": 555666777
+  "phoneNumber": 555666777,
+  "house": {
+    "id": 5655,
+    "location": "Tomsk city",
+    "selling": true,
+    "reappearing": false,
+    "description": null
+  }
 }
 
+/*
 {
   "id": 5655,
-  "location": "Tomsk city"
-}
+  "location": "Tomsk city",
+  "selling": true,
+  "reappearing": false,
+  "description": null
+}*/
