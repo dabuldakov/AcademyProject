@@ -16,8 +16,8 @@ public class Main {
         house1.setSelling(false);
         person1.setHouse(house1);
 
-        Mapper<Person> personMapper = new Mapper<>(Person.class);
-        String serialize = personMapper.serialize(person1);
+        Mapper personMapper = new Mapper();
+        String serialize = personMapper.serialize(person1, Person.class);
         System.out.println("-----Serialize------");
         System.out.println(serialize);
         Person person2 = (Person) personMapper.deSerialize("{\n" +
@@ -30,19 +30,19 @@ public class Main {
                 "    \"reappearing\": false,\n" +
                 "    \"description\": n\n" +
                 "  }\n" +
-                "}");
+                "}", Person.class);
         System.out.println("-----Deserialize------");
         System.out.println(person2);
 
 
-        Mapper<House> houseMapper = new Mapper<>(House.class);
+        Mapper houseMapper = new Mapper();
         House house = (House) houseMapper.deSerialize("{\n" +
                 "  \"id\": 5655,\n" +
                 "  \"location\": \"Tomsk city\",\n" +
                 "  \"selling\": true,\n" +
                 "  \"reappearing\": false,\n" +
                 "  \"description\": null\n" +
-                "}");
+                "}", House.class);
         System.out.println("-----Deserialize------");
         System.out.println(house);
 

@@ -1,54 +1,49 @@
 package reflection.mapper;
 
+import com.sun.deploy.security.ValidationState;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-public class Mapper<TYPE extends Object> {
+public class Mapper {
 
-    private Class<TYPE> type;
-    Field[] declaredFields;
-    TYPE object;
-    String[] stringsPare = new String[2];
-    Map<String, MapperPare> mapperPareMap;
+    private String[] stringsPare = new String[2];
+    private Field[] declaredFields;
 
-    public Mapper(Class<TYPE> type) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        this.type = type;
-        declaredFields = type.getDeclaredFields();
-        Constructor<TYPE> constructor = this.type.getConstructor();
-        object = constructor.newInstance();
+    public Mapper() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
     }
 
-    public String serialize(Object object) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
+    public String serialize(Object object, Class<?> type) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
+        declaredFields = type.getDeclaredFields();
         StringBuilder builder = new StringBuilder();
         builder.append("{");
         int length = declaredFields.length;
         for (Field field : declaredFields) {
             length--;
-            Class<?> type = field.getType();
+            Class<?> fieldType = field.getType();
             JsonParse annotation = field.getAnnotation(JsonParse.class);
             String fieldName =  (annotation != null) ? annotation.name() : field.getName();
             String value = "";
             field.setAccessible(true);
 
 
-            if (type.equals(long.class)) {
+            if (fieldType.equals(long.class)) {
                 long longNumber = (long) field.get(object);
                 value = String.valueOf(longNumber);
-            } else if (type.equals(String.class)) {
+            } else if (fieldType.equals(String.class)) {
                 value = "\"" + field.get(object) + "\"";
-            } else if (type.equals(int.class)) {
+            } else if (fieldType.equals(int.class)) {
                 int intNumber = (int) field.get(object);
                 value = String.valueOf(intNumber);
             } else if (field.get(object) == null){
                 value = "null";
-            } else if(type.equals((boolean.class))){
+            } else if(fieldType.equals((boolean.class))){
                 value = field.get(object).toString();
             } else {
-                Class<?> typeField = field.getType();
-                Mapper<?> insideObject = new Mapper<>(typeField);
-                value = insideObject.serialize(field.get(object));
+                value = serialize(field.get(object), fieldType);
             }
 
             builder.append("\"").append(fieldName).append("\"").append(":").append(value);
@@ -61,11 +56,14 @@ public class Mapper<TYPE extends Object> {
         return builder.toString();
     }
 
-    public Object deSerialize(String string) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
+    public Object deSerialize(String string, Class<?> type) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
+        declaredFields = type.getDeclaredFields();
         char[] chars = String.valueOf(string).toCharArray();
         boolean passValue = true;
-        for (int i = 0; i < chars.length; i++) {
+        Constructor<?> constructor = type.getConstructor();
+        Object object = constructor.newInstance();
 
+        for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"' && passValue) {
                 passValue = false;
                 StringBuilder builder = new StringBuilder();
@@ -86,7 +84,7 @@ public class Mapper<TYPE extends Object> {
                 }
                 builder.append(chars[i]);
                 stringsPare[1] = builder.toString();
-                addFiledObject(stringsPare);
+                addFiledObject(stringsPare, object);
             } else if (chars[i] == '"' && !passValue) {
                 passValue = true;
                 StringBuilder builder = new StringBuilder();
@@ -96,7 +94,7 @@ public class Mapper<TYPE extends Object> {
                     i++;
                 }
                 stringsPare[1] = builder.toString();
-                addField(stringsPare);
+                addField(stringsPare, object);
             } else if (Character.isDigit(chars[i])) {
                 passValue = true;
                 StringBuilder builder = new StringBuilder();
@@ -105,41 +103,39 @@ public class Mapper<TYPE extends Object> {
                     i++;
                 }
                 stringsPare[1] = builder.toString();
-                addField(stringsPare);
+                addField(stringsPare, object);
             } else if (chars[i] == 'n') {
                 passValue = true;
                 i = i + 4;
                 stringsPare[1] = "null";
-                addField(stringsPare);
+                addField(stringsPare, object);
             } else if (chars[i] == 't') {
                 passValue = true;
                 i = i + 4;
                 stringsPare[1] = "true";
-                addField(stringsPare);
+                addField(stringsPare, object);
             } else if (chars[i] == 'f') {
                 passValue = true;
                 i = i + 4;
                 stringsPare[1] = "false";
-                addField(stringsPare);
+                addField(stringsPare, object);
             }
         }
         return object;
     }
 
-    private void addFiledObject(String[] strings) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private void addFiledObject(String[] strings, Object object) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         for (Field field : declaredFields) {
             if (field.getName().equals(strings[0])) {
                 field.setAccessible(true);
-                Class<?> type = field.getType();
-                Mapper<?> personMapper = new Mapper<>(type);
-                field.set(object, personMapper.deSerialize(strings[1]));
+                field.set(object, deSerialize(strings[1], field.getType()));
             }
             stringsPare = new String[2];
         }
     }
 
 
-    private void addField(String[] strings) throws IllegalAccessException {
+    private void addField(String[] strings, Object object) throws IllegalAccessException {
         for (Field field : declaredFields) {
             JsonParse annotation = field.getAnnotation(JsonParse.class);
             String fieldName = (annotation != null) ? annotation.name() : field.getName();
