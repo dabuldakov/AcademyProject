@@ -12,11 +12,11 @@ public class Mapper {
     private String[] stringsPare = new String[2];
     private Field[] declaredFields;
 
-    public Mapper() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public Mapper() {
 
     }
 
-    public String serialize(Object object, Class<?> type) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
+    public String serialize(Object object, Class<?> type) throws IllegalAccessException {
         declaredFields = type.getDeclaredFields();
         StringBuilder builder = new StringBuilder();
         builder.append("{");
@@ -56,11 +56,11 @@ public class Mapper {
         return builder.toString();
     }
 
-    public Object deSerialize(String string, Class<?> type) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
+    public <T> T deSerialize(String string, Class<T> type) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
         declaredFields = type.getDeclaredFields();
         char[] chars = String.valueOf(string).toCharArray();
         boolean passValue = true;
-        Constructor<?> constructor = type.getConstructor();
+        Constructor<T> constructor = type.getConstructor();
         Object object = constructor.newInstance();
 
         for (int i = 0; i < chars.length; i++) {
@@ -121,7 +121,7 @@ public class Mapper {
                 addField(stringsPare, object);
             }
         }
-        return object;
+        return (T) object;
     }
 
     private void addFiledObject(String[] strings, Object object) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
