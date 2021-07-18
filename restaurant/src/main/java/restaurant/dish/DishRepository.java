@@ -2,6 +2,7 @@ package restaurant.dish;
 
 import org.springframework.stereotype.Component;
 import restaurant.ArrayList;
+import restaurant.DataBase;
 import restaurant.Registration;
 import restaurant.exceptions.NotFoundArrayException;
 
@@ -10,8 +11,8 @@ public class DishRepository implements Registration {
 
     private ArrayList dishArrayList;
 
-    public DishRepository(DishDB dishDB) {
-        dishArrayList = dishDB.getArrayList();
+    public DishRepository(DataBase dishDB) {
+        dishArrayList = dishDB.getMap().get("dishDataBase");
     }
 
     public Dish getByName(String name) throws NotFoundArrayException {

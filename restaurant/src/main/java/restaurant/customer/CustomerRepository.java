@@ -1,8 +1,8 @@
 package restaurant.customer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import restaurant.ArrayList;
+import restaurant.DataBase;
 import restaurant.Registration;
 import restaurant.exceptions.NotFoundArrayException;
 
@@ -10,8 +10,8 @@ import restaurant.exceptions.NotFoundArrayException;
 public class CustomerRepository implements Registration {
     private ArrayList customerArrayList;
 
-    public CustomerRepository(CustomerDB customerDB) {
-        customerArrayList = customerDB.getArrayList();
+    public CustomerRepository(DataBase customerDB) {
+        customerArrayList = customerDB.getMap().get("customerDataBase");
     }
 
     public Customer getByName(String name) throws NotFoundArrayException {

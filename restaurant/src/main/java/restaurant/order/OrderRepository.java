@@ -1,8 +1,8 @@
 package restaurant.order;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import restaurant.ArrayList;
+import restaurant.DataBase;
 import restaurant.Registration;
 import restaurant.customer.Customer;
 
@@ -11,17 +11,13 @@ public class OrderRepository implements Registration {
 
     private ArrayList orderArrayList;
     private int id;
-    private OrderDB orderDB;
 
-    public OrderRepository(OrderDB orderDB) {
-        this.orderArrayList = orderDB.getArrayList();
-        this.id = orderDB.getId();
-        this.orderDB = orderDB;
+    public OrderRepository(DataBase orderDB) {
+        this.orderArrayList = orderDB.getMap().get("orderDataBase");
     }
 
     public Order createOrder(ArrayList dishArrayList, Customer customer){
         id++;
-        orderDB.setId(id);
         Order order = new Order(this);
         order.setOrderStatus(OrderStatus.CREATED);
         order.setCustomer(customer);
@@ -78,13 +74,5 @@ public class OrderRepository implements Registration {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public OrderDB getOrderDB() {
-        return orderDB;
-    }
-
-    public void setOrderDB(OrderDB orderDB) {
-        this.orderDB = orderDB;
     }
 }

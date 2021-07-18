@@ -10,7 +10,6 @@ import restaurant.exceptions.AddArrayException;
 import restaurant.exceptions.NotFoundArrayException;
 import restaurant.kitchen.KitchenService;
 import restaurant.order.Order;
-import restaurant.order.OrderDB;
 import restaurant.order.OrderRepository;
 import restaurant.order.OrderStatus;
 
