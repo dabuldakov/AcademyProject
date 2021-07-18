@@ -110,11 +110,12 @@ public class Main {
 
         customerRepository.add(customer1);
         customerRepository.add(customer2);
+        customerRepository.add(max);
+        customerRepository.getArray().add(max);
         customerRepository.add(customer3);
         customerRepository.add(customer4);
-        customerRepository.add(max);
-        customerRepository.add(anton);
         customerRepository.getArray().add(max);
+        customerRepository.add(anton);
         customerRepository.getArray().add(max);
         customerRepository.getArray().add(max);
     }
