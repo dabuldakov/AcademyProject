@@ -16,12 +16,13 @@ import restaurant.order.OrderStatus;
 public class Main {
 
     public static void main(String[] args) throws NotFoundArrayException, AddArrayException {
+        //SPRING IOC container
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
-
-        //DATABASE
         CustomerRepository customerRepository = context.getBean("customerRepository", CustomerRepository.class);
         DishRepository dishRepository = context.getBean("dishRepository", DishRepository.class);
         OrderRepository orderRepository = context.getBean("orderRepository", OrderRepository.class);
+
+        //CREATE DataBase
         createCustomerDB(context, customerRepository);
         createDishDB(context, dishRepository);
 
