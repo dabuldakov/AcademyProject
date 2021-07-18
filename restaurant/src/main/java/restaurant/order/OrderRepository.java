@@ -6,6 +6,7 @@ import restaurant.ArrayList;
 import restaurant.Registration;
 import restaurant.customer.Customer;
 
+@Component
 public class OrderRepository implements Registration {
 
     private ArrayList orderArrayList;
@@ -19,9 +20,12 @@ public class OrderRepository implements Registration {
     }
 
     public Order createOrder(ArrayList dishArrayList, Customer customer){
-        id = id + 1;
+        id++;
         orderDB.setId(id);
-        Order order = new Order(id, dishArrayList, OrderStatus.CREATED, customer);
+        Order order = new Order(this);
+        order.setOrderStatus(OrderStatus.CREATED);
+        order.setCustomer(customer);
+        order.setDishList(dishArrayList);
         orderArrayList.add(order);
         System.out.println("-----------------------");
         System.out.println("order [" + id + "] added in OrderDB");
@@ -36,13 +40,6 @@ public class OrderRepository implements Registration {
             if(order.getCustomer().equals(customer))
                 arrayList.add(order);
         }
-
-/*        Object[] orders = orderArrayList.getArrayList();
-        for (int i = 0; i < orderArrayList.length(); i++) {
-            Order order = (Order) orders[i];
-            if (order.getCustomer().equals(customer))
-                arrayList.add(orders[i]);
-        }*/
         return arrayList;
     }
 
@@ -54,13 +51,6 @@ public class OrderRepository implements Registration {
             if(order.getOrderStatus().equals(orderStatus))
                 arrayList.add(order);
         }
-        /*
-        Object[] orders = orderArrayList.getArrayList();
-        for (int i = 0; i < orderArrayList.length(); i++) {
-            Order order = (Order) orders[i];
-            if (order.getOrderStatus().equals(orderStatus))
-                arrayList.add(orders[i]);
-        }*/
         return arrayList;
     }
 

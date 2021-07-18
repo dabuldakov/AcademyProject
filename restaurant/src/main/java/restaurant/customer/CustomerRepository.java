@@ -10,7 +10,6 @@ import restaurant.exceptions.NotFoundArrayException;
 public class CustomerRepository implements Registration {
     private ArrayList customerArrayList;
 
-    @Autowired
     public CustomerRepository(CustomerDB customerDB) {
         customerArrayList = customerDB.getArrayList();
     }

@@ -1,5 +1,6 @@
 package restaurant.order;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -9,18 +10,29 @@ import restaurant.customer.Customer;
 
 import java.util.Objects;
 
-//@Component
-//@Scope("prototype")
+@Component
+@Scope("prototype")
 public class Order {
+
     private int id;
     private ArrayList dishList;
     private OrderStatus orderStatus;
     private Customer customer;
 
-    Order(int id, ArrayList dishList, OrderStatus orderStatus, Customer customer) {
-        this.id = id;
+    @Autowired
+    public Order(OrderRepository orderRepository) {
+        this.id = orderRepository.getId();
+    }
+
+    public ArrayList getDishList() {
+        return dishList;
+    }
+
+    public void setDishList(ArrayList dishList) {
         this.dishList = dishList;
-        this.orderStatus = orderStatus;
+    }
+
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 

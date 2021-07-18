@@ -3,6 +3,7 @@ package restaurant.order;
 import org.springframework.stereotype.Component;
 import restaurant.ArrayList;
 
+@Component
 public class OrderDB {
 
     private ArrayList arrayList;

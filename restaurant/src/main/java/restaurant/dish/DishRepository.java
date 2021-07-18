@@ -5,6 +5,7 @@ import restaurant.ArrayList;
 import restaurant.Registration;
 import restaurant.exceptions.NotFoundArrayException;
 
+@Component
 public class DishRepository implements Registration {
 
     private ArrayList dishArrayList;
@@ -20,14 +21,6 @@ public class DishRepository implements Registration {
             if(dish.getName().equals(name))
                 return dish;
         }
-
-/*        Object[] dishes = dishArrayList.getArrayList();
-        for (Object o : dishes) {
-            Dish dish = (Dish) o;
-            if (dish.getName().equals(name)) {
-                return dish;
-            }
-        }*/
         throw new NotFoundArrayException("Name not found in DishDB.");
     }
 

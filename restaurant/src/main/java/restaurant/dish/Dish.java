@@ -1,16 +1,25 @@
 package restaurant.dish;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import restaurant.Constants;
 
 import java.util.Objects;
 
+@Component
+@Scope("prototype")
 public class Dish {
     private String name;
     private int cost;
 
-    Dish(String name, int cost) {
-        this.name = name;
+    public Dish() {
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
         this.cost = cost;
     }
 

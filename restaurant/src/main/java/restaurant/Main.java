@@ -2,10 +2,9 @@ package restaurant;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import restaurant.customer.Customer;
-import restaurant.customer.CustomerDB;
 import restaurant.customer.CustomerRepository;
 import restaurant.delivering.DeliveringService;
-import restaurant.dish.DishDB;
+import restaurant.dish.Dish;
 import restaurant.dish.DishRepository;
 import restaurant.exceptions.AddArrayException;
 import restaurant.exceptions.NotFoundArrayException;
@@ -22,23 +21,18 @@ public class Main {
 
         //DATABASE
         CustomerRepository customerRepository = context.getBean("customerRepository", CustomerRepository.class);
-        createDB(context, customerRepository);
-
-        DishDB dishDB = new DishDB();
-        DishRepository dishRepository = new DishRepository(dishDB);
-        ArrayList dishArrayList = dishDB.createDB();
-
-        OrderDB orderDB = new OrderDB();
-        OrderRepository orderRepository = new OrderRepository(orderDB);
-        ArrayList orderArrayList = orderDB.getArrayList();
+        DishRepository dishRepository = context.getBean("dishRepository", DishRepository.class);
+        OrderRepository orderRepository = context.getBean("orderRepository", OrderRepository.class);
+        createCustomerDB(context, customerRepository);
+        createDishDB(context, dishRepository);
 
         //PRINT
         customerRepository.getArray().print();
-        dishArrayList.print();
-        orderArrayList.print();
+        dishRepository.getArray().print();
+        orderRepository.getArray().print();
 
         //CUSTOMER registration
-        Customer customer = new Customer();
+        Customer customer = context.getBean("customer", Customer.class);
         customer.setName("Vova");
         customer.setPhone(666777);
         customer.setAddress("Kemerovo city, Lenina street 112");
@@ -54,20 +48,20 @@ public class Main {
         orderDish1.add(dishRepository.getByName("Borsh"));
         orderDish1.add(dishRepository.getByName("Bread"));
         Order order1 = orderRepository.createOrder(orderDish1, customerRepository.getByName("Vika"));
-        orderArrayList.print();
+        orderRepository.getArray().print();
 
         //SERVICES
-        KitchenService kitchenService = new KitchenService();
+        Service kitchenService = context.getBean("kitchenService", KitchenService.class);
         kitchenService.run(order1, orderRepository);
-        orderArrayList.print();
+        orderRepository.getArray().print();
         kitchenService.finished(order1, orderRepository);
-        orderArrayList.print();
+        orderRepository.getArray().print();
 
-        DeliveringService deliveringService = new DeliveringService();
+        DeliveringService deliveringService = context.getBean("deliveringService", DeliveringService.class);
         deliveringService.run(order1, orderRepository);
-        orderArrayList.print();
+        orderRepository.getArray().print();
         deliveringService.finished(order1, orderRepository);
-        orderArrayList.print();
+        orderRepository.getArray().print();
 
         //REPORTS
         System.out.println("---REPORTS BY CUSTOMER---");
@@ -80,7 +74,7 @@ public class Main {
 
     }
 
-    private static void createDB(AnnotationConfigApplicationContext context, CustomerRepository customerRepository) throws AddArrayException {
+    private static void createCustomerDB(AnnotationConfigApplicationContext context, CustomerRepository customerRepository) throws AddArrayException {
         Customer customer1 = context.getBean("customer", Customer.class);
         customer1.setName("Jon");
         customer1.setPhone(650333);
@@ -106,6 +100,12 @@ public class Main {
         max.setPhone(666777);
         max.setAddress("Tomsk city, Kartashova street 44");
 
+        Customer max2 = context.getBean("customer", Customer.class);
+        max2.setName("Max");
+        max2.setPhone(666777);
+        max2.setAddress("Tomsk city, Kartashova street 44");
+
+
         Customer anton = context.getBean("customer", Customer.class);
         anton.setName("Anton");
         anton.setPhone(734455);
@@ -117,5 +117,29 @@ public class Main {
         customerRepository.add(customer4);
         customerRepository.add(max);
         customerRepository.add(anton);
+        customerRepository.getArray().add(max2);
+    }
+
+    private static void createDishDB(AnnotationConfigApplicationContext context, DishRepository dishRepository) throws AddArrayException {
+        Dish borsh = context.getBean("dish", Dish.class);
+        borsh.setName("Borsh");
+        borsh.setCost(150);
+        Dish losos = context.getBean("dish", Dish.class);
+        losos.setName("Losos");
+        losos.setCost(270);
+        Dish cake = context.getBean("dish", Dish.class);
+        cake.setName("Cake");
+        cake.setCost(70);
+        Dish juice = context.getBean("dish", Dish.class);
+        juice.setName("Juice");
+        juice.setCost(50);
+        Dish bread = context.getBean("dish", Dish.class);
+        bread.setName("Bread");
+        bread.setCost(5);
+        dishRepository.add(borsh);
+        dishRepository.add(losos);
+        dishRepository.add(cake);
+        dishRepository.add(juice);
+        dishRepository.add(bread);
     }
 }

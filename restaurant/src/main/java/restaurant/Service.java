@@ -1,9 +1,11 @@
 package restaurant;
 
+import org.springframework.stereotype.Component;
 import restaurant.order.Order;
 import restaurant.order.OrderRepository;
 import restaurant.order.OrderStatus;
 
+@Component
 public interface Service {
 
     OrderStatus getStatusStart();
