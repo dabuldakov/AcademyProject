@@ -1,18 +1,28 @@
 package restaurant.dish;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import restaurant.ArrayList;
 import restaurant.DataBase;
 import restaurant.Registration;
 import restaurant.exceptions.NotFoundArrayException;
 
+import javax.annotation.PostConstruct;
+
 @Component
 public class DishRepository implements Registration {
 
     private ArrayList dishArrayList;
 
-    public DishRepository(DataBase dishDB) {
-        dishArrayList = dishDB.getMap().get("dishDataBase");
+    @Autowired
+    DataBase dataBase;
+
+    public DishRepository() {
+    }
+
+    @PostConstruct
+    private void postConstruct() {
+        dishArrayList = dataBase.getMap().get("dishDataBase");
     }
 
     public Dish getByName(String name) throws NotFoundArrayException {

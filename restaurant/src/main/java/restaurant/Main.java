@@ -18,6 +18,7 @@ public class Main {
     public static void main(String[] args) throws NotFoundArrayException, AddArrayException {
         //SPRING IOC container
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+        DataBase dataBase = context.getBean("dataBase", DataBase.class);
         CustomerRepository customerRepository = context.getBean("customerRepository", CustomerRepository.class);
         DishRepository dishRepository = context.getBean("dishRepository", DishRepository.class);
         OrderRepository orderRepository = context.getBean("orderRepository", OrderRepository.class);
@@ -37,6 +38,7 @@ public class Main {
         customer.setPhone(666777);
         customer.setAddress("Kemerovo city, Lenina street 112");
         customerRepository.add(customer);
+        customerRepository.getArray().print();
 
         //CUSTOMER removed
         int remove = customerRepository.getArray().removeAll(customerRepository.getByName("Max"));
@@ -100,11 +102,6 @@ public class Main {
         max.setPhone(666777);
         max.setAddress("Tomsk city, Kartashova street 44");
 
-        Customer max2 = context.getBean("customer", Customer.class);
-        max2.setName("Max");
-        max2.setPhone(666777);
-        max2.setAddress("Tomsk city, Kartashova street 44");
-
 
         Customer anton = context.getBean("customer", Customer.class);
         anton.setName("Anton");
@@ -117,7 +114,9 @@ public class Main {
         customerRepository.add(customer4);
         customerRepository.add(max);
         customerRepository.add(anton);
-        customerRepository.getArray().add(max2);
+        customerRepository.getArray().add(max);
+        customerRepository.getArray().add(max);
+        customerRepository.getArray().add(max);
     }
 
     private static void createDishDB(AnnotationConfigApplicationContext context, DishRepository dishRepository) throws AddArrayException {

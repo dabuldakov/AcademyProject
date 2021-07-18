@@ -1,7 +1,5 @@
 package restaurant;
 
-import org.springframework.stereotype.Component;
-
 public class ArrayList {
 
     private Object[] array;
@@ -91,12 +89,18 @@ public class ArrayList {
 
     public int removeAll(Object o) {
         int offset = 0;
+        boolean flagMany = false;
         for (int i = 0; i < length; i++) {
             if (array[i].equals(o)) {
+                array[i] = null;
                 offset++;
-                array[i] = array[i + offset];
-            } else if (offset > 0) {
-                array[i] = array[i + offset];
+                flagMany = true;
+            } else {
+                if (flagMany || (i == length - 1)) {
+                    array[i - offset] = array[i];
+                    array[i] = null;
+                    flagMany = false;
+                }
             }
         }
         length = length - offset;

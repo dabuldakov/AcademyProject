@@ -1,10 +1,13 @@
 package restaurant.order;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import restaurant.ArrayList;
 import restaurant.DataBase;
 import restaurant.Registration;
 import restaurant.customer.Customer;
+
+import javax.annotation.PostConstruct;
 
 @Component
 public class OrderRepository implements Registration {
@@ -12,11 +15,18 @@ public class OrderRepository implements Registration {
     private ArrayList orderArrayList;
     private int id;
 
-    public OrderRepository(DataBase orderDB) {
-        this.orderArrayList = orderDB.getMap().get("orderDataBase");
+    @Autowired
+    DataBase dataBase;
+
+    public OrderRepository() {
     }
 
-    public Order createOrder(ArrayList dishArrayList, Customer customer){
+    @PostConstruct
+    private void postConstruct() {
+        this.orderArrayList = dataBase.getMap().get("orderDataBase");
+    }
+
+    public Order createOrder(ArrayList dishArrayList, Customer customer) {
         id++;
         Order order = new Order(this);
         order.setOrderStatus(OrderStatus.CREATED);
@@ -33,7 +43,7 @@ public class OrderRepository implements Registration {
 
         for (int i = 0; i < orderArrayList.length(); i++) {
             Order order = (Order) orderArrayList.get(i);
-            if(order.getCustomer().equals(customer))
+            if (order.getCustomer().equals(customer))
                 arrayList.add(order);
         }
         return arrayList;
@@ -44,7 +54,7 @@ public class OrderRepository implements Registration {
 
         for (int i = 0; i < orderArrayList.length(); i++) {
             Order order = (Order) orderArrayList.get(i);
-            if(order.getOrderStatus().equals(orderStatus))
+            if (order.getOrderStatus().equals(orderStatus))
                 arrayList.add(order);
         }
         return arrayList;
