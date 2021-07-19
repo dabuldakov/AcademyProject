@@ -7,6 +7,10 @@
     "selling": true,
     "reappearing": false,
     "description": null
+  },
+  "auto": {
+    "id": "912",
+    "color": "dark"
   }
 }
 

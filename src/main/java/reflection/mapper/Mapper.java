@@ -1,19 +1,21 @@
 package reflection.mapper;
 
-import com.sun.deploy.security.ValidationState;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class Mapper {
 
-    private String[] stringsPare = new String[2];
+
     private Field[] declaredFields;
+    private HashMap<Class<?>, HashMap<String, MetaData>> metaDataHashMap;
+    private HashSet<Class<?>> classHashSet;
 
     public Mapper() {
-
+        metaDataHashMap = new HashMap<>();
+        createTypeMap();
     }
 
     public String serialize(Object object, Class<?> type) throws IllegalAccessException {
@@ -25,10 +27,9 @@ public class Mapper {
             length--;
             Class<?> fieldType = field.getType();
             JsonParse annotation = field.getAnnotation(JsonParse.class);
-            String fieldName =  (annotation != null) ? annotation.name() : field.getName();
-            String value = "";
+            String fieldName = (annotation != null) ? annotation.name() : field.getName();
             field.setAccessible(true);
-
+            String value = "";
 
             if (fieldType.equals(long.class)) {
                 long longNumber = (long) field.get(object);
@@ -38,9 +39,9 @@ public class Mapper {
             } else if (fieldType.equals(int.class)) {
                 int intNumber = (int) field.get(object);
                 value = String.valueOf(intNumber);
-            } else if (field.get(object) == null){
+            } else if (field.get(object) == null) {
                 value = "null";
-            } else if(fieldType.equals((boolean.class))){
+            } else if (fieldType.equals((boolean.class))) {
                 value = field.get(object).toString();
             } else {
                 value = serialize(field.get(object), fieldType);
@@ -62,6 +63,7 @@ public class Mapper {
         boolean passValue = true;
         Constructor<T> constructor = type.getConstructor();
         Object object = constructor.newInstance();
+        String[] stringsPare = new String[2];
 
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == '"' && passValue) {
@@ -85,6 +87,7 @@ public class Mapper {
                 builder.append(chars[i]);
                 stringsPare[1] = builder.toString();
                 addFiledObject(stringsPare, object);
+
             } else if (chars[i] == '"' && !passValue) {
                 passValue = true;
                 StringBuilder builder = new StringBuilder();
@@ -95,6 +98,7 @@ public class Mapper {
                 }
                 stringsPare[1] = builder.toString();
                 addField(stringsPare, object);
+                stringsPare = new String[2];
             } else if (Character.isDigit(chars[i])) {
                 passValue = true;
                 StringBuilder builder = new StringBuilder();
@@ -104,69 +108,93 @@ public class Mapper {
                 }
                 stringsPare[1] = builder.toString();
                 addField(stringsPare, object);
+                stringsPare = new String[2];
             } else if (chars[i] == 'n') {
                 passValue = true;
                 i = i + 4;
                 stringsPare[1] = "null";
                 addField(stringsPare, object);
+                stringsPare = new String[2];
             } else if (chars[i] == 't') {
                 passValue = true;
                 i = i + 4;
                 stringsPare[1] = "true";
                 addField(stringsPare, object);
+                stringsPare = new String[2];
             } else if (chars[i] == 'f') {
                 passValue = true;
                 i = i + 4;
                 stringsPare[1] = "false";
                 addField(stringsPare, object);
+                stringsPare = new String[2];
             }
         }
         return (T) object;
     }
 
-    private void addFiledObject(String[] strings, Object object) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        for (Field field : declaredFields) {
-            if (field.getName().equals(strings[0])) {
-                field.setAccessible(true);
-                field.set(object, deSerialize(strings[1], field.getType()));
-            }
-            stringsPare = new String[2];
-        }
+    private void addFiledObject(String[] stringsPare, Object object) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Class<?> aClass = object.getClass();
+        HashMap<String, MetaData> hashMap = metaDataHashMap.get(aClass);
+        MetaData metaData = hashMap.get(stringsPare[0]);
+        Field field = metaData.getField();
+        field.set(object, deSerialize(stringsPare[1], field.getType()));
     }
 
-
-    private void addField(String[] strings, Object object) throws IllegalAccessException {
-        for (Field field : declaredFields) {
-            JsonParse annotation = field.getAnnotation(JsonParse.class);
-            String fieldName = (annotation != null) ? annotation.name() : field.getName();
-
-            if (fieldName.equals(strings[0])) {
-                field.setAccessible(true);
+    private void addField(String[] stringsPare, Object object) throws IllegalAccessException {
+        Class<?> aClass = object.getClass();
+        HashMap<String, MetaData> hashMap = metaDataHashMap.get(aClass);
+        MetaData metaData = hashMap.get(stringsPare[0]);
+        if (metaData != null) {
+            Field field = metaData.getField();
+            if (field != null) {
                 Class<?> type = field.getType();
-
                 if (type.equals(long.class))
-                    field.set(object, Long.valueOf(strings[1]));
+                    field.set(object, Long.valueOf(stringsPare[1]));
                 else if (type.equals(String.class))
-                    field.set(object, strings[1].replace("\n", ""));
+                    field.set(object, stringsPare[1].replace("\n", ""));
                 else if (type.equals(int.class)) {
-                    field.set(object, Integer.parseInt(strings[1]));
+                    field.set(object, Integer.parseInt(stringsPare[1]));
                 } else if (type.equals(boolean.class)) {
-                    field.set(object, (strings[1].equals("true")));
-                } else if (strings[1].equals("null")) {
+                    field.set(object, (stringsPare[1].equals("true")));
+                } else if (stringsPare[1].equals("null")) {
                     field.set(object, null);
                 }
             }
         }
-        stringsPare = new String[2];
     }
 
-    class MapperPare{
+    public void addMetaData(Class<?> type) {
+        if (metaDataHashMap.get(type) == null) {
+            Field[] declaredFields = type.getDeclaredFields();
+            HashMap<String, MetaData> hashMap = new HashMap<>();
+            for (Field field : declaredFields) {
+                JsonParse annotation = field.getAnnotation(JsonParse.class);
+                String fieldName = (annotation != null) ? annotation.name() : field.getName();
+                MetaData metaData = new MetaData();
+                field.setAccessible(true);
+                metaData.setField(field);
+                metaData.setFieldType(field.getType());
+                hashMap.put(fieldName, metaData);
+                metaDataHashMap.put(type, hashMap);
+                if (!classHashSet.contains(field.getType())) {
+                    addMetaData(field.getType());
+                }
+            }
+        }
+    }
+
+    private void createTypeMap() {
+        classHashSet = new HashSet<>();
+        classHashSet.add(long.class);
+        classHashSet.add(String.class);
+        classHashSet.add(int.class);
+        classHashSet.add(boolean.class);
+    }
+
+    private class MetaData {
 
         private Field field;
-
-        public MapperPare(Field field, String type) {
-            this.field = field;
-        }
+        private Class<?> fieldType;
 
         public Field getField() {
             return field;
@@ -175,5 +203,14 @@ public class Mapper {
         public void setField(Field field) {
             this.field = field;
         }
+
+        public Class<?> getFieldType() {
+            return fieldType;
+        }
+
+        public void setFieldType(Class<?> fieldType) {
+            this.fieldType = fieldType;
+        }
     }
+
 }
