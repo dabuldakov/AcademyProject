@@ -26,7 +26,7 @@ public class Main {
         System.out.println(serialize);
         Person person2 = mapper.deSerialize("{\n" +
                 "  \"name\": \"Arnold\",\n" +
-                "  \"phoneNumber\": 555666777,\n" +
+                "  \"telephone\": 555666777,\n" +
                 "  \"house\": {\n" +
                 "    \"id\": 5655,\n" +
                 "    \"location\": \"Tomsk city\",\n" +

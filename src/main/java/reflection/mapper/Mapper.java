@@ -86,8 +86,7 @@ public class Mapper {
                 }
                 builder.append(chars[i]);
                 stringsPare[1] = builder.toString();
-                addFiledObject(stringsPare, object);
-
+                addField(stringsPare, object);
             } else if (chars[i] == '"' && !passValue) {
                 passValue = true;
                 StringBuilder builder = new StringBuilder();
@@ -132,15 +131,7 @@ public class Mapper {
         return (T) object;
     }
 
-    private void addFiledObject(String[] stringsPare, Object object) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Class<?> aClass = object.getClass();
-        HashMap<String, MetaData> hashMap = metaDataHashMap.get(aClass);
-        MetaData metaData = hashMap.get(stringsPare[0]);
-        Field field = metaData.getField();
-        field.set(object, deSerialize(stringsPare[1], field.getType()));
-    }
-
-    private void addField(String[] stringsPare, Object object) throws IllegalAccessException {
+    private void addField(String[] stringsPare, Object object) throws IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {
         Class<?> aClass = object.getClass();
         HashMap<String, MetaData> hashMap = metaDataHashMap.get(aClass);
         MetaData metaData = hashMap.get(stringsPare[0]);
@@ -158,6 +149,9 @@ public class Mapper {
                     field.set(object, (stringsPare[1].equals("true")));
                 } else if (stringsPare[1].equals("null")) {
                     field.set(object, null);
+                } else {
+                    // TODO: 7/19/2021 can down on not recognize type
+                    field.set(object, deSerialize(stringsPare[1], field.getType()));
                 }
             }
         }
