@@ -7,6 +7,7 @@ public class Person {
     @JsonParse(name = "telephone")
     private long phoneNumber;
     private House house;
+    private Auto auto;
 
     public Person(String name, long phoneNumber) {
         this.name = name;
@@ -40,12 +41,21 @@ public class Person {
         this.house = house;
     }
 
+    public Auto getAuto() {
+        return auto;
+    }
+
+    public void setAuto(Auto auto) {
+        this.auto = auto;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", house=" + house +
+                ", auto=" + auto +
                 '}';
     }
 }
