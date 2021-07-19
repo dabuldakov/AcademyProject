@@ -30,15 +30,6 @@ public class Main {
         //PRINT
         customerRepository.getArray().print();
         dishRepository.getArray().print();
-        orderRepository.getArray().print();
-
-        //CUSTOMER registration
-        Customer customer = context.getBean("customer", Customer.class);
-        customer.setName("Vova");
-        customer.setPhone(666777);
-        customer.setAddress("Kemerovo city, Lenina street 112");
-        customerRepository.add(customer);
-        customerRepository.getArray().print();
 
         //CUSTOMER removed
         int remove = customerRepository.getArray().removeAll(customerRepository.getByName("Max"));
@@ -108,9 +99,15 @@ public class Main {
         anton.setPhone(734455);
         anton.setAddress("Krasnodar city, Lesnaya street 98");
 
+        Customer vova = context.getBean("customer", Customer.class);
+        vova.setName("Vova");
+        vova.setPhone(666777);
+        vova.setAddress("Kemerovo city, Lenina street 112");
+
+        customerRepository.add(max);
         customerRepository.add(customer1);
         customerRepository.add(customer2);
-        customerRepository.add(max);
+        customerRepository.getArray().add(max);
         customerRepository.getArray().add(max);
         customerRepository.add(customer3);
         customerRepository.add(customer4);
@@ -118,6 +115,7 @@ public class Main {
         customerRepository.add(anton);
         customerRepository.getArray().add(max);
         customerRepository.getArray().add(max);
+        customerRepository.add(vova);
     }
 
     private static void createDishDB(AnnotationConfigApplicationContext context, DishRepository dishRepository) throws AddArrayException {
