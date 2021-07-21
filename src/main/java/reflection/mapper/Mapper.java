@@ -8,7 +8,6 @@ import java.util.HashSet;
 
 public class Mapper {
 
-
     private Field[] declaredFields;
     private HashMap<Class<?>, HashMap<String, MetaData>> metaDataHashMap;
     private HashSet<Class<?>> classHashSet;
