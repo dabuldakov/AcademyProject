@@ -15,7 +15,6 @@ public class PersonDAO {
     public PersonDAO() {
     }
 
-
     public Person getPersonById(int id) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.GET_PERSON_BY_ID)) {
@@ -40,7 +39,7 @@ public class PersonDAO {
         return null;
     }
 
-    public void createPerson(Person person) {
+    public void insertPerson(Person person) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.INSERT_PERSON, RETURN_GENERATED_KEYS)) {
             connection.setSchema("publisher");
@@ -51,6 +50,31 @@ public class PersonDAO {
             statement.execute();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
+                person.setId(resultSet.getInt(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertPersons(ArrayList<Person> list) {
+        try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(Constants.INSERT_PERSON, RETURN_GENERATED_KEYS)) {
+            connection.setSchema("publisher");
+            connection.setAutoCommit(false);
+
+            for (Person person : list) {
+                statement.setString(1, person.getFirstName());
+                statement.setString(2, person.getSecondName());
+                statement.setDate(3, Date.valueOf(Constants.DATE_FORMAT.format(person.getBirthday())));
+                statement.setInt(4, person.getDepartment().getId());
+                statement.addBatch();
+            }
+            statement.executeBatch();
+            connection.commit();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            for (Person person : list) {
+                resultSet.next();
                 person.setId(resultSet.getInt(1));
             }
         } catch (Exception e) {
@@ -71,6 +95,24 @@ public class PersonDAO {
         return false;
     }
 
+    public boolean deletePersons(ArrayList<Person> list) {
+        try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(Constants.DELETE_PERSON)) {
+            connection.setSchema("publisher");
+            connection.setAutoCommit(false);
+            for (Person person : list) {
+                statement.setInt(1, person.getId());
+                statement.addBatch();
+            }
+            statement.executeBatch();
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void updatePerson(Person person) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.UPDATE_PERSON)) {
@@ -83,31 +125,6 @@ public class PersonDAO {
             statement.execute();
             Person personById = getPersonById(person.getId());
             System.out.println("Updated practice.person: " + personById);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void createPersons(ArrayList<Person> list) {
-        try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(Constants.INSERT_PERSON, RETURN_GENERATED_KEYS)) {
-            connection.setSchema("publisher");
-            connection.setAutoCommit(false);
-
-            for (Person person : list) {
-                statement.setString(1, person.getFirstName());
-                statement.setString(2, person.getSecondName());
-                statement.setDate(3, Date.valueOf(Constants.DATE_FORMAT.format(person.getBirthday())));
-                statement.setInt(4, person.getDepartment().getId());
-                statement.addBatch();
-            }
-            statement.executeBatch();
-            connection.commit();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            for (Person person : list) {
-                resultSet.next();
-                person.setId(resultSet.getInt(1));
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

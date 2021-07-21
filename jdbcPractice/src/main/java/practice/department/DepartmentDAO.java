@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
@@ -50,12 +51,53 @@ public class DepartmentDAO {
         }
     }
 
+    public void createDepartments(ArrayList<Department> list){
+        try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(Constants.INSERT_DEPARTMENT, RETURN_GENERATED_KEYS)) {
+            connection.setSchema("publisher");
+            connection.setAutoCommit(false);
+
+            for (Department department : list) {
+                statement.setString(1, department.getName());
+                statement.addBatch();
+            }
+            statement.executeBatch();
+            connection.commit();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            for (Department department : list) {
+                resultSet.next();
+                department.setId(resultSet.getInt(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean deleteDepartment(int id) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.DELETE_DEPARTMENT)) {
             connection.setSchema("publisher");
             statement.setInt(1, id);
             statement.execute();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteDepartments(ArrayList<Department> list) {
+        try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(Constants.DELETE_DEPARTMENT)) {
+            connection.setSchema("publisher");
+            connection.setAutoCommit(false);
+
+            for (Department department : list) {
+                statement.setInt(1, department.getId());
+                statement.addBatch();
+            }
+            statement.executeBatch();
+            connection.commit();
             return true;
         } catch (Exception e) {
             e.printStackTrace();

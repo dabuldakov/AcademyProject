@@ -14,6 +14,31 @@ public class Main {
     public static void main(String[] args) throws ParseException {
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+//        insertPersons();
+//        insertDepartments();
+//        deletePersons();
+        deleteDepartments();
+
+
+    }
+
+    private static void insertDepartments(){
+        int count = 0;
+        ArrayList<Department> list = new ArrayList<>();
+
+        while (count < 10) {
+            Department department = new Department();
+            department.setName("new department " + count);
+            list.add(department);
+            count++;
+        }
+
+        DepartmentDAO departmentDAO = new DepartmentDAO();
+        departmentDAO.createDepartments(list);
+        System.out.println(list);
+    }
+
+    private static void insertPersons() throws ParseException {
         PersonDAO personDAO = new PersonDAO();
         Department department = new Department();
         department.setName("New name");
@@ -50,7 +75,32 @@ public class Main {
         list.add(person1);
         list.add(person2);
         list.add(person3);
-        personDAO.createPersons(list);
+        personDAO.insertPersons(list);
         System.out.println(list);
+    }
+
+    private static void deletePersons(){
+        PersonDAO personDAO = new PersonDAO();
+        ArrayList<Person> list = new ArrayList<>();
+
+        for (int i = 16; i < 60; i++) {
+            Person person = new Person();
+            person.setId(i);
+            list.add(person);
+        }
+        boolean b = personDAO.deletePersons(list);
+        System.out.println(b);
+    }
+    
+    private static void deleteDepartments(){
+        DepartmentDAO departmentDAO = new DepartmentDAO();
+        ArrayList<Department> list = new ArrayList<>();
+        for (int i = 14; i < 30; i++) {
+            Department department = new Department();
+            department.setId(i);
+            list.add(department);
+        }
+        boolean b = departmentDAO.deleteDepartments(list);
+        System.out.println(b);
     }
 }
