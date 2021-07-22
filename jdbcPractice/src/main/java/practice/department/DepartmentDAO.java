@@ -2,6 +2,7 @@ package practice.department;
 
 import org.springframework.stereotype.Component;
 import practice.Constants;
+import practice.person.Person;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -117,5 +118,32 @@ public class DepartmentDAO {
             e.printStackTrace();
         }
     }
+
+    public ArrayList<Department> updateDepartments(ArrayList<Department> list) {
+        ArrayList<Department> listReturn = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(Constants.UPDATE_DEPARTMENT)) {
+            connection.setSchema("publisher");
+            connection.setAutoCommit(false);
+
+            for (Department department : list) {
+                statement.setString(1, department.getName());
+                statement.setInt(2, department.getId());
+                statement.addBatch();
+            }
+            int[] updatedList = statement.executeBatch();
+            connection.commit();
+            int count = 0;
+            for (Department department : list) {
+                if (updatedList[count] == 1){
+                    listReturn.add(department);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listReturn;
+    }
+
 
 }

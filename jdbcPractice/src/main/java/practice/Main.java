@@ -8,6 +8,7 @@ import practice.person.PersonDAO;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 
@@ -17,9 +18,45 @@ public class Main {
 //        insertPersons();
 //        insertDepartments();
 //        deletePersons();
-        deleteDepartments();
+//        deleteDepartments();
+        updatePersons();
 
 
+    }
+
+    private static void updatePersons() throws ParseException {
+        Department department = new Department();
+        department.setId(1);
+        ArrayList<Person> list = new ArrayList<>();
+        for (int i = 65; i < 70; i++) {
+            Person person = new Person();
+            person.setId(i);
+            person.setFirstName("Oleg updated again " + i);
+            person.setSecondName("Pchelintsev");
+            person.setBirthday(Constants.DATE_FORMAT.parse("1983-02-14"));
+            person.setDepartment(department);
+            list.add(person);
+        }
+        PersonDAO personDAO = new PersonDAO();
+        personDAO.updatePersons(list).forEach(System.out::println);
+    }
+
+    private static void insertPersons() throws ParseException {
+        Department department = new Department();
+        department.setId(2);
+
+        ArrayList<Person> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Person person = new Person();
+            person.setFirstName("Oleg " + i);
+            person.setSecondName("Pchelintsev");
+            person.setBirthday(Constants.DATE_FORMAT.parse("1983-02-14"));
+            person.setDepartment(department);
+            list.add(person);
+        }
+        PersonDAO personDAO = new PersonDAO();
+        personDAO.insertPersons(list);
+        list.forEach(System.out::println);
     }
 
     private static void insertDepartments(){
@@ -35,48 +72,7 @@ public class Main {
 
         DepartmentDAO departmentDAO = new DepartmentDAO();
         departmentDAO.createDepartments(list);
-        System.out.println(list);
-    }
-
-    private static void insertPersons() throws ParseException {
-        PersonDAO personDAO = new PersonDAO();
-        Department department = new Department();
-        department.setName("New name");
-        department.setId(13);
-        DepartmentDAO departmentDAO = new DepartmentDAO();
-        departmentDAO.updateDepartment(department);
-
-        Person person = new Person();
-        person.setFirstName("Oleg");
-        person.setSecondName("Pchelintsev");
-        person.setBirthday(Constants.DATE_FORMAT.parse("1983-02-14"));
-        person.setDepartment(department);
-
-        Person person1 = new Person();
-        person1.setFirstName("Oleg 1");
-        person1.setSecondName("Pchelintsev");
-        person1.setBirthday(Constants.DATE_FORMAT.parse("1983-03-14"));
-        person1.setDepartment(department);
-
-        Person person2 = new Person();
-        person2.setFirstName("Oleg 2");
-        person2.setSecondName("Pchelintsev");
-        person2.setBirthday(Constants.DATE_FORMAT.parse("1983-04-14"));
-        person2.setDepartment(department);
-
-        Person person3 = new Person();
-        person3.setFirstName("Oleg 3");
-        person3.setSecondName("Pchelintsev");
-        person3.setBirthday(Constants.DATE_FORMAT.parse("1983-05-14"));
-        person3.setDepartment(department);
-
-        ArrayList<Person> list = new ArrayList<>();
-        list.add(person);
-        list.add(person1);
-        list.add(person2);
-        list.add(person3);
-        personDAO.insertPersons(list);
-        System.out.println(list);
+        list.forEach(System.out::println);
     }
 
     private static void deletePersons(){

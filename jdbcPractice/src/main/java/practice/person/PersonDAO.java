@@ -129,4 +129,33 @@ public class PersonDAO {
             e.printStackTrace();
         }
     }
+
+    public ArrayList<Person> updatePersons(ArrayList<Person> list) {
+        ArrayList<Person> listReturn = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(Constants.UPDATE_PERSON)) {
+            connection.setSchema("publisher");
+            connection.setAutoCommit(false);
+
+            for (Person person : list) {
+                statement.setString(1, person.getFirstName());
+                statement.setString(2, person.getSecondName());
+                statement.setDate(3, Date.valueOf(Constants.DATE_FORMAT.format(person.getBirthday())));
+                statement.setInt(4, person.getDepartment().getId());
+                statement.setInt(5, person.getId());
+                statement.addBatch();
+            }
+            int[] updatedList = statement.executeBatch();
+            connection.commit();
+            int count = 0;
+            for (Person person : list) {
+                if (updatedList[count] == 1){
+                    listReturn.add(person);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listReturn;
+    }
 }
