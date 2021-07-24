@@ -1,4 +1,6 @@
-package practice;
+package practice.person;
+
+import practice.department.Department;
 
 import javax.persistence.*;
 import java.util.Date;

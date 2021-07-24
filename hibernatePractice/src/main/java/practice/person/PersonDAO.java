@@ -1,18 +1,30 @@
-package practice;
+package practice.person;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import practice.utils.HibernateSessionFactoryUtil;
 
 import javax.persistence.OptimisticLockException;
 
+@Component
 public class PersonDAO {
 
+    SessionFactory sessionFactory;
+
+    @Autowired
+    public PersonDAO(HibernateSessionFactoryUtil hibernateSessionFactoryUtil) {
+        this.sessionFactory = hibernateSessionFactoryUtil.getSessionFactory();
+    }
+
     public Person findPerson(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Person.class, id);
+        return sessionFactory.openSession().get(Person.class, id);
     }
 
     public Person updatePerson(Person person) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(person);
         transaction.commit();
@@ -20,7 +32,7 @@ public class PersonDAO {
     }
 
     public boolean deletePerson(Person person) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(person);
         try {
@@ -32,7 +44,7 @@ public class PersonDAO {
     }
 
     public boolean savePerson(Person person) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(person);
         try {
