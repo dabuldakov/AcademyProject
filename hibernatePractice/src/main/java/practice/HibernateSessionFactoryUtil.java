@@ -10,18 +10,19 @@ public class HibernateSessionFactoryUtil {
     public HibernateSessionFactoryUtil() {
     }
 
-    public static SessionFactory getSessionFactory(){
-        if(sessionFactory == null){
-            try{
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            try {
                 Configuration configuration = new Configuration().configure();
                 configuration.addAnnotatedClass(Person.class);
                 configuration.addAnnotatedClass(Department.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return sessionFactory;
     }
+
 }

@@ -2,7 +2,6 @@ package practice.department;
 
 import org.springframework.stereotype.Component;
 import practice.Constants;
-import practice.person.Person;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +13,6 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @Component
 public class DepartmentDAO {
-
 
     public DepartmentDAO() {
     }
@@ -52,7 +50,7 @@ public class DepartmentDAO {
         }
     }
 
-    public void createDepartments(ArrayList<Department> list){
+    public void createDepartments(ArrayList<Department> list) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.INSERT_DEPARTMENT, RETURN_GENERATED_KEYS)) {
             connection.setSchema("publisher");
@@ -135,7 +133,7 @@ public class DepartmentDAO {
             connection.commit();
             int count = 0;
             for (Department department : list) {
-                if (updatedList[count] == 1){
+                if (updatedList[count] == 1) {
                     listReturn.add(department);
                 }
             }

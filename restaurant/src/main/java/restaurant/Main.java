@@ -18,7 +18,6 @@ public class Main {
     public static void main(String[] args) throws NotFoundArrayException, AddArrayException {
         //SPRING IOC container
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
-        DataBase dataBase = context.getBean("dataBase", DataBase.class);
         CustomerRepository customerRepository = context.getBean("customerRepository", CustomerRepository.class);
         DishRepository dishRepository = context.getBean("dishRepository", DishRepository.class);
         OrderRepository orderRepository = context.getBean("orderRepository", OrderRepository.class);

@@ -16,14 +16,8 @@ public class OrderRepository implements Registration {
     private int id;
 
     @Autowired
-    DataBase dataBase;
-
-    public OrderRepository() {
-    }
-
-    @PostConstruct
-    private void postConstruct() {
-        this.orderArrayList = dataBase.getMap().get("orderDataBase");
+    public OrderRepository(DataBase dataBase) {
+        orderArrayList = dataBase.getMap().get("orderDataBase");
     }
 
     public Order createOrder(ArrayList dishArrayList, Customer customer) {

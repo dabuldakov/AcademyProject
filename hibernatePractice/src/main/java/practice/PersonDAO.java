@@ -1,10 +1,7 @@
 package practice;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
-import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import javax.persistence.OptimisticLockException;
 
@@ -28,19 +25,19 @@ public class PersonDAO {
         session.delete(person);
         try {
             transaction.commit();
-        }catch (OptimisticLockException e){
+        } catch (OptimisticLockException e) {
             return false;
         }
         return true;
     }
 
-    public boolean savePerson(Person person){
+    public boolean savePerson(Person person) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.save(person);
         try {
             transaction.commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
