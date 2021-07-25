@@ -20,8 +20,6 @@ public class PersonService {
     private PersonRepository personRepository;
     private final PersonDAO personDAO;
 
-
-
     public PersonService(@Qualifier("personDAOJpa")PersonDAO personDAO) {
         this.personDAO = personDAO;
     }
