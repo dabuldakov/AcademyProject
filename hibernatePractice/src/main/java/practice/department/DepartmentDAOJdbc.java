@@ -2,6 +2,8 @@ package practice.department;
 
 import org.springframework.stereotype.Component;
 import practice.Constants;
+import practice.department.Department;
+import practice.person.Person;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,12 +14,12 @@ import java.util.ArrayList;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @Component
-public class DepartmentDAO {
+public class DepartmentDAOJdbc implements DepartmentDAO{
 
-    public DepartmentDAO() {
+    public DepartmentDAOJdbc() {
     }
 
-    public Department getDepartmentById(int id) {
+    public Department find(int id) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.GET_DEPARTMENT_BY_ID)) {
             connection.setSchema("publisher");
@@ -35,7 +37,7 @@ public class DepartmentDAO {
         return null;
     }
 
-    public void createDepartment(Department department) {
+    public Department create(Department department) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.INSERT_DEPARTMENT, RETURN_GENERATED_KEYS)) {
             connection.setSchema("publisher");
@@ -45,12 +47,14 @@ public class DepartmentDAO {
             if (resultSet.next()) {
                 department.setId(resultSet.getInt(1));
             }
+            return department;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    public void createDepartments(ArrayList<Department> list) {
+    public void createList(ArrayList<Department> list) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.INSERT_DEPARTMENT, RETURN_GENERATED_KEYS)) {
             connection.setSchema("publisher");
@@ -72,11 +76,11 @@ public class DepartmentDAO {
         }
     }
 
-    public boolean deleteDepartment(int id) {
+    public boolean delete(Department department) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.DELETE_DEPARTMENT)) {
             connection.setSchema("publisher");
-            statement.setInt(1, id);
+            statement.setInt(1, department.getId());
             statement.execute();
             return true;
         } catch (Exception e) {
@@ -85,7 +89,8 @@ public class DepartmentDAO {
         return false;
     }
 
-    public boolean deleteDepartments(ArrayList<Department> list) {
+    public ArrayList<Department> deleteList(ArrayList<Department> list) {
+        ArrayList<Department> listReturn = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.DELETE_DEPARTMENT)) {
             connection.setSchema("publisher");
@@ -95,29 +100,36 @@ public class DepartmentDAO {
                 statement.setInt(1, department.getId());
                 statement.addBatch();
             }
-            statement.executeBatch();
+            int[] ints = statement.executeBatch();
+            int count = 0;
+            for (Department department : list) {
+                if (ints[count] == 1){
+                    listReturn.add(department);
+                }
+            }
             connection.commit();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return listReturn;
     }
 
-    public void updateDepartment(Department department) {
+    public boolean update(Department department) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.UPDATE_DEPARTMENT)) {
             connection.setSchema("publisher");
             statement.setString(1, department.getName());
             statement.setInt(2, department.getId());
             statement.execute();
-            getDepartmentById(department.getId());
+            find(department.getId());
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public ArrayList<Department> updateDepartments(ArrayList<Department> list) {
+    public ArrayList<Department> updateList(ArrayList<Department> list) {
         ArrayList<Department> listReturn = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.UPDATE_DEPARTMENT)) {
@@ -143,5 +155,14 @@ public class DepartmentDAO {
         return listReturn;
     }
 
+    public ArrayList<Department> getAllWithFetchSize(){
+
+        return null;
+    }
+
+    public ArrayList<Department> getAllWithOutFetchSize(){
+
+        return null;
+    }
 
 }

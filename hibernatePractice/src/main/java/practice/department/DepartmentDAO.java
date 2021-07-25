@@ -1,16 +1,23 @@
 package practice.department;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import practice.utils.HibernateSessionFactoryUtil;
+
+import java.util.ArrayList;
 
 @Component
-public class DepartmentDAO {
-    SessionFactory sessionFactory;
+public interface DepartmentDAO {
+    public Department find(int id);
 
-    @Autowired
-    public DepartmentDAO(HibernateSessionFactoryUtil hibernateSessionFactoryUtil) {
-        this.sessionFactory = hibernateSessionFactoryUtil.getSessionFactory();
-    }
+    public boolean update(Department department);
+
+    public ArrayList<Department> updateList(ArrayList<Department> list);
+
+    public Department create(Department department);
+
+    public void createList(ArrayList<Department> list);
+
+    public boolean delete(Department department);
+
+    public ArrayList<Department> deleteList(ArrayList<Department> list);
 }

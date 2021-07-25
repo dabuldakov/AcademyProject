@@ -1,8 +1,9 @@
 package practice.person;
 
+import org.springframework.stereotype.Component;
 import practice.Constants;
 import practice.department.Department;
-import org.springframework.stereotype.Component;
+import practice.person.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,12 +11,12 @@ import java.util.ArrayList;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @Component
-public class PersonDAO {
+public class PersonDAOJdbc implements PersonDAO{
 
-    public PersonDAO() {
+    public PersonDAOJdbc() {
     }
 
-    public Person getPersonById(int id) {
+    public Person find(int id) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.GET_PERSON_BY_ID)) {
             connection.setSchema("publisher");
@@ -39,7 +40,7 @@ public class PersonDAO {
         return null;
     }
 
-    public void insertPerson(Person person) {
+    public Person create(Person person) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.INSERT_PERSON, RETURN_GENERATED_KEYS)) {
             connection.setSchema("publisher");
@@ -52,12 +53,14 @@ public class PersonDAO {
             if (resultSet.next()) {
                 person.setId(resultSet.getInt(1));
             }
+            return person;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    public void insertPersons(ArrayList<Person> list) {
+    public ArrayList<Person> createList(ArrayList<Person> list) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.INSERT_PERSON, RETURN_GENERATED_KEYS)) {
             connection.setSchema("publisher");
@@ -77,16 +80,18 @@ public class PersonDAO {
                 resultSet.next();
                 person.setId(resultSet.getInt(1));
             }
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    public boolean deletePerson(int id) {
+    public boolean delete(Person person) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.DELETE_PERSON)) {
             connection.setSchema("publisher");
-            statement.setInt(1, id);
+            statement.setInt(1, person.getId());
             statement.execute();
             return true;
         } catch (Exception e) {
@@ -95,7 +100,8 @@ public class PersonDAO {
         return false;
     }
 
-    public boolean deletePersons(ArrayList<Person> list) {
+    public ArrayList<Person> deleteList(ArrayList<Person> list) {
+        ArrayList<Person> listReturn = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.DELETE_PERSON)) {
             connection.setSchema("publisher");
@@ -104,16 +110,22 @@ public class PersonDAO {
                 statement.setInt(1, person.getId());
                 statement.addBatch();
             }
-            statement.executeBatch();
+            int[] ints = statement.executeBatch();
+            int count = 0;
+            for (Person person : list) {
+                if (ints[count] == 1){
+                    listReturn.add(person);
+                }
+            }
             connection.commit();
-            return true;
+
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
+        return listReturn;
     }
 
-    public void updatePerson(Person person) {
+    public boolean update(Person person) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.UPDATE_PERSON)) {
             connection.setSchema("publisher");
@@ -123,14 +135,14 @@ public class PersonDAO {
             statement.setInt(4, person.getDepartment().getId());
             statement.setInt(5, person.getId());
             statement.execute();
-            Person personById = getPersonById(person.getId());
-            System.out.println("Updated practice.person: " + personById);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public ArrayList<Person> updatePersons(ArrayList<Person> list) {
+    public ArrayList<Person> updateList(ArrayList<Person> list) {
         ArrayList<Person> listReturn = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.UPDATE_PERSON)) {
@@ -157,5 +169,15 @@ public class PersonDAO {
             e.printStackTrace();
         }
         return listReturn;
+    }
+
+    public ArrayList<Person> getAllWithFetchSize(){
+
+        return null;
+    }
+
+    public ArrayList<Person> getAllWithOutFetchSize(){
+
+        return null;
     }
 }
