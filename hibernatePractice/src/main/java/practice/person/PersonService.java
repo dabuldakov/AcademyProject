@@ -3,6 +3,8 @@ package practice.person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import practice.Constants;
 import practice.department.Department;
 
@@ -11,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-@Component
+@Service
 public class PersonService {
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
@@ -46,8 +48,26 @@ public class PersonService {
         System.out.println("by name: " + personRepository.findByFirstName("Natasha"));
     }
 
+    private void createPersons() throws ParseException {
+        Department department = new Department();
+        department.setId(2);
+
+        ArrayList<Person> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Person person = new Person();
+            person.setFirstName("Oleg " + i);
+            person.setSecondName("Pchelintsev");
+            person.setBirthday(Constants.DATE_FORMAT.parse("1983-02-14"));
+            person.setDepartment(department);
+            list.add(person);
+        }
+        personDAO.createList(list);
+        list.forEach(System.out::println);
+    }
+
     public void updatePerson(){
         Person person = new Person();
+        person.setId(81);
         person.setFirstName("Updated firstName");
         person.setSecondName("Updated secondName");
         try {
@@ -59,8 +79,9 @@ public class PersonService {
         department.setId(1);
         department.setName("Java developers department");
         person.setDepartment(department);
-        personDAO.update(person);
-        System.out.println("Updated person: " + personDAO.find(person.getId()));
+        boolean update = personDAO.update(person);
+        System.out.println("Updated: " + update);
+        System.out.println("Updated person: " + personRepository.findById(person.getId()));
     }
 
     private void updatePersons() throws ParseException {
@@ -79,30 +100,11 @@ public class PersonService {
         personDAO.updateList(list);
     }
 
-    public void deletePerson(int id){
+    public void deletePerson(){
         Person person = new Person();
-        person.setId(id);
+        person.setId(82);
         personDAO.delete(person);
         System.out.println("Deleted person: " + person);
-    }
-
-
-
-    private void insertPersons() throws ParseException {
-        Department department = new Department();
-        department.setId(2);
-
-        ArrayList<Person> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Person person = new Person();
-            person.setFirstName("Oleg " + i);
-            person.setSecondName("Pchelintsev");
-            person.setBirthday(Constants.DATE_FORMAT.parse("1983-02-14"));
-            person.setDepartment(department);
-            list.add(person);
-        }
-        personDAO.createList(list);
-        list.forEach(System.out::println);
     }
 
     private void deletePersons() {

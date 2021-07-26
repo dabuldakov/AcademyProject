@@ -21,7 +21,14 @@ public class PersonDAOJpa implements PersonDAO{
 
     @Override
     public boolean update(Person person) {
-        return false;
+        try {
+            entityManager.merge(person);
+            return true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -42,7 +49,14 @@ public class PersonDAOJpa implements PersonDAO{
 
     @Override
     public boolean delete(Person person) {
-        return false;
+        try{
+            Person person1 = entityManager.find(Person.class, person.getId());
+            entityManager.remove(person1);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

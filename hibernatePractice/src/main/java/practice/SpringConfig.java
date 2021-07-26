@@ -71,7 +71,7 @@ public class SpringConfig {
     }
 
     @Bean
-    public JpaTransactionManager jpaTransactionManager(EntityManagerFactory entityManagerFactory) {
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
         return jpaTransactionManager;
