@@ -7,6 +7,7 @@ import practice.person.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
@@ -123,6 +124,11 @@ public class PersonDAOJdbc implements PersonDAO{
             e.printStackTrace();
         }
         return listReturn;
+    }
+
+    @Override
+    public List<Person> getAllByFirstName() {
+        return null;
     }
 
     public boolean update(Person person) {

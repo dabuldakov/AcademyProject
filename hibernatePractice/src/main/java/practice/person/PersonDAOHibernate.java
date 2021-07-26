@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.OptimisticLockException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class PersonDAOHibernate implements PersonDAO {
@@ -60,6 +61,11 @@ public class PersonDAOHibernate implements PersonDAO {
 
     @Override
     public ArrayList<Person> deleteList(ArrayList<Person> list) {
+        return null;
+    }
+
+    @Override
+    public List<Person> getAllByFirstName() {
         return null;
     }
 

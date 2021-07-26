@@ -7,6 +7,11 @@ import java.util.Date;
 import java.util.Objects;
 
 
+@NamedQueries({
+        @NamedQuery(name = "getAllByFirstName", query = "select p from Person p where p.firstName =: firstName"),
+        @NamedQuery(name = "getAllBySecondName", query = "select p from Person p where p.secondName =: secondName")
+})
+
 @Entity()
 @Table(name = "person", schema = "publisher")
 public class Person {

@@ -16,6 +16,7 @@ public class Main {
         //personService.createPerson();
         //personService.updatePerson();
         personService.deletePerson();
+        //personService.getAllByFirstName().forEach(System.out::println);
 
     }
 

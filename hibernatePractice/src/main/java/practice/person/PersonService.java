@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PersonService {
@@ -32,8 +33,8 @@ public class PersonService {
 
     public void createPerson(){
         Person person = new Person();
-        person.setFirstName("Olya 2");
-        person.setSecondName("Frolova 2");
+        person.setFirstName("Olya 5");
+        person.setSecondName("Frolova 5");
         try {
             person.setBirthday(DATE_FORMAT.parse("1983-02-14"));
         } catch (ParseException e) {
@@ -45,7 +46,7 @@ public class PersonService {
         person.setDepartment(department);
         personDAO.create(person);
         System.out.println("Saved person: " + personDAO.find(person.getId()));
-        System.out.println("by name: " + personRepository.findByFirstName("Natasha"));
+        //System.out.println("by name: " + personRepository.findByFirstName("Natasha"));
     }
 
     private void createPersons() throws ParseException {
@@ -102,8 +103,9 @@ public class PersonService {
 
     public void deletePerson(){
         Person person = new Person();
-        person.setId(82);
-        personDAO.delete(person);
+        person.setId(84);
+        boolean delete = personDAO.delete(person);
+        System.out.println(delete);
         System.out.println("Deleted person: " + person);
     }
 
@@ -116,5 +118,9 @@ public class PersonService {
             list.add(person);
         }
         personDAO.deleteList(list);
+    }
+
+    public List<Person> getAllByFirstName(){
+        return personDAO.getAllByFirstName();
     }
 }

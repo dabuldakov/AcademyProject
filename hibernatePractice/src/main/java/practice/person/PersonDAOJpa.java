@@ -5,7 +5,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Transactional
@@ -52,6 +55,9 @@ public class PersonDAOJpa implements PersonDAO{
         try{
             Person person1 = entityManager.find(Person.class, person.getId());
             entityManager.remove(person1);
+            //entityManager.flush();
+            String s1 = "test";
+            String s2 = "test";
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -62,5 +68,11 @@ public class PersonDAOJpa implements PersonDAO{
     @Override
     public ArrayList<Person> deleteList(ArrayList<Person> list) {
         return null;
+    }
+
+    public List<Person> getAllByFirstName(){
+        TypedQuery<Person> query = entityManager.createNamedQuery("getAllByFirstName", Person.class);
+        query.setParameter("firstName", "Olya");
+        return query.getResultList();
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public interface PersonDAO {
@@ -20,4 +21,6 @@ public interface PersonDAO {
     public boolean delete(Person person);
 
     public ArrayList<Person> deleteList(ArrayList<Person> list);
+
+    public List<Person> getAllByFirstName();
 }
