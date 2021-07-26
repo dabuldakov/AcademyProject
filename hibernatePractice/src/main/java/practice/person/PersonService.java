@@ -49,7 +49,7 @@ public class PersonService {
         //System.out.println("by name: " + personRepository.findByFirstName("Natasha"));
     }
 
-    private void createPersons() throws ParseException {
+    public void createPersons(){
         Department department = new Department();
         department.setId(2);
 
@@ -58,7 +58,11 @@ public class PersonService {
             Person person = new Person();
             person.setFirstName("Oleg " + i);
             person.setSecondName("Pchelintsev");
-            person.setBirthday(Constants.DATE_FORMAT.parse("1983-02-14"));
+            try {
+                person.setBirthday(Constants.DATE_FORMAT.parse("1983-02-14"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             person.setDepartment(department);
             list.add(person);
         }
@@ -85,7 +89,7 @@ public class PersonService {
         System.out.println("Updated person: " + personRepository.findById(person.getId()));
     }
 
-    private void updatePersons() throws ParseException {
+    public void updatePersons() throws ParseException {
         Department department = new Department();
         department.setId(1);
         ArrayList<Person> list = new ArrayList<>();
@@ -103,13 +107,13 @@ public class PersonService {
 
     public void deletePerson(){
         Person person = new Person();
-        person.setId(84);
+        person.setId(83);
         boolean delete = personDAO.delete(person);
         System.out.println(delete);
         System.out.println("Deleted person: " + person);
     }
 
-    private void deletePersons() {
+    public void deletePersons() {
         ArrayList<Person> list = new ArrayList<>();
 
         for (int i = 16; i < 60; i++) {

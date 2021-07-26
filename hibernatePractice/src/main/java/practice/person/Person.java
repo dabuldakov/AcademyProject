@@ -1,5 +1,6 @@
 package practice.person;
 
+import org.hibernate.annotations.BatchSize;
 import practice.department.Department;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 @Entity()
 @Table(name = "person", schema = "publisher")
+@BatchSize(size = 5)
 public class Person {
 
     @Id

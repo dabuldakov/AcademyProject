@@ -1,5 +1,6 @@
 package practice.person;
 
+import org.hibernate.annotations.BatchSize;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@BatchSize(size = 5)
 public interface PersonDAO {
     public Person find(int id);
 

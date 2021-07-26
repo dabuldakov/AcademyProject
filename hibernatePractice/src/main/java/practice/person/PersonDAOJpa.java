@@ -47,7 +47,11 @@ public class PersonDAOJpa implements PersonDAO{
 
     @Override
     public ArrayList<Person> createList(ArrayList<Person> list) {
-        return null;
+        for (Person person : list) {
+            entityManager.persist(person);
+        }
+        String s = "";
+        return list;
     }
 
     @Override

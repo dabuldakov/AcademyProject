@@ -1,6 +1,8 @@
 package practice;
 
+import org.hibernate.annotations.BatchSize;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +27,7 @@ import java.util.Properties;
 @ComponentScan("practice")
 @EnableTransactionManagement
 @EnableJpaRepositories("practice")
+@BatchSize(size = 5)
 public class SpringConfig {
 
     @Bean
@@ -67,6 +70,9 @@ public class SpringConfig {
         entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
         entityManagerFactoryBean.setPackagesToScan("practice.person", "practice.department");
         entityManagerFactoryBean.afterPropertiesSet();
+        Properties properties = new Properties();
+        properties.put("hibernate.jdbc.batch_size", "5");
+        entityManagerFactoryBean.setJpaProperties(properties);
         return entityManagerFactoryBean.getObject();
     }
 

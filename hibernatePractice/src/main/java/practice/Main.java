@@ -13,9 +13,10 @@ public class Main {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
         PersonService personService = context.getBean("personService", PersonService.class);
         DepartmentService departmentService = context.getBean("departmentService", DepartmentService.class);
-        //personService.createPerson();
+        personService.createPerson();
+        //personService.createPersons();
         //personService.updatePerson();
-        personService.deletePerson();
+        //personService.deletePerson();
         //personService.getAllByFirstName().forEach(System.out::println);
 
     }
