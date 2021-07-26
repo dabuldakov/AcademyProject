@@ -11,16 +11,11 @@ import javax.annotation.PostConstruct;
 
 @Component
 public class CustomerRepository implements Registration {
+
     private ArrayList customerArrayList;
 
     @Autowired
-    DataBase dataBase;
-
-    public CustomerRepository() {
-    }
-
-    @PostConstruct
-    private void postConstruct() {
+    public CustomerRepository(DataBase dataBase) {
         customerArrayList = dataBase.getMap().get("customerDataBase");
     }
 

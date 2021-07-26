@@ -15,13 +15,7 @@ public class DishRepository implements Registration {
     private ArrayList dishArrayList;
 
     @Autowired
-    DataBase dataBase;
-
-    public DishRepository() {
-    }
-
-    @PostConstruct
-    private void postConstruct() {
+    public DishRepository(DataBase dataBase) {
         dishArrayList = dataBase.getMap().get("dishDataBase");
     }
 
