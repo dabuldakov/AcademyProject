@@ -2,11 +2,11 @@ package practice.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import practice.Constants;
 import practice.department.Department;
+import practice.document.Document;
+import practice.language.Language;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,6 +32,19 @@ public class PersonService {
     }
 
     public void createPerson(){
+        Department department = new Department();
+       //department.setId(1);
+        department.setName("Java developers department");
+        Document document = new Document();
+        //document.setId(1);
+        Language language = new Language();
+        language.setName("English");
+        Language language1 = new Language();
+        language1.setName("Russian");
+        List<Language> languageList = new ArrayList<>();
+        languageList.add(language);
+        languageList.add(language1);
+        document.setNumber("555-xxx-sss-666");
         Person person = new Person();
         person.setFirstName("Olya 5");
         person.setSecondName("Frolova 5");
@@ -40,10 +53,9 @@ public class PersonService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Department department = new Department();
-        department.setId(1);
-        department.setName("Java developers department");
         person.setDepartment(department);
+        person.setDocument(document);
+        person.setLanguage(languageList);
         personDAO.create(person);
         System.out.println("Saved person: " + personDAO.find(person.getId()));
         //System.out.println("by name: " + personRepository.findByFirstName("Natasha"));

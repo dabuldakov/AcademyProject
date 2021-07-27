@@ -16,6 +16,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import practice.department.Department;
+import practice.document.Document;
+import practice.language.Language;
 import practice.person.Person;
 
 import javax.persistence.EntityManagerFactory;
@@ -49,12 +51,15 @@ public class SpringConfig {
     public LocalSessionFactoryBean factoryBean(DataSource dataSource) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
-        Class<?>[] classes = new Class[2];
+        Class<?>[] classes = new Class[4];
         classes[0] = Person.class;
         classes[1] = Department.class;
+        classes[2] = Document.class;
+        classes[3] = Language.class;
         sessionFactory.setAnnotatedClasses(classes);
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", true);
+        properties.put("hibernate.hbm2ddl.auto", "create");
         sessionFactory.setHibernateProperties(properties);
         return sessionFactory;
     }
@@ -68,10 +73,11 @@ public class SpringConfig {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
-        entityManagerFactoryBean.setPackagesToScan("practice.person", "practice.department");
+        entityManagerFactoryBean.setPackagesToScan("practice.person", "practice.department", "practice.document", "practice.language");
         entityManagerFactoryBean.afterPropertiesSet();
         Properties properties = new Properties();
         properties.put("hibernate.jdbc.batch_size", "5");
+        properties.put("hibernate.hbm2ddl.auto", "create");
         entityManagerFactoryBean.setJpaProperties(properties);
         return entityManagerFactoryBean.getObject();
     }

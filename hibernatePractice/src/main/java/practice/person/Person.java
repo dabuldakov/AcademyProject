@@ -2,9 +2,12 @@ package practice.person;
 
 import org.hibernate.annotations.BatchSize;
 import practice.department.Department;
+import practice.document.Document;
+import practice.language.Language;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -21,27 +24,56 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "first_name")
     private String firstName;
+
     @Column(name = "second_name")
     private String secondName;
+
     private Date birthday;
-    @ManyToOne
-    @JoinColumn(name = "department_id")
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_id", foreignKey = @ForeignKey(name = "department_id_fk")) //
     private Department department;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "document_id", foreignKey = @ForeignKey(name = "document_id_fk")) //
+    private Document document;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Language> language;
 
     public Person() {
     }
 
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
+
     @Override
     public String toString() {
-        return "practice.person.Person{" +
+        return "Person{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", birthday=" + birthday +
-                ", practice.department=" + department +
+                ", department=" + department +
+                ", document=" + document +
+                ", languageList=" + language +
                 '}';
+    }
+
+    public List<Language> getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(List<Language> languageList) {
+        this.language = languageList;
     }
 
     public int getId() {
