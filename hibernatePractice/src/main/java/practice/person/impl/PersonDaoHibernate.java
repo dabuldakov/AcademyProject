@@ -1,20 +1,22 @@
-package practice.person;
+package practice.person.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
+import practice.person.Person;
+import practice.person.PersonDao;
 
 import javax.persistence.OptimisticLockException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PersonDAOHibernate implements PersonDAO {
+public class PersonDaoHibernate implements PersonDao {
 
     SessionFactory sessionFactory;
 
-    public PersonDAOHibernate(SessionFactory sessionFactory) {
+    public PersonDaoHibernate(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -24,6 +26,11 @@ public class PersonDAOHibernate implements PersonDAO {
 
     public Person find(int id) {
         return sessionFactory.openSession().get(Person.class, id);
+    }
+
+    @Override
+    public List<Person> findAll() {
+        return null;
     }
 
     public boolean update(Person person) {

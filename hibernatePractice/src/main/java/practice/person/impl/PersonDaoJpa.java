@@ -1,18 +1,19 @@
-package practice.person;
+package practice.person.impl;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import practice.person.Person;
+import practice.person.PersonDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @Transactional
-public class PersonDAOJpa implements PersonDAO{
+public class PersonDaoJpa implements PersonDao {
 
     @PersistenceContext(unitName = "entityManagerFactory")
     EntityManager entityManager;
@@ -20,6 +21,11 @@ public class PersonDAOJpa implements PersonDAO{
     @Override
     public Person find(int id) {
         return entityManager.find(Person.class, id);
+    }
+
+    @Override
+    public List<Person> findAll() {
+        return null;
     }
 
     @Override
@@ -42,6 +48,10 @@ public class PersonDAOJpa implements PersonDAO{
     @Override
     public Person create(Person person) {
         entityManager.persist(person);
+        String s = "";
+        String s1 = "";
+        String s2 = "";
+
         return person;
     }
 
@@ -59,7 +69,7 @@ public class PersonDAOJpa implements PersonDAO{
         try{
             Person person1 = entityManager.find(Person.class, person.getId());
             entityManager.remove(person1);
-            //entityManager.flush();
+            entityManager.flush();
             String s1 = "test";
             String s2 = "test";
             return true;

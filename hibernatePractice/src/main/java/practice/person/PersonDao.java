@@ -9,8 +9,10 @@ import java.util.List;
 
 @Component
 @BatchSize(size = 5)
-public interface PersonDAO {
+public interface PersonDao {
     public Person find(int id);
+
+    public List<Person> findAll();
 
     public boolean update(Person person);
 

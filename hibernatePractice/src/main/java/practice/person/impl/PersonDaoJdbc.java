@@ -1,9 +1,10 @@
-package practice.person;
+package practice.person.impl;
 
 import org.springframework.stereotype.Component;
 import practice.Constants;
 import practice.department.Department;
 import practice.person.Person;
+import practice.person.PersonDao;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,9 +13,9 @@ import java.util.List;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @Component
-public class PersonDAOJdbc implements PersonDAO{
+public class PersonDaoJdbc implements PersonDao {
 
-    public PersonDAOJdbc() {
+    public PersonDaoJdbc() {
     }
 
     public Person find(int id) {
@@ -38,6 +39,11 @@ public class PersonDAOJdbc implements PersonDAO{
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public List<Person> findAll() {
         return null;
     }
 
