@@ -16,11 +16,11 @@ import java.util.List;
 public class LanguageDaoJpa implements LanguageDao {
 
     @PersistenceContext(unitName = "entityManagerFactory")
-    EntityManager entityManager;
+    EntityManager em;
 
     @Override
     public Language find(int id) {
-        return entityManager.find(Language.class, id);
+        return em.find(Language.class, id);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class LanguageDaoJpa implements LanguageDao {
 
     @Override
     public void update(Language language) {
-        entityManager.merge(language);
+        em.merge(language);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class LanguageDaoJpa implements LanguageDao {
 
     @Override
     public Language create(Language language) {
-        entityManager.persist(language);
+        em.persist(language);
         return language;
     }
 
@@ -51,8 +51,8 @@ public class LanguageDaoJpa implements LanguageDao {
 
     @Override
     public void delete(Language language) {
-        Language language1 = entityManager.find(Language.class, language.getId());
-        entityManager.remove(language1);
+        Language language1 = em.find(Language.class, language.getId());
+        em.remove(language1);
     }
 
     @Override

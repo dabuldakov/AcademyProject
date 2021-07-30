@@ -36,7 +36,34 @@ public class DocumentController {
         }
     }
 
+    @PostMapping()
     ResponseEntity<DocumentDto> create(@RequestBody DocumentDto dto){
-        return null;
+        try{
+            DocumentDto result = service.create(dto);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping()
+    ResponseEntity<DocumentDto> update(@RequestBody DocumentDto dto){
+        try{
+            service.update(dto);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping()
+    ResponseEntity<DocumentDto> delete(@RequestBody DocumentDto dto){
+        try {
+            service.delete(dto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

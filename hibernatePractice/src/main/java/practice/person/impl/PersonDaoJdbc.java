@@ -1,7 +1,7 @@
 package practice.person.impl;
 
 import org.springframework.stereotype.Component;
-import practice.Constants;
+import practice.util.Constants;
 import practice.department.Department;
 import practice.person.Person;
 import practice.person.PersonDao;

@@ -1,8 +1,8 @@
 package practice.person;
 
-import practice.department.Department;
-import practice.document.Document;
-import practice.language.Language;
+import practice.department.DepartmentDto;
+import practice.document.DocumentDto;
+import practice.language.LanguageDto;
 
 import java.util.Date;
 import java.util.List;
@@ -12,9 +12,9 @@ public class PersonDto {
     private String firstName;
     private String secondName;
     private Date birthday;
-    private Department department;
-    private Document document;
-    private List<Language> language;
+    private DepartmentDto department;
+    private DocumentDto document;
+    private List<LanguageDto> language;
 
     public int getId() {
         return id;
@@ -48,27 +48,27 @@ public class PersonDto {
         this.birthday = birthday;
     }
 
-    public Department getDepartment() {
+    public DepartmentDto getDepartment() {
         return department;
     }
 
-    public void setDepartment(Department department) {
+    public void setDepartment(DepartmentDto department) {
         this.department = department;
     }
 
-    public Document getDocument() {
+    public DocumentDto getDocument() {
         return document;
     }
 
-    public void setDocument(Document document) {
+    public void setDocument(DocumentDto document) {
         this.document = document;
     }
 
-    public List<Language> getLanguage() {
+    public List<LanguageDto> getLanguage() {
         return language;
     }
 
-    public void setLanguage(List<Language> language) {
+    public void setLanguage(List<LanguageDto> language) {
         this.language = language;
     }
 }

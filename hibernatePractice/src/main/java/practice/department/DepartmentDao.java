@@ -1,15 +1,14 @@
 package practice.department;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
 @Component
-public interface DepartmentDAO {
+public interface DepartmentDao {
     public Department find(int id);
 
-    public boolean update(Department department);
+    public void update(Department department);
 
     public ArrayList<Department> updateList(ArrayList<Department> list);
 
@@ -17,7 +16,7 @@ public interface DepartmentDAO {
 
     public void createList(ArrayList<Department> list);
 
-    public boolean delete(Department department);
+    public void delete(Department department);
 
     public ArrayList<Department> deleteList(ArrayList<Department> list);
 }

@@ -16,11 +16,11 @@ import java.util.List;
 public class PersonDaoJpa implements PersonDao {
 
     @PersistenceContext(unitName = "entityManagerFactory")
-    EntityManager entityManager;
+    EntityManager em;
 
     @Override
     public Person find(int id) {
-        return entityManager.find(Person.class, id);
+        return em.find(Person.class, id);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class PersonDaoJpa implements PersonDao {
 
     @Override
     public void update(Person person) {
-        entityManager.merge(person);
+        em.merge(person);
     }
 
     @Override
@@ -40,22 +40,22 @@ public class PersonDaoJpa implements PersonDao {
 
     @Override
     public Person create(Person person) {
-        entityManager.persist(person);
+        em.persist(person);
         return person;
     }
 
     @Override
     public ArrayList<Person> createList(ArrayList<Person> list) {
         for (Person person : list) {
-            entityManager.persist(person);
+            em.persist(person);
         }
         return list;
     }
 
     @Override
     public void delete(Person person) {
-            Person person1 = entityManager.find(Person.class, person.getId());
-            entityManager.remove(person1);
+            Person person1 = em.find(Person.class, person.getId());
+            em.remove(person1);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class PersonDaoJpa implements PersonDao {
     }
 
     public List<Person> getAllByFirstName(String firstName) {
-        TypedQuery<Person> query = entityManager.createNamedQuery("getAllByFirstName", Person.class);
+        TypedQuery<Person> query = em.createNamedQuery("getAllByFirstName", Person.class);
         query.setParameter("firstName", firstName);
         return query.getResultList();
     }

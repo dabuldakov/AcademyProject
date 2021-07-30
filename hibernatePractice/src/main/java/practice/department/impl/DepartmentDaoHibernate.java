@@ -1,18 +1,20 @@
-package practice.department;
+package practice.department.impl;
 
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import practice.department.Department;
+import practice.department.DepartmentDao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 
 @Component
-@Transactional
-public class DepartmentDAOJpa implements DepartmentDAO {
+public class DepartmentDaoHibernate implements DepartmentDao {
+    SessionFactory sessionFactory;
 
-    @PersistenceContext(unitName = "entityManagerFactory")
-    EntityManager entityManager;
+    public DepartmentDaoHibernate(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
 
     @Override
     public Department find(int id) {
@@ -20,8 +22,8 @@ public class DepartmentDAOJpa implements DepartmentDAO {
     }
 
     @Override
-    public boolean update(Department department) {
-        return false;
+    public void update(Department department) {
+
     }
 
     @Override
@@ -31,7 +33,6 @@ public class DepartmentDAOJpa implements DepartmentDAO {
 
     @Override
     public Department create(Department department) {
-        entityManager.persist(department);
         return department;
     }
 
@@ -41,8 +42,8 @@ public class DepartmentDAOJpa implements DepartmentDAO {
     }
 
     @Override
-    public boolean delete(Department department) {
-        return false;
+    public void delete(Department person) {
+
     }
 
     @Override

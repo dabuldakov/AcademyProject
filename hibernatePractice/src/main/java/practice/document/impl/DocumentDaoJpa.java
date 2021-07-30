@@ -14,11 +14,11 @@ import java.util.ArrayList;
 public class DocumentDaoJpa implements DocumentDao {
 
     @PersistenceContext(unitName = "entityManagerFactory")
-    EntityManager entityManager;
+    EntityManager em;
 
     @Override
     public Document find(int id) {
-        return null;
+        return em.find(Document.class, id);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class DocumentDaoJpa implements DocumentDao {
 
     @Override
     public Document create(Document document) {
-        entityManager.persist(document);
+        em.persist(document);
         return document;
     }
 

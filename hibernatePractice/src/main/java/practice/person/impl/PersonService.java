@@ -3,7 +3,7 @@ package practice.person.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import practice.Constants;
+import practice.util.Constants;
 import practice.department.Department;
 import practice.person.*;
 
@@ -46,8 +46,8 @@ public class PersonService implements practice.person.PersonService {
         return converter.toPersonDTO(person);
     }
 
-    public void delete(PersonDto personDTO){
-        dao.delete(converter.toPerson(personDTO));
+    public void delete(PersonDto personDto){
+        dao.delete(converter.toPerson(personDto));
     }
 
     public void createPersons(){
