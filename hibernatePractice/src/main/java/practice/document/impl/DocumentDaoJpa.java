@@ -22,8 +22,7 @@ public class DocumentDaoJpa implements DocumentDao {
     }
 
     @Override
-    public boolean update(Document document) {
-        return false;
+    public void update(Document document) {
     }
 
     @Override
@@ -43,8 +42,8 @@ public class DocumentDaoJpa implements DocumentDao {
     }
 
     @Override
-    public boolean delete(Document document) {
-        return false;
+    public void delete(Document document) {
+
     }
 
     @Override
