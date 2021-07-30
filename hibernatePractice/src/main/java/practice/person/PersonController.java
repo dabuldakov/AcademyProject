@@ -1,85 +1,93 @@
 package practice.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import practice.Response;
-import practice.Statuses;
+import practice.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("person")
 public class PersonController {
 
-    private static final String KEY = "strong_password";
-
     @Autowired
     PersonService service;
 
     @GetMapping(value = "{id}")
-    PersonDto getById(@RequestHeader(value = "access_key") String accessKey, @PathVariable  int id){
-        PersonDto result = new PersonDto();
-        if (accessKey.equals(KEY)) {
-            result = service.find(id);
+    ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey, @PathVariable int id) {
+        if (accessKey.equals(Constants.KEY)) {
+            try {
+                PersonDto result = service.find(id);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return result;
     }
 
     @GetMapping()
-    List<PersonDto> getAll(@RequestHeader(value = "access_key") String accessKey){
-        List<PersonDto> result = new ArrayList<>();
-        if (accessKey.equals(KEY)) {
-            List<PersonDto> all = service.findAll();
+    ResponseEntity<List<PersonDto>> getAll(@RequestHeader(value = "access_key") String accessKey) {
+        if (accessKey.equals(Constants.KEY)) {
+            try {
+                List<PersonDto> result = service.findAll();
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return result;
     }
 
     @PostMapping()
-    Response create(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto personDTO){
+    ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) {
+        if (accessKey.equals(Constants.KEY)) {
+            try {
+                PersonDto result = service.create(dto);
+                return new ResponseEntity<>(result, HttpStatus.CREATED);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
-        Response response = new Response();
-        if (accessKey.equals(KEY)){
-            try {
-                PersonDto result = service.create(personDTO);
-                response.setObject(result);
-                response.setStatus(Statuses.SUCCESS);
-            }catch (Exception e){
-                response.setStatus(Statuses.FAIL);
-                response.setDescription(e.getMessage());
-            }
-        }
-        return response;
     }
+
     @PutMapping
-    Response update(@RequestHeader(value = "access_key") String accessKeyString, @RequestBody PersonDto personDTO){
-        Response response = new Response();
-        if (accessKeyString.equals(KEY)){
+    ResponseEntity<PersonDto> update(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) {
+        if (accessKey.equals(Constants.KEY)) {
             try {
-                boolean result = service.update(personDTO);
-                response.setObject(result);
-                response.setStatus(Statuses.SUCCESS);
-            }catch (Exception e){
-                response.setStatus(Statuses.FAIL);
-                response.setDescription(e.getMessage());
+                service.update(dto);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return response;
     }
 
     @DeleteMapping
-    Response delete(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto personDTO){
-        Response response = new Response();
-        if (accessKey.equals(KEY)){
+    ResponseEntity<PersonDto> delete(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) {
+        if (accessKey.equals(Constants.KEY)) {
             try {
-                boolean result = service.delete(personDTO);
-                response.setObject(result);
-                response.setStatus(Statuses.SUCCESS);
-            }catch (Exception e){
-                response.setStatus(Statuses.FAIL);
-                response.setDescription(e.getMessage());
+                service.delete(dto);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return response;
     }
 }

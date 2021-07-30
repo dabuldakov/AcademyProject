@@ -14,7 +14,7 @@ public interface PersonDao {
 
     public List<Person> findAll();
 
-    public boolean update(Person person);
+    public void update(Person person);
 
     public ArrayList<Person> updateList(ArrayList<Person> list);
 
@@ -22,9 +22,9 @@ public interface PersonDao {
 
     public ArrayList<Person> createList(ArrayList<Person> list);
 
-    public boolean delete(Person person);
+    public void delete(Person person);
 
     public ArrayList<Person> deleteList(ArrayList<Person> list);
 
-    public List<Person> getAllByFirstName();
+    public List<Person> getAllByFirstName(String firstName);
 }

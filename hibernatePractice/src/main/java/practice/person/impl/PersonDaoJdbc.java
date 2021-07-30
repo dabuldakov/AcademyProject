@@ -94,17 +94,15 @@ public class PersonDaoJdbc implements PersonDao {
         }
     }
 
-    public boolean delete(Person person) {
+    public void delete(Person person) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.DELETE_PERSON)) {
             connection.setSchema("publisher");
             statement.setInt(1, person.getId());
             statement.execute();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public ArrayList<Person> deleteList(ArrayList<Person> list) {
@@ -133,11 +131,11 @@ public class PersonDaoJdbc implements PersonDao {
     }
 
     @Override
-    public List<Person> getAllByFirstName() {
+    public List<Person> getAllByFirstName(String firstName) {
         return null;
     }
 
-    public boolean update(Person person) {
+    public void update(Person person) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.UPDATE_PERSON)) {
             connection.setSchema("publisher");
@@ -147,10 +145,8 @@ public class PersonDaoJdbc implements PersonDao {
             statement.setInt(4, person.getDepartment().getId());
             statement.setInt(5, person.getId());
             statement.execute();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 

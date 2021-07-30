@@ -20,7 +20,7 @@ public class PersonDaoHibernate implements PersonDao {
         this.sessionFactory = sessionFactory;
     }
 
-    private Session currentSession(){
+    private Session currentSession() {
         return sessionFactory.openSession();
     }
 
@@ -33,17 +33,12 @@ public class PersonDaoHibernate implements PersonDao {
         return null;
     }
 
-    public boolean update(Person person) {
+    public void update(Person person) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(person);
-        try {
-            transaction.commit();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        transaction.commit();
+
     }
 
     @Override
@@ -53,17 +48,11 @@ public class PersonDaoHibernate implements PersonDao {
         return null;
     }
 
-    public boolean delete(Person person) {
+    public void delete(Person person) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(person);
-        try {
-            transaction.commit();
-            return true;
-        } catch (OptimisticLockException e) {
-            e.printStackTrace();
-            return false;
-        }
+        transaction.commit();
     }
 
     @Override
@@ -72,7 +61,7 @@ public class PersonDaoHibernate implements PersonDao {
     }
 
     @Override
-    public List<Person> getAllByFirstName() {
+    public List<Person> getAllByFirstName(String firstName) {
         return null;
     }
 

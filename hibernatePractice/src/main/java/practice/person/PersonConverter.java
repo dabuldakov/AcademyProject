@@ -11,9 +11,9 @@ public class PersonConverter {
         person.setFirstName(personDTO.getFirstName());
         person.setSecondName(personDTO.getSecondName());
         person.setBirthday(personDTO.getBirthday());
-        person.setDocument(person.getDocument());
-        person.setDepartment(person.getDepartment());
-        person.setLanguage(person.getLanguage());
+        person.setDocument(personDTO.getDocument());
+        person.setDepartment(personDTO.getDepartment());
+        person.setLanguage(personDTO.getLanguage());
         return person;
     }
 

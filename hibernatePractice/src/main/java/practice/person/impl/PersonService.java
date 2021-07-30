@@ -7,9 +7,7 @@ import practice.Constants;
 import practice.department.Department;
 import practice.person.*;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,39 +15,37 @@ import java.util.stream.Collectors;
 @Service
 public class PersonService implements practice.person.PersonService {
 
-    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-
     @Autowired
-    private PersonRepository personRepository;
-    private final PersonDao personDAO;
+    private PersonRepository repository;
+    private final PersonDao dao;
     @Autowired
-    private PersonConverter personConverter;
+    private PersonConverter converter;
 
-    public PersonService(@Qualifier("personDaoJpa") PersonDao personDAO) {
-        this.personDAO = personDAO;
+    public PersonService(@Qualifier("personDaoJpa") PersonDao dao) {
+        this.dao = dao;
     }
 
     public PersonDto find(int id){
-        return personConverter.toPersonDTO(personDAO.find(id));
+        return converter.toPersonDTO(dao.find(id));
     }
 
     public List<PersonDto> findAll(){
-        return personRepository.findAll().stream()
-                .map(x -> personConverter.toPersonDTO(x))
+        return repository.findAll().stream()
+                .map(x -> converter.toPersonDTO(x))
                 .collect(Collectors.toList());
     }
 
-    public boolean update(PersonDto personDTO){
-        return personDAO.update(personConverter.toPerson(personDTO));
+    public void update(PersonDto personDTO){
+        dao.update(converter.toPerson(personDTO));
     }
 
     public PersonDto create(PersonDto personDTO){
-        Person person = personDAO.create(personConverter.toPerson(personDTO));
-        return personConverter.toPersonDTO(person);
+        Person person = dao.create(converter.toPerson(personDTO));
+        return converter.toPersonDTO(person);
     }
 
-    public boolean delete(PersonDto personDTO){
-        return personDAO.delete(personConverter.toPerson(personDTO));
+    public void delete(PersonDto personDTO){
+        dao.delete(converter.toPerson(personDTO));
     }
 
     public void createPersons(){
@@ -69,7 +65,7 @@ public class PersonService implements practice.person.PersonService {
             person.setDepartment(department);
             list.add(person);
         }
-        personDAO.createList(list);
+        dao.createList(list);
         list.forEach(System.out::println);
     }
 
@@ -86,7 +82,7 @@ public class PersonService implements practice.person.PersonService {
             person.setDepartment(department);
             list.add(person);
         }
-        personDAO.updateList(list);
+        dao.updateList(list);
     }
 
     public void deletePersons() {
@@ -97,10 +93,10 @@ public class PersonService implements practice.person.PersonService {
             person.setId(i);
             list.add(person);
         }
-        personDAO.deleteList(list);
+        dao.deleteList(list);
     }
 
-    public List<Person> getAllByFirstName(){
-        return personDAO.getAllByFirstName();
+    public List<Person> getAllByFirstName(String firstName){
+        return dao.getAllByFirstName(firstName);
     }
 }

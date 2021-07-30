@@ -29,15 +29,8 @@ public class PersonDaoJpa implements PersonDao {
     }
 
     @Override
-    public boolean update(Person person) {
-        try {
-            entityManager.merge(person);
-            return true;
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-            return false;
-        }
+    public void update(Person person) {
+        entityManager.merge(person);
     }
 
     @Override
@@ -48,10 +41,6 @@ public class PersonDaoJpa implements PersonDao {
     @Override
     public Person create(Person person) {
         entityManager.persist(person);
-        String s = "";
-        String s1 = "";
-        String s2 = "";
-
         return person;
     }
 
@@ -60,23 +49,13 @@ public class PersonDaoJpa implements PersonDao {
         for (Person person : list) {
             entityManager.persist(person);
         }
-        String s = "";
         return list;
     }
 
     @Override
-    public boolean delete(Person person) {
-        try{
+    public void delete(Person person) {
             Person person1 = entityManager.find(Person.class, person.getId());
             entityManager.remove(person1);
-            entityManager.flush();
-            String s1 = "test";
-            String s2 = "test";
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
     }
 
     @Override
@@ -84,9 +63,9 @@ public class PersonDaoJpa implements PersonDao {
         return null;
     }
 
-    public List<Person> getAllByFirstName(){
+    public List<Person> getAllByFirstName(String firstName) {
         TypedQuery<Person> query = entityManager.createNamedQuery("getAllByFirstName", Person.class);
-        query.setParameter("firstName", "Olya");
+        query.setParameter("firstName", firstName);
         return query.getResultList();
     }
 }
