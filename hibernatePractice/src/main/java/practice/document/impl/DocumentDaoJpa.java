@@ -1,7 +1,9 @@
-package practice.document;
+package practice.document.impl;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import practice.document.Document;
+import practice.document.DocumentDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 
 @Component
 @Transactional
-public class DocumentDAOJpa implements DocumentDAO{
+public class DocumentDaoJpa implements DocumentDao {
 
     @PersistenceContext(unitName = "entityManagerFactory")
     EntityManager entityManager;

@@ -17,13 +17,15 @@ public class PersonService implements practice.person.PersonService {
 
     @Autowired
     private PersonRepository repository;
-    private final PersonDao dao;
+
+    @Autowired
+    @Qualifier("personDaoJpa")
+    private PersonDao dao;
+
     @Autowired
     private PersonConverter converter;
 
-    public PersonService(@Qualifier("personDaoJpa") PersonDao dao) {
-        this.dao = dao;
-    }
+
 
     public PersonDto find(int id){
         return converter.toPersonDTO(dao.find(id));

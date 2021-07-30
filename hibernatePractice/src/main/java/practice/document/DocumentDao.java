@@ -2,10 +2,10 @@ package practice.document;
 
 import java.util.ArrayList;
 
-public interface DocumentDAO {
+public interface DocumentDao {
     public Document find(int id);
 
-    public boolean update(Document document);
+    public void update(Document document);
 
     public ArrayList<Document> updateList(ArrayList<Document> list);
 
@@ -13,7 +13,7 @@ public interface DocumentDAO {
 
     public void createList(ArrayList<Document> list);
 
-    public boolean delete(Document document);
+    public void delete(Document document);
 
     public ArrayList<Document> deleteList(ArrayList<Document> list);
 }
