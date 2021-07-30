@@ -13,8 +13,8 @@ public class LanguageConverter {
 
     public LanguageDto toLanguageDto(Language language){
         LanguageDto languageDto = new LanguageDto();
-        languageDto.setId(languageDto.getId());
-        languageDto.setName(languageDto.getName());
+        languageDto.setId(language.getId());
+        languageDto.setName(language.getName());
         return languageDto;
     }
 }
