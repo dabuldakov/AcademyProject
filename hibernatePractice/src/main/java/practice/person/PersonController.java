@@ -1,6 +1,7 @@
 package practice.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,12 @@ public class PersonController {
     @Autowired
     PersonService service;
 
+    @Autowired
+    Environment environment;
+
     @GetMapping(value = "{id}")
     ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey, @PathVariable int id) {
-        if (accessKey.equals(Constants.KEY)) {
+        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             try {
                 PersonDto result = service.find(id);
                 return new ResponseEntity<>(result, HttpStatus.OK);
@@ -32,7 +36,7 @@ public class PersonController {
 
     @GetMapping()
     ResponseEntity<List<PersonDto>> getAll(@RequestHeader(value = "access_key") String accessKey) {
-        if (accessKey.equals(Constants.KEY)) {
+        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             try {
                 List<PersonDto> result = service.findAll();
                 return new ResponseEntity<>(result, HttpStatus.OK);
@@ -47,7 +51,7 @@ public class PersonController {
 
     @PostMapping()
     ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) {
-        if (accessKey.equals(Constants.KEY)) {
+        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             try {
                 PersonDto result = service.create(dto);
                 return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -63,7 +67,7 @@ public class PersonController {
 
     @PutMapping
     ResponseEntity<PersonDto> update(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) {
-        if (accessKey.equals(Constants.KEY)) {
+        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             try {
                 service.update(dto);
                 return new ResponseEntity<>(HttpStatus.CREATED);
@@ -78,7 +82,7 @@ public class PersonController {
 
     @DeleteMapping
     ResponseEntity<PersonDto> delete(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) {
-        if (accessKey.equals(Constants.KEY)) {
+        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             try {
                 service.delete(dto);
                 return new ResponseEntity<>(HttpStatus.OK);

@@ -2,7 +2,6 @@ package practice;
 
 import org.hibernate.annotations.BatchSize;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.context.annotation.*;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -30,11 +29,11 @@ import java.util.Properties;
 public class SpringConfig {
 
     @Bean
-    public DataSource dataSource(@Value("${driver}") String driver,
-                                 @Value("${url}") String url,
-                                 @Value("${user}") String user,
-                                 @Value("${password}") String password,
-                                 @Value("${schema}") String schema) {
+    public DataSource dataSource(@Value("${jdbc.driver}") String driver,
+                                 @Value("${jdbc.url}") String url,
+                                 @Value("${jdbc.user}") String user,
+                                 @Value("${jdbc.password}") String password,
+                                 @Value("${jdbc.schema}") String schema) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driver);
         dataSource.setUrl(url);
