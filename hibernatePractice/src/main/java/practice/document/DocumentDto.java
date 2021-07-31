@@ -12,6 +12,9 @@ public class DocumentDto {
         return id;
     }
 
+    public DocumentDto() {
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -30,5 +33,14 @@ public class DocumentDto {
 
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    @Override
+    public String toString() {
+        return "DocumentDto{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", expiryDate=" + expiryDate +
+                '}';
     }
 }
