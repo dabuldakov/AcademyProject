@@ -33,7 +33,7 @@ public class Person {
 
     private Date birthday;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "department_id", foreignKey = @ForeignKey(name = "department_id_fk")) //
     private Department department;
 
@@ -41,7 +41,7 @@ public class Person {
     @JoinColumn(name = "document_id", foreignKey = @ForeignKey(name = "document_id_fk")) //
     private Document document;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Language> language;
 
     public Person() {

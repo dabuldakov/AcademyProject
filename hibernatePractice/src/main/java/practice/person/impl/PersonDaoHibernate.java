@@ -1,24 +1,26 @@
-package practice.person;
+package practice.person.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
+import practice.person.Person;
+import practice.person.PersonDao;
 
 import javax.persistence.OptimisticLockException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PersonDAOHibernate implements PersonDAO {
+public class PersonDaoHibernate implements PersonDao {
 
     SessionFactory sessionFactory;
 
-    public PersonDAOHibernate(SessionFactory sessionFactory) {
+    public PersonDaoHibernate(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    private Session currentSession(){
+    private Session currentSession() {
         return sessionFactory.openSession();
     }
 
@@ -26,17 +28,17 @@ public class PersonDAOHibernate implements PersonDAO {
         return sessionFactory.openSession().get(Person.class, id);
     }
 
-    public boolean update(Person person) {
+    @Override
+    public List<Person> findAll() {
+        return null;
+    }
+
+    public void update(Person person) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(person);
-        try {
-            transaction.commit();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        transaction.commit();
+
     }
 
     @Override
@@ -46,17 +48,11 @@ public class PersonDAOHibernate implements PersonDAO {
         return null;
     }
 
-    public boolean delete(Person person) {
+    public void delete(Person person) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(person);
-        try {
-            transaction.commit();
-            return true;
-        } catch (OptimisticLockException e) {
-            e.printStackTrace();
-            return false;
-        }
+        transaction.commit();
     }
 
     @Override
@@ -65,7 +61,7 @@ public class PersonDAOHibernate implements PersonDAO {
     }
 
     @Override
-    public List<Person> getAllByFirstName() {
+    public List<Person> getAllByFirstName(String firstName) {
         return null;
     }
 

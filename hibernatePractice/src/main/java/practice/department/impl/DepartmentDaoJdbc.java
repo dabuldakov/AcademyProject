@@ -1,9 +1,9 @@
-package practice.department;
+package practice.department.impl;
 
 import org.springframework.stereotype.Component;
-import practice.Constants;
+import practice.util.Constants;
 import practice.department.Department;
-import practice.person.Person;
+import practice.department.DepartmentDao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @Component
-public class DepartmentDAOJdbc implements DepartmentDAO{
+public class DepartmentDaoJdbc implements DepartmentDao {
 
-    public DepartmentDAOJdbc() {
+    public DepartmentDaoJdbc() {
     }
 
     public Department find(int id) {
@@ -76,17 +76,15 @@ public class DepartmentDAOJdbc implements DepartmentDAO{
         }
     }
 
-    public boolean delete(Department department) {
+    public void delete(Department department) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.DELETE_DEPARTMENT)) {
             connection.setSchema("publisher");
             statement.setInt(1, department.getId());
             statement.execute();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public ArrayList<Department> deleteList(ArrayList<Department> list) {
@@ -114,7 +112,7 @@ public class DepartmentDAOJdbc implements DepartmentDAO{
         return listReturn;
     }
 
-    public boolean update(Department department) {
+    public void update(Department department) {
         try (Connection connection = DriverManager.getConnection(Constants.URL + Constants.DATABASE, Constants.USERNAME, Constants.PASSWORD);
              PreparedStatement statement = connection.prepareStatement(Constants.UPDATE_DEPARTMENT)) {
             connection.setSchema("publisher");
@@ -122,10 +120,8 @@ public class DepartmentDAOJdbc implements DepartmentDAO{
             statement.setInt(2, department.getId());
             statement.execute();
             find(department.getId());
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 

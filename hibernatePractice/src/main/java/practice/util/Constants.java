@@ -1,4 +1,4 @@
-package practice;
+package practice.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,17 +28,17 @@ public abstract class Constants {
             "('Java developers department'), " +
             "('Java QA department')";
 
-
     public static final String GET_PERSON_BY_ID = "SELECT p.id, p.first_name, p.second_name, p.birthday, d.id as department_id, d.name as department_name " +
             "from person p left join department d on p.department_id = d.id " +
             "where p.id = ?";
     public static final String GET_DEPARTMENT_BY_ID = "select id, name from department where id = ?";
     public static final String INSERT_DEPARTMENT = "INSERT INTO department(name) VALUES (?)";
     public static final String INSERT_PERSON = "INSERT INTO person(first_name, second_name, birthday, department_id) VALUES (?, ?, ?, ?)";
-    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     public static final String DELETE_PERSON = "DELETE FROM person WHERE id = ?";
     public static final String DELETE_DEPARTMENT = "DELETE FROM department WHERE id = ?";
     public static final String UPDATE_PERSON = "UPDATE person SET first_name=?, second_name=?, birthday=?, department_id=? WHERE id =?";
     public static final String UPDATE_DEPARTMENT = "UPDATE department SET name=? WHERE id = ?";
 
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String KEY = "strong_password";
 }

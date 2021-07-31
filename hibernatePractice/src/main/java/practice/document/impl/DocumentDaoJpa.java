@@ -1,7 +1,9 @@
-package practice.document;
+package practice.document.impl;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import practice.document.Document;
+import practice.document.DocumentDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,19 +11,18 @@ import java.util.ArrayList;
 
 @Component
 @Transactional
-public class DocumentDAOJpa implements DocumentDAO{
+public class DocumentDaoJpa implements DocumentDao {
 
     @PersistenceContext(unitName = "entityManagerFactory")
-    EntityManager entityManager;
+    EntityManager em;
 
     @Override
     public Document find(int id) {
-        return null;
+        return em.find(Document.class, id);
     }
 
     @Override
-    public boolean update(Document document) {
-        return false;
+    public void update(Document document) {
     }
 
     @Override
@@ -31,7 +32,7 @@ public class DocumentDAOJpa implements DocumentDAO{
 
     @Override
     public Document create(Document document) {
-        entityManager.persist(document);
+        em.persist(document);
         return document;
     }
 
@@ -41,8 +42,8 @@ public class DocumentDAOJpa implements DocumentDAO{
     }
 
     @Override
-    public boolean delete(Document document) {
-        return false;
+    public void delete(Document document) {
+
     }
 
     @Override
