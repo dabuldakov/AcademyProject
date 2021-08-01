@@ -1,9 +1,9 @@
 package practice.mapper;
 
 public class CarDto {
-    int id;
-    String name;
-    Integer price;
+    private int id;
+    private String name;
+    private Integer price;
     private HumanDto human;
 
     public HumanDto getHuman() {

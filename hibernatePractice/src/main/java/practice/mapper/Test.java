@@ -53,5 +53,9 @@ public class Test {
         DocDto docDto = mapper.run(doc, DocDto.class);
         System.out.println(doc);
         System.out.println(docDto);
+
+        Mapper mapper1 = new Mapper();
+        mapper1.addMetaDataSet(DocDto.class);
+        String s = "";
     }
 }

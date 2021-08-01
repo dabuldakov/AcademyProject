@@ -35,21 +35,21 @@ public class Mapper {
                         //Object[] newArray = (Object[]) getParam;
                         entry.getValue().getMethod().invoke(objectOut, getParam);
                         // TODO: 8/1/2021 down if array contain objects 
-                    } else if (getParam instanceof Collection) {
-                        List<?> newCollection = new ArrayList<>((Collection<?>) getParam);
-                        List<Object> newCollectionObjects = new ArrayList<>();
+                    } else if (getParam instanceof List) {
+                        List<?> arrayListIn = new ArrayList<>((ArrayList<?>) getParam);
+                        List<Object> newArrayListObjects = new ArrayList<>();
 
-                        if (!newCollection.isEmpty()) {
-                            Object o1 = newCollection.get(0);
+                        if (!arrayListIn.isEmpty()) {
+                            Object o1 = arrayListIn.get(0);
                             if (!classHashSet.contains(o1.getClass())) {
-                                for (Object o : newCollection) {
+                                for (Object o : arrayListIn) {
                                     Class<?> genericFromSetMethod = getGenericFromSetMethod(entry.getValue().getMethod());
                                     Object run = run(o, genericFromSetMethod);
-                                    newCollectionObjects.add(run);
+                                    newArrayListObjects.add(run);
                                 }
-                                entry.getValue().getMethod().invoke(objectOut, newCollectionObjects);
+                                entry.getValue().getMethod().invoke(objectOut, newArrayListObjects);
                             } else {
-                                entry.getValue().getMethod().invoke(objectOut, newCollection);
+                                entry.getValue().getMethod().invoke(objectOut, arrayListIn);
                             }
                         }
 
@@ -67,7 +67,7 @@ public class Mapper {
         return (T) objectOut;
     }
 
-    private Class<?> getGenericFromSetMethod(Method method){
+    private Class<?> getGenericFromSetMethod(Method method) {
         Type genericParameterType = method.getGenericParameterTypes()[0];
         ParameterizedType parameterizedType = (ParameterizedType) genericParameterType;
         return (Class<?>) parameterizedType.getActualTypeArguments()[0];
@@ -109,12 +109,41 @@ public class Mapper {
             metaDataSetters.put(typeIn, hashMap);
 
         return hashMap;
+    }
 
-        /*
-            Arrays.stream(methods)
-                    .filter(x -> x.getName().startsWith("set"))
-                    .map(x -> hashMapGetters.put(Introspector.decapitalize(x.getName().substring(3)), new MetaData(Introspector.decapitalize(x.getName().substring(3)), x)));
-*/
+    public HashMap<String, MetaData> addMetaDataSet(Class<?> typeIn) {
+        HashMap<String, MetaData> hashMap = new HashMap<>();
+
+        List<Method> methods = Arrays.stream(typeIn.getMethods())
+                .filter(x -> x.getName().startsWith(SET))
+                .collect(Collectors.toList());
+
+        for (Method method : methods) {
+            MetaData metaData = new MetaData();
+            Class<?> type = method.getParameterTypes()[0];
+            if (type.equals(List.class)) {
+                Class<?> genericType = getGenericFromSetMethod(method);
+                metaData.setGenericType(genericType);
+            } else if(type.isArray()){
+                System.out.println(type);
+            }
+            else {
+                if (!classHashSet.contains(type)) {
+                    metaData.setMetaData(addMetaDataSet(type));
+                } else {
+
+                }
+            }
+            String paramName = Introspector.decapitalize(method.getName().substring(3));
+            metaData.setParamName(paramName);
+            metaData.setMethod(method);
+            metaData.setType(type);
+            hashMap.put(paramName, metaData);
+        }
+        if (!metaDataSetters.containsKey(typeIn)) {
+            metaDataSetters.put(typeIn, hashMap);
+        }
+        return hashMap;
     }
 
     private void createTypeMap() {
@@ -126,16 +155,61 @@ public class Mapper {
         classHashSet.add(Integer.class);
         classHashSet.add(boolean.class);
         classHashSet.add(Date.class);
+        classHashSet.add(Double.class);
+        classHashSet.add(double.class);
     }
 
     private class MetaData {
 
         private String paramName;
         private Method method;
+        private Class<?> type;
+        private Class<?> genericType;
+        private HashMap<String, MetaData> metaData;
+
+        public MetaData() {
+        }
+
+        public MetaData(String paramName, Method method, Class<?> type, Class<?> genericType) {
+            this.paramName = paramName;
+            this.method = method;
+            this.type = type;
+            this.genericType = genericType;
+        }
+
+        public MetaData(String paramName, Method method, Class<?> type) {
+            this.paramName = paramName;
+            this.method = method;
+            this.type = type;
+        }
 
         public MetaData(String paramName, Method method) {
             this.paramName = paramName;
             this.method = method;
+        }
+
+        public HashMap<String, MetaData> getMetaData() {
+            return metaData;
+        }
+
+        public void setMetaData(HashMap<String, MetaData> metaData) {
+            this.metaData = metaData;
+        }
+
+        public Class<?> getGenericType() {
+            return genericType;
+        }
+
+        public void setGenericType(Class<?> genericType) {
+            this.genericType = genericType;
+        }
+
+        public Class<?> getType() {
+            return type;
+        }
+
+        public void setType(Class<?> type) {
+            this.type = type;
         }
 
         public String getParamName() {
