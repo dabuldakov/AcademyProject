@@ -9,11 +9,5 @@ public class Main {
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
-
-//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
-//        PersonService personService = context.getBean("personService", PersonService.class);
-//        DepartmentService departmentService = context.getBean("departmentService", DepartmentService.class);
-//        Service documentService = context.getBean("documentService", DocumentService.class);
     }
-
 }
