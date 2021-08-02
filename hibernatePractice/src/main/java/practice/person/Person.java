@@ -34,11 +34,11 @@ public class Person {
     private Date birthday;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "department_id", foreignKey = @ForeignKey(name = "department_id_fk")) //
+    @JoinColumn(name = "department_id", foreignKey = @ForeignKey(name = "department_id_fk"))
     private Department department;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "document_id", foreignKey = @ForeignKey(name = "document_id_fk")) //
+    @JoinColumn(name = "document_id", foreignKey = @ForeignKey(name = "document_id_fk"))
     private Document document;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)

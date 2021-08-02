@@ -1,10 +1,18 @@
-package practice.mapper;
+package practice.mapper.model;
 
-public class Car {
+public class CarDto {
     private int id;
     private String name;
     private Integer price;
-    private Human human;
+    private HumanDto human;
+
+    public HumanDto getHuman() {
+        return human;
+    }
+
+    public void setHuman(HumanDto human) {
+        this.human = human;
+    }
 
     public int getId() {
         return id;
@@ -30,17 +38,9 @@ public class Car {
         this.price = price;
     }
 
-    public Human getHuman() {
-        return human;
-    }
-
-    public void setHuman(Human human) {
-        this.human = human;
-    }
-
     @Override
     public String toString() {
-        return "Car{" +
+        return "CarDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +

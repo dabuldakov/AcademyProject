@@ -1,4 +1,4 @@
-package practice.mapper;
+package practice.mapper.model;
 
 import java.util.Date;
 import java.util.List;

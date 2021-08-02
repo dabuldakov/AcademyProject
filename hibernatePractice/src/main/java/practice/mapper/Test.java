@@ -1,9 +1,10 @@
 package practice.mapper;
 
-import practice.document.Document;
-import practice.document.DocumentDto;
+import practice.mapper.model.Car;
+import practice.mapper.model.Doc;
+import practice.mapper.model.DocDto;
+import practice.mapper.model.Human;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

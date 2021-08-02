@@ -1,13 +1,24 @@
-package practice.mapper;
+package practice.mapper.model;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class HumanDto {
+public class Human {
     private Integer id;
     private String name;
     private int[] marks;
     private List<String> descriptions;
+
+
+    @Override
+    public String toString() {
+        return "Human{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", marks=" + Arrays.toString(marks) +
+                ", descriptions=" + descriptions +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -39,15 +50,5 @@ public class HumanDto {
 
     public void setDescriptions(List<String> descriptions) {
         this.descriptions = descriptions;
-    }
-
-    @Override
-    public String toString() {
-        return "HumanDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", marks=" + Arrays.toString(marks) +
-                ", descriptions=" + descriptions +
-                '}';
     }
 }
