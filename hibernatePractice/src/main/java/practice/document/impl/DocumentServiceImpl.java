@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class DocumentService implements practice.document.DocumentService {
+public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     @Qualifier("documentDaoJpa")

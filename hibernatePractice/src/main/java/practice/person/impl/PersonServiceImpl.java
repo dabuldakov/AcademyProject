@@ -3,10 +3,10 @@ package practice.person.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import practice.mapper.Mapper;
-import practice.util.Constants;
 import practice.department.Department;
+import practice.mapper.Mapper;
 import practice.person.*;
+import practice.util.Constants;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class PersonService implements practice.person.PersonService {
+public class PersonServiceImpl implements PersonService {
 
     @Autowired
     private PersonRepository repository;
@@ -27,32 +27,30 @@ public class PersonService implements practice.person.PersonService {
     Mapper mapper;
 
 
-
-    public PersonDto find(int id){
-        //converter.toPersonDTO(dao.find(id));
+    public PersonDto find(int id) {
         return mapper.run(dao.find(id), PersonDto.class);
     }
 
-    public List<PersonDto> findAll(){
+    public List<PersonDto> findAll() {
         return repository.findAll().stream()
                 .map(x -> mapper.run(x, PersonDto.class))
                 .collect(Collectors.toList());
     }
 
-    public void update(PersonDto personDTO){
+    public void update(PersonDto personDTO) {
         dao.update(mapper.run(personDTO, Person.class));
     }
 
-    public PersonDto create(PersonDto personDTO){
+    public PersonDto create(PersonDto personDTO) {
         Person person = dao.create(mapper.run(personDTO, Person.class));
         return mapper.run(person, PersonDto.class);
     }
 
-    public void delete(PersonDto personDto){
+    public void delete(PersonDto personDto) {
         dao.delete(mapper.run(personDto, Person.class));
     }
 
-    public void createPersons(){
+    public void createPersons() {
         Department department = new Department();
         department.setId(2);
 
@@ -100,7 +98,7 @@ public class PersonService implements practice.person.PersonService {
         dao.deleteList(list);
     }
 
-    public List<Person> getAllByFirstName(String firstName){
+    public List<Person> getAllByFirstName(String firstName) {
         return dao.getAllByFirstName(firstName);
     }
 }

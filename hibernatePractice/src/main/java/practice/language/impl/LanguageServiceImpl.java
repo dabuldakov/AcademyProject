@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class LanguageService implements practice.language.LanguageService {
+public class LanguageServiceImpl implements LanguageService {
     @Autowired
     @Qualifier("languageDaoJpa")
     LanguageDao dao;
