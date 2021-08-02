@@ -3,6 +3,7 @@ package practice.person.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import practice.mapper.Mapper;
 import practice.util.Constants;
 import practice.department.Department;
 import practice.person.*;
@@ -23,31 +24,32 @@ public class PersonService implements practice.person.PersonService {
     private PersonDao dao;
 
     @Autowired
-    private PersonConverter converter;
+    Mapper mapper;
 
 
 
     public PersonDto find(int id){
-        return converter.toPersonDTO(dao.find(id));
+        //converter.toPersonDTO(dao.find(id));
+        return mapper.run(dao.find(id), PersonDto.class);
     }
 
     public List<PersonDto> findAll(){
         return repository.findAll().stream()
-                .map(x -> converter.toPersonDTO(x))
+                .map(x -> mapper.run(x, PersonDto.class))
                 .collect(Collectors.toList());
     }
 
     public void update(PersonDto personDTO){
-        dao.update(converter.toPerson(personDTO));
+        dao.update(mapper.run(personDTO, Person.class));
     }
 
     public PersonDto create(PersonDto personDTO){
-        Person person = dao.create(converter.toPerson(personDTO));
-        return converter.toPersonDTO(person);
+        Person person = dao.create(mapper.run(personDTO, Person.class));
+        return mapper.run(person, PersonDto.class);
     }
 
     public void delete(PersonDto personDto){
-        dao.delete(converter.toPerson(personDto));
+        dao.delete(mapper.run(personDto, Person.class));
     }
 
     public void createPersons(){

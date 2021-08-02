@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import practice.language.*;
+import practice.mapper.Mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,33 +19,33 @@ public class LanguageService implements practice.language.LanguageService {
     LanguageRepository repository;
 
     @Autowired
-    LanguageConverter converter;
+    Mapper mapper;
 
     public LanguageDto find(int id) {
-        return converter.toLanguageDto(dao.find(id));
+        return mapper.run(dao.find(id), LanguageDto.class);
     }
 
     @Override
     public List<LanguageDto> findAll() {
         return repository.findAll().stream()
-                .map(x -> converter.toLanguageDto(x))
+                .map(x -> mapper.run(x, LanguageDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void update(LanguageDto languageDto) {
-        dao.update(converter.toLanguage(languageDto));
+        dao.update(mapper.run(languageDto, Language.class));
     }
 
     @Override
     public LanguageDto create(LanguageDto languageDto) {
-        Language language = dao.create(converter.toLanguage(languageDto));
-        return converter.toLanguageDto(language);
+        Language language = dao.create(mapper.run(languageDto, Language.class));
+        return mapper.run(language, LanguageDto.class);
     }
 
     @Override
     public void delete(LanguageDto languageDto) {
-        dao.delete(converter.toLanguage(languageDto));
+        dao.delete(mapper.run(languageDto, Language.class));
     }
 
 }

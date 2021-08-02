@@ -19,49 +19,81 @@ public class Mapper {
         createTypeMap();
     }
 
-    public <T> T run(Object objectIn, Class<T> typeOut) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Class<?> typeIn = objectIn.getClass();
-        Constructor<T> constructor = typeOut.getConstructor();
-        Object objectOut = constructor.newInstance();
-        HashMap<String, MetaData> hashMapIn = checkMetaDataGet(typeIn);
-        HashMap<String, MetaData> hashMapOut = checkMetaDataSet(typeOut);
+    public Mapper(ArrayList<Class<?>> classes) {
+        metaDataGetters = new HashMap<>();
+        metaDataSetters = new HashMap<>();
+        createTypeMap();
+        startUpClasses(classes);
+    }
 
-        for (Map.Entry<String, MetaData> entry : hashMapOut.entrySet()) {
-            MetaData metaData = hashMapIn.get(entry.getKey());
-            if (metaData != null) {
-                Object getParam = metaData.getMethod().invoke(objectIn);
-                if (getParam != null) {
-                    if (getParam.getClass().isArray()) {
-                        //Object[] newArray = (Object[]) getParam;
-                        entry.getValue().getMethod().invoke(objectOut, getParam);
-                        // TODO: 8/1/2021 down if array contain objects 
-                    } else if (getParam instanceof List) {
-                        List<?> arrayListIn = new ArrayList<>((ArrayList<?>) getParam);
-                        List<Object> newArrayListObjects = new ArrayList<>();
+    private void createTypeMap() {
+        classHashSet = new HashSet<>();
+        classHashSet.add(String.class);
+        classHashSet.add(long.class);
+        classHashSet.add(Long.class);
+        classHashSet.add(int.class);
+        classHashSet.add(Integer.class);
+        classHashSet.add(boolean.class);
+        classHashSet.add(Date.class);
+        classHashSet.add(Double.class);
+        classHashSet.add(double.class);
+    }
 
-                        if (!arrayListIn.isEmpty()) {
-                            Object o1 = arrayListIn.get(0);
-                            if (!classHashSet.contains(o1.getClass())) {
-                                for (Object o : arrayListIn) {
-                                    Class<?> genericFromSetMethod = getGenericFromSetMethod(entry.getValue().getMethod());
-                                    Object run = run(o, genericFromSetMethod);
-                                    newArrayListObjects.add(run);
+    private void startUpClasses(ArrayList<Class<?>> classes){
+        for (Class<?> startClass : classes) {
+            checkMetaDataGet(startClass);
+            checkMetaDataSet(startClass);
+        }
+    }
+
+    public <T> T run(Object objectIn, Class<T> typeOut){
+        Object objectOut = new Object();
+        try {
+            Class<?> typeIn = objectIn.getClass();
+            Constructor<T> constructor = typeOut.getConstructor();
+            objectOut = constructor.newInstance();
+            HashMap<String, MetaData> hashMapIn = checkMetaDataGet(typeIn);
+            HashMap<String, MetaData> hashMapOut = checkMetaDataSet(typeOut);
+
+            for (Map.Entry<String, MetaData> entry : hashMapOut.entrySet()) {
+                MetaData metaData = hashMapIn.get(entry.getKey());
+                if (metaData != null) {
+                    Object getParam = metaData.getMethod().invoke(objectIn);
+                    if (getParam != null) {
+                        if (getParam.getClass().isArray()) {
+                            //Object[] newArray = (Object[]) getParam;
+                            entry.getValue().getMethod().invoke(objectOut, getParam);
+                            // TODO: 8/1/2021 down if array contain objects
+                        } else if (getParam instanceof Collection) {
+                            List<?> arrayListIn = new ArrayList<>((Collection<?>) getParam);
+                            List<Object> newArrayListObjects = new ArrayList<>();
+
+                            if (!arrayListIn.isEmpty()) {
+                                Object o1 = arrayListIn.get(0);
+                                if (!classHashSet.contains(o1.getClass())) {
+                                    for (Object o : arrayListIn) {
+                                        Class<?> genericFromSetMethod = getGenericFromSetMethod(entry.getValue().getMethod());
+                                        Object run = run(o, genericFromSetMethod);
+                                        newArrayListObjects.add(run);
+                                    }
+                                    entry.getValue().getMethod().invoke(objectOut, newArrayListObjects);
+                                } else {
+                                    entry.getValue().getMethod().invoke(objectOut, arrayListIn);
                                 }
-                                entry.getValue().getMethod().invoke(objectOut, newArrayListObjects);
-                            } else {
-                                entry.getValue().getMethod().invoke(objectOut, arrayListIn);
                             }
-                        }
 
-                    } else {
-                        if (!classHashSet.contains(getParam.getClass())) {
-                            Class<?> aClass = entry.getValue().getMethod().getParameterTypes()[0];
-                            getParam = run(getParam, aClass);
+                        } else {
+                            if (!classHashSet.contains(getParam.getClass())) {
+                                Class<?> aClass = entry.getValue().getMethod().getParameterTypes()[0];
+                                getParam = run(getParam, aClass);
+                            }
+                            entry.getValue().getMethod().invoke(objectOut, getParam);
                         }
-                        entry.getValue().getMethod().invoke(objectOut, getParam);
                     }
                 }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
         return (T) objectOut;
@@ -122,16 +154,13 @@ public class Mapper {
             MetaData metaData = new MetaData();
             Class<?> type = method.getParameterTypes()[0];
             if (type.equals(List.class)) {
-                Class<?> genericType = getGenericFromSetMethod(method);
-                metaData.setGenericType(genericType);
+                metaData.setGenericType(getGenericFromSetMethod(method));
             } else if(type.isArray()){
                 System.out.println(type);
             }
             else {
                 if (!classHashSet.contains(type)) {
                     metaData.setMetaData(addMetaDataSet(type));
-                } else {
-
                 }
             }
             String paramName = Introspector.decapitalize(method.getName().substring(3));
@@ -144,19 +173,6 @@ public class Mapper {
             metaDataSetters.put(typeIn, hashMap);
         }
         return hashMap;
-    }
-
-    private void createTypeMap() {
-        classHashSet = new HashSet<>();
-        classHashSet.add(String.class);
-        classHashSet.add(long.class);
-        classHashSet.add(Long.class);
-        classHashSet.add(int.class);
-        classHashSet.add(Integer.class);
-        classHashSet.add(boolean.class);
-        classHashSet.add(Date.class);
-        classHashSet.add(Double.class);
-        classHashSet.add(double.class);
     }
 
     private class MetaData {

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Test {
-    public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args){
 
         Human human = new Human();
         human.setId(1);
