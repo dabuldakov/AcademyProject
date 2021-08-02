@@ -95,7 +95,6 @@ public class Mapper {
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return (T) objectOut;
     }
 

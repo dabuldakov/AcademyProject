@@ -21,6 +21,8 @@ public class Test {
         stringList.add("third");
         human.setDescriptions(stringList);
 
+
+
         Car car = new Car();
         car.setId(15);
         car.setName("Lada");

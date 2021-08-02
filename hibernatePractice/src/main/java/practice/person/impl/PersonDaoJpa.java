@@ -40,7 +40,7 @@ public class PersonDaoJpa implements PersonDao {
 
     @Override
     public Person create(Person person) {
-        em.merge(person);
+        em.persist(person);
         return person;
     }
 
