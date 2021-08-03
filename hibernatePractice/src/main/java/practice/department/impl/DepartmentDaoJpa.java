@@ -1,13 +1,16 @@
 package practice.department.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import practice.department.Department;
 import practice.department.DepartmentDao;
+import practice.department.DepartmentRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Transactional
@@ -16,9 +19,17 @@ public class DepartmentDaoJpa implements DepartmentDao {
     @PersistenceContext(unitName = "entityManagerFactory")
     EntityManager em;
 
+    @Autowired
+    private DepartmentRepository repository;
+
     @Override
     public Department find(int id) {
         return em.find(Department.class, id);
+    }
+
+    @Override
+    public List<Department> findAll() {
+        return repository.findAll();
     }
 
     @Override

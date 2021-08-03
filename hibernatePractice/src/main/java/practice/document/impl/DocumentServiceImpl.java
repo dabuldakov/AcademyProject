@@ -17,9 +17,6 @@ public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
 
     @Autowired
-    private DocumentRepository repository;
-
-    @Autowired
     Mapper mapper;
 
     @Override
@@ -29,7 +26,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<DocumentDto> findAll() {
-        return repository.findAll().stream()
+        return dao.findAll().stream()
                 .map(x -> mapper.run(x, DocumentDto.class))
                 .collect(Collectors.toList());
     }

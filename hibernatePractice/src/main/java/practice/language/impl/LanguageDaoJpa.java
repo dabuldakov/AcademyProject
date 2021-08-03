@@ -1,9 +1,11 @@
 package practice.language.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import practice.language.Language;
 import practice.language.LanguageDao;
+import practice.language.LanguageRepository;
 import practice.person.Person;
 
 import javax.persistence.EntityManager;
@@ -18,6 +20,9 @@ public class LanguageDaoJpa implements LanguageDao {
     @PersistenceContext(unitName = "entityManagerFactory")
     EntityManager em;
 
+    @Autowired
+    LanguageRepository repository;
+
     @Override
     public Language find(int id) {
         return em.find(Language.class, id);
@@ -25,7 +30,7 @@ public class LanguageDaoJpa implements LanguageDao {
 
     @Override
     public List<Language> findAll() {
-        return null;
+        return repository.findAll();
     }
 
     @Override

@@ -16,9 +16,6 @@ public class LanguageServiceImpl implements LanguageService {
     LanguageDao dao;
 
     @Autowired
-    LanguageRepository repository;
-
-    @Autowired
     Mapper mapper;
 
     public LanguageDto find(int id) {
@@ -27,7 +24,7 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
     public List<LanguageDto> findAll() {
-        return repository.findAll().stream()
+        return dao.findAll().stream()
                 .map(x -> mapper.run(x, LanguageDto.class))
                 .collect(Collectors.toList());
     }

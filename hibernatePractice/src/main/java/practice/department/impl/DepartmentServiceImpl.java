@@ -17,9 +17,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentDao dao;
 
     @Autowired
-    private DepartmentRepository repository;
-
-    @Autowired
     Mapper mapper;
 
 
@@ -30,7 +27,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<DepartmentDto> findAll() {
-        return repository.findAll().stream()
+        return dao.findAll().stream()
                 .map(x -> (mapper.run(x, DepartmentDto.class)))
                 .collect(Collectors.toList());
     }

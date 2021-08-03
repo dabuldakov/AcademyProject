@@ -6,19 +6,18 @@ import org.springframework.stereotype.Service;
 import practice.department.Department;
 import practice.mapper.Mapper;
 import practice.person.*;
+import practice.person.exception.PersonException;
+import practice.person.exception.PersonIdException;
+import practice.person.exception.PersonNotFoundException;
 import practice.util.Constants;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class PersonServiceImpl implements PersonService {
-
-    @Autowired
-    private PersonRepository repository;
 
     @Autowired
     @Qualifier("personDaoJpa")
@@ -28,49 +27,44 @@ public class PersonServiceImpl implements PersonService {
     Mapper mapper;
 
 
-    public PersonDto find(int id) {
+    public PersonDto find(int id) throws PersonNotFoundException {
         return mapper.run(dao.find(id), PersonDto.class);
     }
 
     public List<PersonDto> findAll() {
-        return repository.findAll().stream()
+        return dao.findAll().stream()
                 .map(x -> mapper.run(x, PersonDto.class))
                 .collect(Collectors.toList());
     }
 
     public void update(PersonDto personDTO) throws PersonException {
-        if (personDTO.getId() != 0)
+        if (personDTO.getId() == 0)
+            throw new PersonIdException("Person id: " + personDTO.getId());
         dao.update(mapper.run(personDTO, Person.class));
     }
 
-    public PersonDto create(PersonDto personDTO) throws PersonException {
-        Person person = dao.create(mapper.run(personDTO, Person.class));
+    public PersonDto create(PersonDto personDto) throws PersonNotFoundException {
+        Person person = dao.create(mapper.run(personDto, Person.class));
         return find(person.getId());
     }
 
-    public void delete(PersonDto personDto) {
+    public void delete(PersonDto personDto) throws PersonIdException {
+        if (personDto.getId() == 0)
+            throw new PersonIdException("Person id: " + personDto.getId());
         dao.delete(mapper.run(personDto, Person.class));
     }
 
-    public void createPersons() {
-        Department department = new Department();
-        department.setId(2);
-
-        ArrayList<Person> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Person person = new Person();
-            person.setFirstName("Oleg " + i);
-            person.setSecondName("Pchelintsev");
-            try {
-                person.setBirthday(Constants.DATE_FORMAT.parse("1983-02-14"));
-            } catch (ParseException e) {
+    public List<PersonDto> createList(ArrayList<PersonDto> list){
+        List<PersonDto> personDtoList = new ArrayList<>();
+        for (PersonDto personDto : list) {
+            try{
+                PersonDto createdPerson = create(personDto);
+                personDtoList.add(createdPerson);
+            }catch (Exception e){
                 e.printStackTrace();
             }
-            person.setDepartment(department);
-            list.add(person);
         }
-        dao.createList(list);
-        list.forEach(System.out::println);
+        return personDtoList;
     }
 
     public void updatePersons() throws ParseException {
