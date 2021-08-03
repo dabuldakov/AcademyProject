@@ -3,6 +3,7 @@ package practice.document.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import practice.NotFoundException;
 import practice.document.*;
 import practice.mapper.Mapper;
 
@@ -32,7 +33,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void update(DocumentDto dto) {
+    public void update(DocumentDto dto) throws NotFoundException {
         dao.update(mapper.run(dto, Document.class));
     }
 

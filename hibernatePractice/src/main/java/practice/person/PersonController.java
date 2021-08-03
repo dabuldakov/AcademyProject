@@ -5,6 +5,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import practice.NotFoundException;
 import practice.person.exception.PersonAccessException;
 import practice.person.exception.PersonException;
 
@@ -22,7 +23,7 @@ public class PersonController {
     Environment environment;
 
     @GetMapping(value = "{id}")
-    ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey, @PathVariable int id) throws PersonException {
+    ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey, @PathVariable int id) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
                 PersonDto result = service.find(id);
                 return new ResponseEntity<>(result, HttpStatus.OK);
@@ -42,7 +43,7 @@ public class PersonController {
     }
 
     @PostMapping()
-    ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException {
+    ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             PersonDto result = service.create(dto);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -53,7 +54,7 @@ public class PersonController {
     }
 
     @PostMapping("list")
-    ResponseEntity<List<PersonDto>> createList(@RequestHeader(value = "access_key") String accessKey, @RequestBody ArrayList<PersonDto> list) throws PersonException {
+    ResponseEntity<List<PersonDto>> createList(@RequestHeader(value = "access_key") String accessKey, @RequestBody ArrayList<PersonDto> list) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             List<PersonDto> serviceList = service.createList(list);
             return new ResponseEntity<>(serviceList, HttpStatus.CREATED);
@@ -63,7 +64,7 @@ public class PersonController {
     }
 
     @PutMapping
-    ResponseEntity<PersonDto> update(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException {
+    ResponseEntity<PersonDto> update(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             service.update(dto);
             return new ResponseEntity<>(HttpStatus.CREATED);

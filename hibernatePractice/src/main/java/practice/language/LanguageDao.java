@@ -2,6 +2,7 @@ package practice.language;
 
 import org.hibernate.annotations.BatchSize;
 import org.springframework.stereotype.Component;
+import practice.NotFoundException;
 import practice.person.Person;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public interface LanguageDao {
     public List<Language> findAll();
 
     public Language create(Language language);
-    public void update(Language language);
+    public void update(Language language) throws NotFoundException;
     public void delete(Language language);
 
     public ArrayList<Language> createList(ArrayList<Language> list);

@@ -1,6 +1,7 @@
 package practice.department;
 
 import org.springframework.stereotype.Component;
+import practice.NotFoundException;
 import practice.document.Document;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public interface DepartmentDao {
     public Department find(int id);
     public List<Department> findAll();
 
-    public void update(Department department);
+    public void update(Department department) throws NotFoundException;
     public Department create(Department department);
     public void delete(Department department);
 

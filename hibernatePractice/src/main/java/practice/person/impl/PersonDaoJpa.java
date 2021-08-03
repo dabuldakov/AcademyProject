@@ -3,19 +3,18 @@ package practice.person.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import practice.NotFoundException;
 import practice.mapper.Mapper;
 import practice.person.Person;
 import practice.person.PersonDao;
-import practice.person.PersonDto;
 import practice.person.PersonRepository;
-import practice.person.exception.PersonNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Component
 @Transactional
@@ -31,10 +30,10 @@ public class PersonDaoJpa implements PersonDao {
     Mapper mapper;
 
     @Override
-    public Person find(int id) throws PersonNotFoundException {
+    public Person find(int id) throws NotFoundException {
         Person person = em.find(Person.class, id);
         if(person == null)
-            throw new PersonNotFoundException("Id: " + id);
+            throw new NotFoundException("Id: " + id);
         em.refresh(person);
         return person;
     }
@@ -51,12 +50,12 @@ public class PersonDaoJpa implements PersonDao {
     }
 
     @Override
-    public void update(Person person) throws PersonNotFoundException {
-        Person foundPerson = em.find(Person.class, person.getId());
-        if(foundPerson != null)
+    public void update(Person person) throws NotFoundException {
+        Optional<Person> foundPerson = repository.findById(person.getId());
+        if(foundPerson.isPresent())
             em.merge(person);
         else
-            throw new PersonNotFoundException("Id: " + person.getId());
+            throw new NotFoundException("Id: " + person.getId());
     }
 
 

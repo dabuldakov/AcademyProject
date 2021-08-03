@@ -3,6 +3,7 @@ package practice.department.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import practice.NotFoundException;
 import practice.department.Department;
 import practice.department.DepartmentDao;
 import practice.department.DepartmentRepository;
@@ -11,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Transactional
@@ -33,13 +35,11 @@ public class DepartmentDaoJpa implements DepartmentDao {
     }
 
     @Override
-    public void update(Department department) {
+    public void update(Department department) throws NotFoundException {
+        Optional<Department> foundDepartment = repository.findById(department.getId());
+        if(foundDepartment.isPresent())
         em.merge(department);
-    }
-
-    @Override
-    public ArrayList<Department> updateList(ArrayList<Department> list) {
-        return null;
+        else throw new NotFoundException("Department id: " + department.getId());
     }
 
     @Override
@@ -49,14 +49,19 @@ public class DepartmentDaoJpa implements DepartmentDao {
     }
 
     @Override
+    public void delete(Department department) {
+        Department department1 = em.find(Department.class, department.getId());
+        em.remove(department1);
+    }
+
+    @Override
     public void createList(ArrayList<Department> list) {
 
     }
 
     @Override
-    public void delete(Department department) {
-        Department department1 = em.find(Department.class, department.getId());
-        em.remove(department1);
+    public ArrayList<Department> updateList(ArrayList<Department> list) {
+        return null;
     }
 
     @Override

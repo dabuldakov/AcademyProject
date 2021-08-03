@@ -3,6 +3,7 @@ package practice.language.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import practice.NotFoundException;
 import practice.language.*;
 import practice.mapper.Mapper;
 
@@ -30,7 +31,7 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public void update(LanguageDto languageDto) {
+    public void update(LanguageDto languageDto) throws NotFoundException {
         dao.update(mapper.run(languageDto, Language.class));
     }
 

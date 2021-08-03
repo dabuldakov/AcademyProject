@@ -3,6 +3,7 @@ package practice.department.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import practice.NotFoundException;
 import practice.department.*;
 import practice.mapper.Mapper;
 
@@ -33,7 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void update(DepartmentDto dto) {
+    public void update(DepartmentDto dto) throws NotFoundException {
         dao.update(mapper.run(dto, Department.class));
     }
 

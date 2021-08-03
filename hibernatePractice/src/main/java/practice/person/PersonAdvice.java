@@ -5,17 +5,17 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import practice.NotFoundException;
 import practice.person.exception.PersonAccessException;
 import practice.person.exception.PersonIdException;
-import practice.person.exception.PersonNotFoundException;
 
 @ControllerAdvice
 public class PersonAdvice {
 
     @ResponseBody
-    @ExceptionHandler(PersonNotFoundException.class)
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String personNotFound(PersonNotFoundException e){
+    String personNotFound(NotFoundException e){
         return e.getMessage();
     }
 

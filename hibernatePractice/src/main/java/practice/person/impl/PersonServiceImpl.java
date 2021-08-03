@@ -3,12 +3,12 @@ package practice.person.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import practice.NotFoundException;
 import practice.department.Department;
 import practice.mapper.Mapper;
 import practice.person.*;
 import practice.person.exception.PersonException;
 import practice.person.exception.PersonIdException;
-import practice.person.exception.PersonNotFoundException;
 import practice.util.Constants;
 
 import java.text.ParseException;
@@ -27,7 +27,7 @@ public class PersonServiceImpl implements PersonService {
     Mapper mapper;
 
 
-    public PersonDto find(int id) throws PersonNotFoundException {
+    public PersonDto find(int id) throws NotFoundException {
         return mapper.run(dao.find(id), PersonDto.class);
     }
 
@@ -37,13 +37,13 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
-    public void update(PersonDto personDTO) throws PersonException {
+    public void update(PersonDto personDTO) throws PersonException, NotFoundException {
         if (personDTO.getId() == 0)
             throw new PersonIdException("Person id: " + personDTO.getId());
         dao.update(mapper.run(personDTO, Person.class));
     }
 
-    public PersonDto create(PersonDto personDto) throws PersonNotFoundException {
+    public PersonDto create(PersonDto personDto) throws NotFoundException {
         Person person = dao.create(mapper.run(personDto, Person.class));
         return find(person.getId());
     }
