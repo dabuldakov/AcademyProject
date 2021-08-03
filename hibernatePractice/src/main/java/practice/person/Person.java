@@ -33,15 +33,15 @@ public class Person {
 
     private Date birthday;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "department_id", foreignKey = @ForeignKey(name = "department_id_fk"))
     private Department department;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "document_id", foreignKey = @ForeignKey(name = "document_id_fk"))
+    @JoinColumn(name = "document_id", foreignKey = @ForeignKey(name = "document_id_fk"), unique = true)
     private Document document;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Language> language;
 
     public Person() {

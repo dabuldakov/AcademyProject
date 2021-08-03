@@ -11,6 +11,7 @@ import practice.util.Constants;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,13 +38,14 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
-    public void update(PersonDto personDTO) {
+    public void update(PersonDto personDTO) throws PersonException {
+        if (personDTO.getId() != 0)
         dao.update(mapper.run(personDTO, Person.class));
     }
 
-    public PersonDto create(PersonDto personDTO) {
+    public PersonDto create(PersonDto personDTO) throws PersonException {
         Person person = dao.create(mapper.run(personDTO, Person.class));
-        return mapper.run(person, PersonDto.class);
+        return find(person.getId());
     }
 
     public void delete(PersonDto personDto) {

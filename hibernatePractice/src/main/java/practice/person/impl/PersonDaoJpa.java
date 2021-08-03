@@ -2,10 +2,13 @@ package practice.person.impl;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import practice.language.Language;
 import practice.person.Person;
 import practice.person.PersonDao;
+import practice.person.PersonException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
@@ -20,7 +23,9 @@ public class PersonDaoJpa implements PersonDao {
 
     @Override
     public Person find(int id) {
-        return em.find(Person.class, id);
+        Person person = em.find(Person.class, id);
+        em.refresh(person);
+        return person;
     }
 
     @Override
@@ -29,8 +34,13 @@ public class PersonDaoJpa implements PersonDao {
     }
 
     @Override
-    public void update(Person person) {
-        em.merge(person);
+    public void update(Person person) throws PersonException {
+        Person foundPerson = em.find(Person.class, person.getId());
+        if(foundPerson != null) {
+            em.merge(person);
+        }
+        else
+            throw new PersonException("Person not found, use POST to create.");
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface PersonDao {
 
     public List<Person> findAll();
 
-    public void update(Person person);
+    public void update(Person person) throws PersonException;
 
     public ArrayList<Person> updateList(ArrayList<Person> list);
 
