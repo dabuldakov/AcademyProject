@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import practice.NotFoundException;
 import practice.person.exception.PersonAccessException;
 import practice.person.exception.PersonException;
+import practice.valid.Marker;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -46,7 +47,7 @@ public class PersonController {
         }
     }
 
-    @PostMapping()
+    @PostMapping
     ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey, @Valid @RequestBody PersonDto dto) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             PersonDto result = service.create(dto);

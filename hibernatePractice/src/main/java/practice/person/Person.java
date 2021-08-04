@@ -7,6 +7,7 @@ import practice.language.Language;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +35,7 @@ public class Person {
     @Column(name = "second_name")
     private String secondName;
 
+    @NotNull
     private Date birthday;
 
     @ManyToOne(cascade = CascadeType.REFRESH)

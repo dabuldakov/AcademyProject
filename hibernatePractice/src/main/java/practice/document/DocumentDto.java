@@ -1,15 +1,24 @@
 package practice.document;
 
+import practice.valid.Marker;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.Date;
 
 
 public class DocumentDto {
+
+    @Null(groups = Marker.OnCreate.class)
+    @NotNull(groups = Marker.OnUpdate.class)
     private int id;
 
     @NotBlank
     private String number;
 
+    @NotEmpty
     private Date expiryDate;
 
     public int getId() {

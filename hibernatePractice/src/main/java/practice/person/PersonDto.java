@@ -6,24 +6,36 @@ import practice.department.DepartmentDto;
 import practice.document.DocumentDto;
 import practice.language.LanguageDto;
 import practice.valid.CapitalLetter;
+import practice.valid.Letters;
+import practice.valid.Marker;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.List;
 
 public class PersonDto {
+
+    @Null(groups = Marker.OnCreate.class)
+    @NotNull(groups = Marker.OnUpdate.class)
     private int id;
 
     @NotBlank
     @CapitalLetter
+    @Letters
     private String firstName;
 
     @NotBlank
     @CapitalLetter
+    @Letters
     private String secondName;
 
+    @NotNull
     private Date birthday;
+
     private DepartmentDto department;
     private DocumentDto document;
     private List<LanguageDto> language;

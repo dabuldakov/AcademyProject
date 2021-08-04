@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import practice.person.PersonDto;
+import practice.valid.Marker;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -41,7 +42,7 @@ public class LanguageController{
         }
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<LanguageDto> create(@Valid @RequestBody LanguageDto dto) {
         try{
             LanguageDto result = service.create(dto);
@@ -51,7 +52,7 @@ public class LanguageController{
         }
     }
 
-    @PutMapping()
+    @PutMapping
     public ResponseEntity<LanguageDto> update(@Valid @RequestBody LanguageDto dto) {
         try{
             service.update(dto);

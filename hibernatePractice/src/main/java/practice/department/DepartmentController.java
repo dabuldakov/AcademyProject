@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import practice.valid.Marker;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -40,7 +41,7 @@ public class DepartmentController {
         }
     }
 
-    @PostMapping()
+    @PostMapping
     ResponseEntity<DepartmentDto> create(@Valid @RequestBody DepartmentDto dto){
         try{
             DepartmentDto result = service.create(dto);
@@ -51,7 +52,7 @@ public class DepartmentController {
         }
     }
 
-    @PutMapping()
+    @PutMapping
     ResponseEntity<DepartmentDto> update(@Valid @RequestBody DepartmentDto dto){
         try{
             service.update(dto);

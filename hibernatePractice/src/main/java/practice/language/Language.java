@@ -1,6 +1,7 @@
 package practice.language;
 
 import practice.person.Person;
+import practice.valid.Letters;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,6 +16,7 @@ public class Language {
     private int id;
 
     @NotBlank
+    @Letters
     private String name;
 
     public Language() {
