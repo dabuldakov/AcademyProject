@@ -78,9 +78,4 @@ public class PersonDaoHibernate implements PersonDao {
         }
     }
 
-    @Override
-    public ArrayList<Person> createList(ArrayList<Person> list) {
-        return null;
-    }
-
 }

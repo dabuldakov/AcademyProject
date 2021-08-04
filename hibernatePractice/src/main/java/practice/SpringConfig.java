@@ -12,12 +12,18 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import practice.department.Department;
+import practice.department.DepartmentDto;
 import practice.document.Document;
+import practice.document.DocumentDto;
 import practice.language.Language;
+import practice.language.LanguageDto;
+import practice.mapper.Mapper;
 import practice.person.Person;
+import practice.person.PersonDto;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.Properties;
 
 @Configuration
@@ -89,5 +95,19 @@ public class SpringConfig {
     @Bean
     public PersistenceExceptionTranslationPostProcessor persistenceExceptionTranslator() {
         return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    @Bean
+    public Mapper mapper(){
+        ArrayList<Class<?>> listClass = new ArrayList<>();
+        listClass.add(Document.class);
+        listClass.add(DocumentDto.class);
+        listClass.add(Department.class);
+        listClass.add(DepartmentDto.class);
+        listClass.add(Language.class);
+        listClass.add(LanguageDto.class);
+        listClass.add(Person.class);
+        listClass.add(PersonDto.class);
+        return new Mapper(listClass);
     }
 }

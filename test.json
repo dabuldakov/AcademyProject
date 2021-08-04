@@ -1,8 +1,7 @@
 {
-  "name": "Arnold",
-  "phoneNumber": 555666777,
+  "firstName": "Andrey",
   "house": {
-    "id": 5655,
+    "id": 1,
     "location": "Tomsk city",
     "selling": true,
     "reappearing": false,

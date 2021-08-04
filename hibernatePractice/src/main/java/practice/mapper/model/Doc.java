@@ -1,18 +1,25 @@
-package practice.document;
+package practice.mapper.model;
 
 import java.util.Date;
+import java.util.List;
 
-
-public class DocumentDto {
+public class Doc {
     private int id;
     private String number;
     private Date expiryDate;
+    private Car car;
+    private List<Car> cars;
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public DocumentDto() {
     }
 
     public void setId(int id) {
@@ -35,12 +42,22 @@ public class DocumentDto {
         this.expiryDate = expiryDate;
     }
 
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
     @Override
     public String toString() {
-        return "DocumentDto{" +
+        return "Doc{" +
                 "id=" + id +
                 ", number='" + number + '\'' +
                 ", expiryDate=" + expiryDate +
+                ", car=" + car +
+                ", cars=" + cars +
                 '}';
     }
 }

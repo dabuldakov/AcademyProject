@@ -5,8 +5,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import practice.util.Constants;
+import practice.NotFoundException;
+import practice.person.exception.PersonAccessException;
+import practice.person.exception.PersonException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,78 +23,63 @@ public class PersonController {
     Environment environment;
 
     @GetMapping(value = "{id}")
-    ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey, @PathVariable int id) {
+    ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey, @PathVariable int id) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
-            try {
                 PersonDto result = service.find(id);
                 return new ResponseEntity<>(result, HttpStatus.OK);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            throw new PersonAccessException();
         }
     }
 
     @GetMapping()
-    ResponseEntity<List<PersonDto>> getAll(@RequestHeader(value = "access_key") String accessKey) {
+    ResponseEntity<List<PersonDto>> getAll(@RequestHeader(value = "access_key") String accessKey) throws PersonException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
-            try {
                 List<PersonDto> result = service.findAll();
                 return new ResponseEntity<>(result, HttpStatus.OK);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            throw new PersonAccessException();
         }
     }
 
     @PostMapping()
-    ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) {
+    ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
-            try {
-                PersonDto result = service.create(dto);
-                return new ResponseEntity<>(result, HttpStatus.CREATED);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+            PersonDto result = service.create(dto);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            throw new PersonAccessException();
         }
 
     }
 
-    @PutMapping
-    ResponseEntity<PersonDto> update(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) {
+    @PostMapping("list")
+    ResponseEntity<List<PersonDto>> createList(@RequestHeader(value = "access_key") String accessKey, @RequestBody ArrayList<PersonDto> list) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
-            try {
-                service.update(dto);
-                return new ResponseEntity<>(HttpStatus.CREATED);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+            List<PersonDto> serviceList = service.createList(list);
+            return new ResponseEntity<>(serviceList, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            throw new PersonAccessException();
+        }
+    }
+
+    @PutMapping
+    ResponseEntity<PersonDto> update(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException, NotFoundException {
+        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
+            service.update(dto);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            throw new PersonAccessException();
         }
     }
 
     @DeleteMapping
-    ResponseEntity<PersonDto> delete(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) {
+    ResponseEntity<PersonDto> delete(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
-            try {
-                service.delete(dto);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+            service.delete(dto);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            throw new PersonAccessException();
         }
     }
 }

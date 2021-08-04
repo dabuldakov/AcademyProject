@@ -6,6 +6,7 @@ import practice.department.Department;
 import practice.department.DepartmentDao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DepartmentDaoHibernate implements DepartmentDao {
@@ -18,6 +19,11 @@ public class DepartmentDaoHibernate implements DepartmentDao {
 
     @Override
     public Department find(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Department> findAll() {
         return null;
     }
 
