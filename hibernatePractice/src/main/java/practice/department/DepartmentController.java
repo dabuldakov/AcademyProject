@@ -3,10 +3,14 @@ package practice.department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("department")
 public class DepartmentController {
@@ -15,7 +19,7 @@ public class DepartmentController {
     DepartmentService service;
 
     @GetMapping("{id}")
-    ResponseEntity<DepartmentDto> getById(@PathVariable int id){
+    ResponseEntity<DepartmentDto> getById(@PathVariable @Min(1) int id){
         try{
             DepartmentDto dto = service.find(id);
             return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -37,7 +41,7 @@ public class DepartmentController {
     }
 
     @PostMapping()
-    ResponseEntity<DepartmentDto> create(@RequestBody DepartmentDto dto){
+    ResponseEntity<DepartmentDto> create(@Valid @RequestBody DepartmentDto dto){
         try{
             DepartmentDto result = service.create(dto);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -48,7 +52,7 @@ public class DepartmentController {
     }
 
     @PutMapping()
-    ResponseEntity<DepartmentDto> update(@RequestBody DepartmentDto dto){
+    ResponseEntity<DepartmentDto> update(@Valid @RequestBody DepartmentDto dto){
         try{
             service.update(dto);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -59,7 +63,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping()
-    ResponseEntity<DepartmentDto> delete(@RequestBody DepartmentDto dto){
+    ResponseEntity<DepartmentDto> delete(@Valid @RequestBody DepartmentDto dto){
         try{
             service.delete(dto);
             return new ResponseEntity<>(HttpStatus.OK);

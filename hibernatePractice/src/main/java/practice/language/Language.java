@@ -3,6 +3,7 @@ package practice.language;
 import practice.person.Person;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity()
@@ -12,6 +13,8 @@ public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotBlank
     private String name;
 
     public Language() {

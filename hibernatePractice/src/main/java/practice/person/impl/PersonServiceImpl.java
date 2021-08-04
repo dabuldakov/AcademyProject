@@ -3,6 +3,7 @@ package practice.person.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import practice.NotFoundException;
 import practice.department.Department;
 import practice.mapper.Mapper;
@@ -11,11 +12,13 @@ import practice.person.exception.PersonException;
 import practice.person.exception.PersonIdException;
 import practice.util.Constants;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class PersonServiceImpl implements PersonService {
 
@@ -37,18 +40,18 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
-    public void update(PersonDto personDTO) throws PersonException, NotFoundException {
+    public void update(@Valid PersonDto personDTO) throws PersonException, NotFoundException {
         if (personDTO.getId() == 0)
             throw new PersonIdException("Person id: " + personDTO.getId());
         dao.update(mapper.run(personDTO, Person.class));
     }
 
-    public PersonDto create(PersonDto personDto) throws NotFoundException {
+    public PersonDto create(@Valid PersonDto personDto) throws NotFoundException {
         Person person = dao.create(mapper.run(personDto, Person.class));
         return find(person.getId());
     }
 
-    public void delete(PersonDto personDto) throws PersonIdException {
+    public void delete(@Valid PersonDto personDto) throws PersonIdException {
         if (personDto.getId() == 0)
             throw new PersonIdException("Person id: " + personDto.getId());
         dao.delete(mapper.run(personDto, Person.class));

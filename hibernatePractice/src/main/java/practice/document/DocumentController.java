@@ -3,10 +3,14 @@ package practice.document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("document")
 public class DocumentController {
@@ -15,7 +19,7 @@ public class DocumentController {
     DocumentService service;
 
     @GetMapping("{id}")
-    ResponseEntity<DocumentDto> getById(@PathVariable int id) {
+    ResponseEntity<DocumentDto> getById(@PathVariable @Min(1) int id) {
         try {
             DocumentDto result = service.find(id);
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -37,7 +41,7 @@ public class DocumentController {
     }
 
     @PostMapping()
-    ResponseEntity<DocumentDto> create(@RequestBody DocumentDto dto){
+    ResponseEntity<DocumentDto> create(@Valid @RequestBody DocumentDto dto){
         try{
             DocumentDto result = service.create(dto);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -48,7 +52,7 @@ public class DocumentController {
     }
 
     @PutMapping()
-    ResponseEntity<DocumentDto> update(@RequestBody DocumentDto dto){
+    ResponseEntity<DocumentDto> update(@Valid @RequestBody DocumentDto dto){
         try{
             service.update(dto);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -58,7 +62,7 @@ public class DocumentController {
     }
 
     @DeleteMapping()
-    ResponseEntity<DocumentDto> delete(@RequestBody DocumentDto dto){
+    ResponseEntity<DocumentDto> delete(@Valid @RequestBody DocumentDto dto){
         try {
             service.delete(dto);
             return new ResponseEntity<>(HttpStatus.OK);

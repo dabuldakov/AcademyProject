@@ -3,11 +3,15 @@ package practice.language;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import practice.person.PersonDto;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("language")
 public class LanguageController{
@@ -16,7 +20,7 @@ public class LanguageController{
     LanguageService service;
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<LanguageDto> getById(@PathVariable int id) {
+    public ResponseEntity<LanguageDto> getById(@PathVariable @Min(1) int id) {
         try{
             LanguageDto result = service.find(id);
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -38,7 +42,7 @@ public class LanguageController{
     }
 
     @PostMapping()
-    public ResponseEntity<LanguageDto> create(@RequestBody LanguageDto dto) {
+    public ResponseEntity<LanguageDto> create(@Valid @RequestBody LanguageDto dto) {
         try{
             LanguageDto result = service.create(dto);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -48,7 +52,7 @@ public class LanguageController{
     }
 
     @PutMapping()
-    public ResponseEntity<LanguageDto> update(@RequestBody LanguageDto dto) {
+    public ResponseEntity<LanguageDto> update(@Valid @RequestBody LanguageDto dto) {
         try{
             service.update(dto);
             return new ResponseEntity<>(dto, HttpStatus.CREATED);
@@ -58,7 +62,7 @@ public class LanguageController{
         }
     }
 
-    public ResponseEntity<LanguageDto> delete(@RequestBody LanguageDto dto) {
+    public ResponseEntity<LanguageDto> delete(@Valid @RequestBody LanguageDto dto) {
         try{
             service.delete(dto);
             return new ResponseEntity<>(HttpStatus.OK);

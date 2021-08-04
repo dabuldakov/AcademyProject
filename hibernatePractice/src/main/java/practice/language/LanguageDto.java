@@ -1,7 +1,14 @@
 package practice.language;
 
+import practice.valid.CapitalLetter;
+
+import javax.validation.constraints.NotBlank;
+
 public class LanguageDto {
     private int id;
+
+    @NotBlank
+    @CapitalLetter
     private String name;
 
     public String getName() {

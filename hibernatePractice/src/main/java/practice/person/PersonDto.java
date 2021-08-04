@@ -1,16 +1,28 @@
 package practice.person;
 
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 import practice.department.DepartmentDto;
 import practice.document.DocumentDto;
 import practice.language.LanguageDto;
+import practice.valid.CapitalLetter;
 
+import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
 public class PersonDto {
     private int id;
+
+    @NotBlank
+    @CapitalLetter
     private String firstName;
+
+    @NotBlank
+    @CapitalLetter
     private String secondName;
+
     private Date birthday;
     private DepartmentDto department;
     private DocumentDto document;
