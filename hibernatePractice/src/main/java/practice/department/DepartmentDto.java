@@ -1,16 +1,11 @@
 package practice.department;
 
-import practice.valid.CapitalLetter;
-import practice.valid.Marker;
+import practice.valid.annotations.CapitalLetter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 public class DepartmentDto {
 
-    @Null(groups = Marker.OnCreate.class)
-    @NotNull(groups = Marker.OnUpdate.class)
     private int id;
 
     @NotBlank

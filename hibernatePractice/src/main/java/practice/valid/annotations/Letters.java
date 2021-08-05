@@ -1,4 +1,6 @@
-package practice.valid;
+package practice.valid.annotations;
+
+import practice.valid.validator.LettersValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,11 +13,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = CapitalLetterValidator.class)
+@Constraint(validatedBy = LettersValidator.class)
 @Documented
-public @interface CapitalLetter {
+public @interface Letters {
 
-    String message() default "first letter must be upper case";
+    String message() default "must contain only letters";
 
     Class<?>[] groups() default {};
 

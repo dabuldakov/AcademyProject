@@ -1,4 +1,6 @@
-package practice.valid;
+package practice.valid.validator;
+
+import practice.valid.annotations.CapitalLetter;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -1,11 +1,9 @@
 package practice.language;
 
-import practice.person.Person;
-import practice.valid.Letters;
+import practice.valid.annotations.Letters;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity()
 @Table(name = "language", schema = "publisher")

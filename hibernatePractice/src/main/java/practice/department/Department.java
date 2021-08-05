@@ -1,8 +1,6 @@
 package practice.department;
 
 
-import practice.valid.Letters;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
