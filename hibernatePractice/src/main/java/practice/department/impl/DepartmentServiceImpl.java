@@ -7,6 +7,7 @@ import practice.NotFoundException;
 import practice.department.*;
 import practice.mapper.Mapper;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,18 +35,18 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void update(DepartmentDto dto) throws NotFoundException {
+    public void update(@Valid DepartmentDto dto) throws NotFoundException {
         dao.update(mapper.run(dto, Department.class));
     }
 
     @Override
-    public DepartmentDto create(DepartmentDto dto) {
+    public DepartmentDto create(@Valid DepartmentDto dto) {
         Department department = dao.create(mapper.run(dto, Department.class));
         return mapper.run(department, DepartmentDto.class);
     }
 
     @Override
-    public void delete(DepartmentDto dto) {
+    public void delete(@Valid DepartmentDto dto) {
         dao.delete(mapper.run(dto, Department.class));
     }
 }

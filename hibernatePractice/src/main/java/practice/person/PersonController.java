@@ -4,14 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import practice.NotFoundException;
 import practice.person.exception.PersonAccessException;
 import practice.person.exception.PersonException;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("person")
 public class PersonController {
@@ -23,7 +27,7 @@ public class PersonController {
     Environment environment;
 
     @GetMapping(value = "{id}")
-    ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey, @PathVariable int id) throws PersonException, NotFoundException {
+    ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey, @PathVariable @Min(1) int id) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
                 PersonDto result = service.find(id);
                 return new ResponseEntity<>(result, HttpStatus.OK);
@@ -42,8 +46,8 @@ public class PersonController {
         }
     }
 
-    @PostMapping()
-    ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException, NotFoundException {
+    @PostMapping
+    ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey, @Valid @RequestBody PersonDto dto) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             PersonDto result = service.create(dto);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -64,7 +68,7 @@ public class PersonController {
     }
 
     @PutMapping
-    ResponseEntity<PersonDto> update(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException, NotFoundException {
+    ResponseEntity<PersonDto> update(@RequestHeader(value = "access_key") String accessKey, @Valid @RequestBody PersonDto dto) throws PersonException, NotFoundException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             service.update(dto);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -74,7 +78,7 @@ public class PersonController {
     }
 
     @DeleteMapping
-    ResponseEntity<PersonDto> delete(@RequestHeader(value = "access_key") String accessKey, @RequestBody PersonDto dto) throws PersonException {
+    ResponseEntity<PersonDto> delete(@RequestHeader(value = "access_key") String accessKey, @Valid @RequestBody PersonDto dto) throws PersonException {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             service.delete(dto);
             return new ResponseEntity<>(HttpStatus.OK);

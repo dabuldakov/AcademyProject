@@ -6,6 +6,8 @@ import practice.document.Document;
 import practice.language.Language;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -25,12 +27,15 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank
     @Column(name = "first_name")
     private String firstName;
 
+    @NotBlank
     @Column(name = "second_name")
     private String secondName;
 
+    @NotNull
     private Date birthday;
 
     @ManyToOne(cascade = CascadeType.REFRESH)

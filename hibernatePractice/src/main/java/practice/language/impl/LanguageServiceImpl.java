@@ -3,13 +3,16 @@ package practice.language.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import practice.NotFoundException;
 import practice.language.*;
 import practice.mapper.Mapper;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class LanguageServiceImpl implements LanguageService {
     @Autowired
@@ -31,18 +34,18 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public void update(LanguageDto languageDto) throws NotFoundException {
+    public void update(@Valid LanguageDto languageDto) throws NotFoundException {
         dao.update(mapper.run(languageDto, Language.class));
     }
 
     @Override
-    public LanguageDto create(LanguageDto languageDto) {
+    public LanguageDto create(@Valid LanguageDto languageDto) {
         Language language = dao.create(mapper.run(languageDto, Language.class));
         return mapper.run(language, LanguageDto.class);
     }
 
     @Override
-    public void delete(LanguageDto languageDto) {
+    public void delete(@Valid LanguageDto languageDto) {
         dao.delete(mapper.run(languageDto, Language.class));
     }
 

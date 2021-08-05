@@ -3,13 +3,16 @@ package practice.document.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import practice.NotFoundException;
 import practice.document.*;
 import practice.mapper.Mapper;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class DocumentServiceImpl implements DocumentService {
 
@@ -33,18 +36,18 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void update(DocumentDto dto) throws NotFoundException {
+    public void update(@Valid DocumentDto dto) throws NotFoundException {
         dao.update(mapper.run(dto, Document.class));
     }
 
     @Override
-    public DocumentDto create(DocumentDto dto) {
+    public DocumentDto create(@Valid DocumentDto dto) {
         Document document = dao.create(mapper.run(dto, Document.class));
         return mapper.run(document, DocumentDto.class);
     }
 
     @Override
-    public void delete(DocumentDto dto) {
+    public void delete(@Valid DocumentDto dto) {
         dao.delete(mapper.run(dto, Document.class));
     }
 }

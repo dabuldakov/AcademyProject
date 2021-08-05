@@ -1,9 +1,9 @@
 package practice.language;
 
-import practice.person.Person;
+import practice.valid.annotations.Letters;
 
 import javax.persistence.*;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
 
 @Entity()
 @Table(name = "language", schema = "publisher")
@@ -12,6 +12,9 @@ public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotBlank
+    @Letters
     private String name;
 
     public Language() {

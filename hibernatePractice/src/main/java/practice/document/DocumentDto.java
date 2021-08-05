@@ -1,11 +1,18 @@
 package practice.document;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 
 public class DocumentDto {
+
     private int id;
+
+    @NotBlank
     private String number;
+
+    @NotEmpty
     private Date expiryDate;
 
     public int getId() {

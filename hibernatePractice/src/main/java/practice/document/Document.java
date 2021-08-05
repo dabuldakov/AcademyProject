@@ -1,6 +1,7 @@
 package practice.document;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity()
@@ -10,6 +11,8 @@ public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotBlank
     private String number;
     @Column(name = "expiry_date")
     private Date expiryDate;

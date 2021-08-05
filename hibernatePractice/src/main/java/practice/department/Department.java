@@ -2,6 +2,7 @@ package practice.department;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "department", schema = "publisher")
@@ -10,6 +11,8 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotBlank
     private String name;
 
     public Department() {

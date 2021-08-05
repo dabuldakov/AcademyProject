@@ -1,7 +1,15 @@
 package practice.department;
 
+import practice.valid.annotations.CapitalLetter;
+
+import javax.validation.constraints.NotBlank;
+
 public class DepartmentDto {
+
     private int id;
+
+    @NotBlank
+    @CapitalLetter
     private String name;
 
     public int getId() {
