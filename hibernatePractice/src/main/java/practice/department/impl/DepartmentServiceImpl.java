@@ -3,7 +3,7 @@ package practice.department.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import practice.NotFoundException;
+import practice.exception.NotFoundException;
 import practice.department.*;
 import practice.mapper.Mapper;
 
@@ -21,10 +21,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     Mapper mapper;
 
-
     @Override
     public DepartmentDto find(int id) {
-        return mapper.run(dao.find(id), DepartmentDto.class);
+        DepartmentDto departmentDto;
+        departmentDto = mapper.run(dao.find(id), DepartmentDto.class);
+        if (departmentDto == null){
+            throw new NotFoundException();
+        }
+        return departmentDto;
     }
 
     @Override

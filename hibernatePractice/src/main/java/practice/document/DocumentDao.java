@@ -1,7 +1,6 @@
 package practice.document;
 
-import practice.NotFoundException;
-import practice.language.Language;
+import practice.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;

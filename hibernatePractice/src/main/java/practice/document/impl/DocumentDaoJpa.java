@@ -3,7 +3,7 @@ package practice.document.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import practice.NotFoundException;
+import practice.exception.NotFoundException;
 import practice.document.Document;
 import practice.document.DocumentDao;
 import practice.document.DocumentRepository;
@@ -45,7 +45,7 @@ public class DocumentDaoJpa implements DocumentDao {
         Optional<Document> byId = repository.findById(document.getId());
         if(byId.isPresent())
             em.merge(document);
-        else throw new NotFoundException("Document id: " + document.getId());
+        else throw new NotFoundException();
     }
 
     @Override

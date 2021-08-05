@@ -1,7 +1,6 @@
 package practice.language;
 
-import practice.NotFoundException;
-import practice.person.PersonDto;
+import practice.exception.NotFoundException;
 
 import javax.validation.Valid;
 import java.util.List;
