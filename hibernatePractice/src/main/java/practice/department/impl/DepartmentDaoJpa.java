@@ -3,7 +3,7 @@ package practice.department.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import practice.NotFoundException;
+import practice.exception.NotFoundException;
 import practice.department.Department;
 import practice.department.DepartmentDao;
 import practice.department.DepartmentRepository;
@@ -26,7 +26,11 @@ public class DepartmentDaoJpa implements DepartmentDao {
 
     @Override
     public Department find(int id) {
-        return em.find(Department.class, id);
+        Department department = em.find(Department.class, id);
+        if (department == null){
+            throw new NotFoundException();
+        }
+        return department;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class DepartmentDaoJpa implements DepartmentDao {
         Optional<Department> foundDepartment = repository.findById(department.getId());
         if(foundDepartment.isPresent())
         em.merge(department);
-        else throw new NotFoundException("Department id: " + department.getId());
+        else throw new NotFoundException();
     }
 
     @Override

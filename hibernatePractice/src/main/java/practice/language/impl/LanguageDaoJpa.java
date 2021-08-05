@@ -3,7 +3,7 @@ package practice.language.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import practice.NotFoundException;
+import practice.exception.NotFoundException;
 import practice.language.Language;
 import practice.language.LanguageDao;
 import practice.language.LanguageRepository;
@@ -27,7 +27,11 @@ public class LanguageDaoJpa implements LanguageDao {
 
     @Override
     public Language find(int id) {
-        return em.find(Language.class, id);
+        Language language = em.find(Language.class, id);
+                if (language == null){
+                    throw new NotFoundException();
+                }
+        return language;
     }
 
     @Override
@@ -46,7 +50,7 @@ public class LanguageDaoJpa implements LanguageDao {
         Optional<Language> byId = repository.findById(language.getId());
         if(byId.isPresent())
         em.merge(language);
-        else throw new NotFoundException("Language id: " + language.getId());
+        else throw new NotFoundException();
     }
 
     @Override

@@ -2,7 +2,7 @@ package practice.person;
 
 import org.hibernate.annotations.BatchSize;
 import org.springframework.stereotype.Component;
-import practice.NotFoundException;
+import practice.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +10,14 @@ import java.util.List;
 @Component
 @BatchSize(size = 5)
 public interface PersonDao {
-    public Person find(int id) throws NotFoundException;
-    public List<Person> findAll();
-    public List<Person> getAllByFirstName(String firstName);
+    Person find(int id) throws NotFoundException;
+    List<Person> findAll();
+    List<Person> getAllByFirstName(String firstName);
 
-    public Person create(Person person);
-    public void update(Person person) throws NotFoundException;
-    public void delete(Person person);
+    Person create(Person person);
+    void update(Person person) throws NotFoundException;
+    void delete(Person person);
 
-    public ArrayList<Person> updateList(ArrayList<Person> list);
-    public ArrayList<Person> deleteList(ArrayList<Person> list);
+    ArrayList<Person> updateList(ArrayList<Person> list);
+    ArrayList<Person> deleteList(ArrayList<Person> list);
 }

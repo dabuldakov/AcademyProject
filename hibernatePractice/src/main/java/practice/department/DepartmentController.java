@@ -20,13 +20,8 @@ public class DepartmentController {
 
     @GetMapping("{id}")
     ResponseEntity<DepartmentDto> getById(@PathVariable @Min(1) int id){
-        try{
             DepartmentDto dto = service.find(id);
             return new ResponseEntity<>(dto, HttpStatus.OK);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
     }
 
     @GetMapping()

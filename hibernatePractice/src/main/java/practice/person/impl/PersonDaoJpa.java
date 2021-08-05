@@ -3,7 +3,7 @@ package practice.person.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import practice.NotFoundException;
+import practice.exception.NotFoundException;
 import practice.mapper.Mapper;
 import practice.person.Person;
 import practice.person.PersonDao;
@@ -33,7 +33,7 @@ public class PersonDaoJpa implements PersonDao {
     public Person find(int id) throws NotFoundException {
         Person person = em.find(Person.class, id);
         if(person == null)
-            throw new NotFoundException("Id: " + id);
+            throw new NotFoundException();
         em.refresh(person);
         return person;
     }
@@ -55,7 +55,7 @@ public class PersonDaoJpa implements PersonDao {
         if(foundPerson.isPresent())
             em.merge(person);
         else
-            throw new NotFoundException("Id: " + person.getId());
+            throw new NotFoundException();
     }
 
 

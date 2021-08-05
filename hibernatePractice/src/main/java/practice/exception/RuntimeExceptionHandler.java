@@ -1,35 +1,32 @@
-package practice.person;
+package practice.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import practice.NotFoundException;
-import practice.person.exception.PersonAccessException;
-import practice.person.exception.PersonIdException;
 
 @ControllerAdvice
-public class PersonAdvice {
+public class RuntimeExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String personNotFound(NotFoundException e){
+    String notFound(NotFoundException e){
         return e.getMessage();
     }
 
     @ResponseBody
-    @ExceptionHandler(PersonIdException.class)
+    @ExceptionHandler(IdException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String personIdIncorrect(PersonIdException e){
+    String idIncorrect(IdException e){
         return e.getMessage();
     }
 
     @ResponseBody
-    @ExceptionHandler(PersonAccessException.class)
+    @ExceptionHandler(AccessException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    String personAccess(PersonAccessException e){
+    String access(AccessException e){
         return e.getMessage();
     }
 

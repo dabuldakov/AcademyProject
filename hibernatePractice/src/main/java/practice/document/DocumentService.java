@@ -1,6 +1,6 @@
 package practice.document;
 
-import practice.NotFoundException;
+import practice.exception.NotFoundException;
 
 import javax.validation.Valid;
 import java.util.List;
