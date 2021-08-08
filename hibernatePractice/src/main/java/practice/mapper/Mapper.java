@@ -39,67 +39,22 @@ public class Mapper {
         classHashSet.add(Date.class);
         classHashSet.add(Double.class);
         classHashSet.add(double.class);
+        classHashSet.add(Character.class);
+        classHashSet.add(char.class);
+        classHashSet.add(Short.class);
+        classHashSet.add(short.class);
+        classHashSet.add(Float.class);
+        classHashSet.add(float.class);
     }
 
     private void startUpClasses(ArrayList<Class<?>> classes) {
         for (Class<?> startClass : classes) {
-            checkMetaDataGet(startClass);
-            checkMetaDataSet(startClass);
+            createMetaDataGet(startClass);
+            createMetaDataSet(startClass);
         }
     }
 
-    public <T> T convert(Object objectIn, Class<T> typeOut) {
-        try {
-            Class<?> typeIn = objectIn.getClass();
-            Constructor<T> constructor = typeOut.getConstructor();
-            T objectOut = constructor.newInstance();
-            HashMap<String, MetaData> hashMapIn = checkMetaDataGet(typeIn);
-            HashMap<String, MetaData> hashMapOut = checkMetaDataSet(typeOut);
-            for (Map.Entry<String, MetaData> entry : hashMapOut.entrySet()) {
-                MetaData metaDataIn = hashMapIn.get(entry.getKey());
-                if (metaDataIn != null) {
-                    Object valueIn = metaDataIn.getMethod().invoke(objectIn);
-                    if (valueIn != null) {
-                        if (valueIn.getClass().isArray()) {
-                            //Object[] newArray = (Object[]) valueIn;
-                            entry.getValue().getMethod().invoke(objectOut, valueIn);
-                            // TODO: 8/1/2021 down if array contain objects
-                        } else if (valueIn instanceof Collection) {
-                            List<?> arrayListIn = new ArrayList<>((Collection<?>) valueIn);
-                            List<Object> newArrayListObjects = new ArrayList<>();
-
-                            if (!arrayListIn.isEmpty()) {
-                                Object o1 = arrayListIn.get(0);
-                                if (!classHashSet.contains(o1.getClass())) {
-                                    for (Object o : arrayListIn) {
-                                        Class<?> genericFromSetMethod = getGenericFromMethod(entry.getValue().getMethod(), SET);
-                                        Object convert = convert(o, genericFromSetMethod);
-                                        newArrayListObjects.add(convert);
-                                    }
-                                    entry.getValue().getMethod().invoke(objectOut, newArrayListObjects);
-                                } else {
-                                    entry.getValue().getMethod().invoke(objectOut, arrayListIn);
-                                }
-                            }
-
-                        } else {
-                            if (!classHashSet.contains(valueIn.getClass())) {
-                                Class<?> aClass = entry.getValue().getMethod().getParameterTypes()[0];
-                                valueIn = convert(valueIn, aClass);
-                            }
-                            entry.getValue().getMethod().invoke(objectOut, valueIn);
-                        }
-                    }
-                }
-            }
-            return objectOut;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public <T> T convertStructureRecursion(Object objectIn, Class<T> typeOut, HashMap<String, MetaData> hashMapIn, HashMap<String, MetaData> hashMapOut) {
+    public <T> T convertStructure(Object objectIn, Class<T> typeOut, HashMap<String, MetaData> hashMapIn, HashMap<String, MetaData> hashMapOut) {
         try {
             T objectOut = typeOut.getConstructor().newInstance();
             for (Map.Entry<String, MetaData> entry : hashMapOut.entrySet()) {
@@ -112,9 +67,8 @@ public class Mapper {
                     continue;
                 if (metaDataOut.type.isArray()) {
                     if (metaDataOut.getMetaData() != null){
-                        Object o = convertArray(valueIn, metaDataIn, metaDataOut);
-                        entry.getValue().getMethod().invoke(objectOut, o);
-                        // TODO: 8/1/2021 down if array contain objects
+                        Object[] o = convertArray(valueIn, metaDataIn, metaDataOut, metaDataOut.getGenericType());
+                        entry.getValue().getMethod().invoke(objectOut, new Object[]{o});
                     } else {
                         entry.getValue().getMethod().invoke(objectOut, valueIn);
                     }
@@ -127,7 +81,7 @@ public class Mapper {
                     }
                 } else {
                     if (metaDataOut.getMetaData() != null) {
-                        valueIn = convertStructureRecursion(valueIn, metaDataOut.getType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
+                        valueIn = convertStructure(valueIn, metaDataOut.getType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
                     }
                     entry.getValue().getMethod().invoke(objectOut, valueIn);
                 }
@@ -139,19 +93,19 @@ public class Mapper {
         }
     }
 
-    public <T> T convertStructure(Object objectIn, Class<T> typeOut) {
-        return convertStructureRecursion(
+    public <T> T convert(Object objectIn, Class<T> typeOut) {
+        return convertStructure(
                 objectIn,
                 typeOut,
                 metaDataGetters.get(objectIn.getClass()),
                 metaDataSetters.get(typeOut));
     }
 
-    private <T,U> U[] convertArray(Object valueIn, MetaData metaDataIn, MetaData metaDataOut) {
+    private <IN,OUT> OUT[] convertArray(Object valueIn, MetaData metaDataIn, MetaData metaDataOut, Class<IN> type) {
         Object[] valueInArray = (Object[]) valueIn;
-        U[] newArray = (U[]) new Object[valueInArray.length];
+        OUT[] newArray = (OUT[]) Array.newInstance(type, valueInArray.length);
         for (int i = 0; i < valueInArray.length; i++) {
-            newArray[i] = (U) convertStructureRecursion(valueInArray[i], metaDataOut.getGenericType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
+            newArray[i] = (OUT) convertStructure(valueInArray[i], type, metaDataIn.getMetaData(), metaDataOut.getMetaData());
         }
         return newArray;
     }
@@ -161,14 +115,16 @@ public class Mapper {
             Collection<?> collection = (Collection<?>) valueIn;
             if (!collection.isEmpty()) {
                 for (Object next : collection) {
-                    Object o = convertStructureRecursion(next, metaDataOut.getGenericType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
+                    Object o = convertStructure(next, metaDataOut.getGenericType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
                     newArrayListObjects.add(o);
                 }
             }
             return newArrayListObjects;
         } else if (metaDataOut.getType().equals(Queue.class)) {
+            // TODO: 8/8/2021 add variant with QUEUE collection
             return null;
         } else if (metaDataOut.getType().equals(Set.class)) {
+            // TODO: 8/8/2021 add variant with SET collection
             return null;
         }
         return null;
@@ -184,38 +140,20 @@ public class Mapper {
         return (Class<?>) parameterizedType.getActualTypeArguments()[0];
     }
 
-    private HashMap<String, MetaData> checkMetaDataSet(Class<?> type) {
+    private void createMetaDataSet(Class<?> type) {
         HashMap<String, MetaData> hashMap;
         if (metaDataSetters.get(type) == null) {
             hashMap = addMetaDataStructure(type, SET);
             metaDataSetters.put(type, hashMap);
-        } else {
-            hashMap = metaDataSetters.get(type);
         }
-        return hashMap;
     }
 
-    private HashMap<String, MetaData> checkMetaDataGet(Class<?> type) {
+    private void createMetaDataGet(Class<?> type) {
         HashMap<String, MetaData> hashMap;
         if (metaDataGetters.get(type) == null) {
             hashMap = addMetaDataStructure(type, GET);
             metaDataGetters.put(type, hashMap);
-        } else {
-            hashMap = metaDataGetters.get(type);
         }
-        return hashMap;
-    }
-
-    private HashMap<String, MetaData> addMetaData(Class<?> typeIn, String setGet) {
-        List<Method> methods = getMethodList(typeIn, setGet);
-        HashMap<String, MetaData> hashMap = new HashMap<>();
-        for (Method method : methods) {
-            String paramName = Introspector.decapitalize(method.getName().substring(3));
-            MetaData metaData = new MetaData(paramName, method);
-            hashMap.put(paramName, metaData);
-        }
-        addMetaDataSetOrGet(typeIn, hashMap, setGet);
-        return hashMap;
     }
 
     private HashMap<String, MetaData> addMetaDataStructure(Class<?> typeIn, String setOrGet) {
@@ -261,18 +199,6 @@ public class Mapper {
             return method.getParameterTypes()[0];
         else
             return method.getReturnType();
-    }
-
-    private void addMetaDataSetOrGet(Class<?> type, HashMap<String, MetaData> hashMap, String setOrGet) {
-        if (setOrGet.equals(SET)) {
-            if (!metaDataSetters.containsKey(type)) {
-                metaDataSetters.put(type, hashMap);
-            }
-        } else {
-            if (!metaDataGetters.containsKey(type)) {
-                metaDataGetters.put(type, hashMap);
-            }
-        }
     }
 
     private class MetaData {

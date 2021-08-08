@@ -59,7 +59,7 @@ public class Test {
         classes.add(Doc.class);
         classes.add(DocDto.class);
         Mapper mapper = new Mapper(classes);
-        DocDto docDto = mapper.convertStructure(doc, DocDto.class);
+        DocDto docDto = mapper.convert(doc, DocDto.class);
         System.out.println(doc);
         System.out.println(docDto);
     }
