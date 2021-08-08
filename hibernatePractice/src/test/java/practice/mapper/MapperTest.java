@@ -7,8 +7,6 @@ import practice.document.DocumentDto;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MapperTest {
 
     @Test
@@ -20,7 +18,7 @@ class MapperTest {
         document.setExpiryDate(new Date());
 
         Mapper mapper = new Mapper();
-        DocumentDto documentDto = mapper.run(document, DocumentDto.class);
+        DocumentDto documentDto = mapper.convert(document, DocumentDto.class);
         System.out.println(document);
         System.out.println(documentDto);
     }

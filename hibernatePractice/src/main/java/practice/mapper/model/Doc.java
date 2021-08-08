@@ -1,5 +1,6 @@
 package practice.mapper.model;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,28 @@ public class Doc {
     private Date expiryDate;
     private Car car;
     private List<Car> cars;
+    private Car[] carsArray;
+
+    public Car[] getCarsArray() {
+        return carsArray;
+    }
+
+    public void setCarsArray(Car[] carsArray) {
+        this.carsArray = carsArray;
+    }
+
+    @Override
+    public String toString() {
+        return "Doc{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", expiryDate=" + expiryDate +
+                ", car=" + car +
+                ", cars=" + cars +
+                ", carsArray=" + Arrays.toString(carsArray) +
+                '}';
+    }
+
 
     public List<Car> getCars() {
         return cars;
@@ -50,14 +73,4 @@ public class Doc {
         this.car = car;
     }
 
-    @Override
-    public String toString() {
-        return "Doc{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
-                ", expiryDate=" + expiryDate +
-                ", car=" + car +
-                ", cars=" + cars +
-                '}';
-    }
 }

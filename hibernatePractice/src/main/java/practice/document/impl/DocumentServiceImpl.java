@@ -25,29 +25,29 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public DocumentDto find(int id) {
-        return mapper.run(dao.find(id), DocumentDto.class);
+        return mapper.convert(dao.find(id), DocumentDto.class);
     }
 
     @Override
     public List<DocumentDto> findAll() {
         return dao.findAll().stream()
-                .map(x -> mapper.run(x, DocumentDto.class))
+                .map(x -> mapper.convert(x, DocumentDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void update(@Valid DocumentDto dto) throws NotFoundException {
-        dao.update(mapper.run(dto, Document.class));
+        dao.update(mapper.convert(dto, Document.class));
     }
 
     @Override
     public DocumentDto create(@Valid DocumentDto dto) {
-        Document document = dao.create(mapper.run(dto, Document.class));
-        return mapper.run(document, DocumentDto.class);
+        Document document = dao.create(mapper.convert(dto, Document.class));
+        return mapper.convert(document, DocumentDto.class);
     }
 
     @Override
     public void delete(@Valid DocumentDto dto) {
-        dao.delete(mapper.run(dto, Document.class));
+        dao.delete(mapper.convert(dto, Document.class));
     }
 }

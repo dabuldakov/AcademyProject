@@ -1,9 +1,6 @@
 package practice.mapper;
 
-import practice.mapper.model.Car;
-import practice.mapper.model.Doc;
-import practice.mapper.model.DocDto;
-import practice.mapper.model.Human;
+import practice.mapper.model.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,20 +42,25 @@ public class Test {
         carList.add(car2);
         carList.add(car3);
 
+        Car[] carsArray = new Car[3];
+        carsArray[0] = car;
+        carsArray[1] = car2;
+        carsArray[2] = car3;
+
         Doc doc = new Doc();
         doc.setId(22);
         doc.setNumber("222-sss-555");
         doc.setExpiryDate(new Date());
         doc.setCar(car);
         doc.setCars(carList);
+        doc.setCarsArray(carsArray);
 
-        Mapper mapper = new Mapper();
-        DocDto docDto = mapper.run(doc, DocDto.class);
+        ArrayList<Class<?>> classes = new ArrayList<>();
+        classes.add(Doc.class);
+        classes.add(DocDto.class);
+        Mapper mapper = new Mapper(classes);
+        DocDto docDto = mapper.convertStructure(doc, DocDto.class);
         System.out.println(doc);
         System.out.println(docDto);
-
-        Mapper mapper1 = new Mapper();
-        mapper1.addMetaDataSet(DocDto.class);
-        String s = "";
     }
 }

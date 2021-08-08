@@ -31,30 +31,30 @@ public class PersonServiceImpl implements PersonService {
 
 
     public PersonDto find(int id) throws NotFoundException {
-        return mapper.run(dao.find(id), PersonDto.class);
+        return mapper.convert(dao.find(id), PersonDto.class);
     }
 
     public List<PersonDto> findAll() {
         return dao.findAll().stream()
-                .map(x -> mapper.run(x, PersonDto.class))
+                .map(x -> mapper.convert(x, PersonDto.class))
                 .collect(Collectors.toList());
     }
 
     public void update(@Valid PersonDto personDTO) throws PersonException, NotFoundException {
         if (personDTO.getId() == 0)
             throw new IdException("Person id: " + personDTO.getId());
-        dao.update(mapper.run(personDTO, Person.class));
+        dao.update(mapper.convert(personDTO, Person.class));
     }
 
     public PersonDto create(@Valid PersonDto personDto) throws NotFoundException {
-        Person person = dao.create(mapper.run(personDto, Person.class));
+        Person person = dao.create(mapper.convert(personDto, Person.class));
         return find(person.getId());
     }
 
     public void delete(@Valid PersonDto personDto) throws IdException {
         if (personDto.getId() == 0)
             throw new IdException("Person id: " + personDto.getId());
-        dao.delete(mapper.run(personDto, Person.class));
+        dao.delete(mapper.convert(personDto, Person.class));
     }
 
     public List<PersonDto> createList(ArrayList<PersonDto> list){
