@@ -11,6 +11,7 @@ public class Mapper {
     private HashMap<Class<?>, HashMap<String, MetaData>> metaDataSetters;
     private HashMap<Class<?>, HashMap<String, MetaData>> metaDataGetters;
     private HashSet<Class<?>> classHashSet;
+    private HashSet<Class<?>> collectionClassHashSet;
     private static final String GET = "get";
     private static final String SET = "set";
 
@@ -45,6 +46,11 @@ public class Mapper {
         classHashSet.add(short.class);
         classHashSet.add(Float.class);
         classHashSet.add(float.class);
+
+        collectionClassHashSet = new HashSet<>();
+        collectionClassHashSet.add(List.class);
+        collectionClassHashSet.add(Queue.class);
+        collectionClassHashSet.add(Set.class);
     }
 
     private void startUpClasses(ArrayList<Class<?>> classes) {
@@ -109,20 +115,28 @@ public class Mapper {
         }
         return newArray;
     }
+
     private Collection<?> convertCollection(Object valueIn, MetaData metaDataIn, MetaData metaDataOut) {
         if (metaDataOut.getType().equals(List.class)) {
-            List<Object> newArrayListObjects = new ArrayList<>();
+            List<Object> newObjectList = new ArrayList<>();
             Collection<?> collection = (Collection<?>) valueIn;
             if (!collection.isEmpty()) {
                 for (Object next : collection) {
                     Object o = convertStructure(next, metaDataOut.getGenericType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
-                    newArrayListObjects.add(o);
+                    newObjectList.add(o);
                 }
             }
-            return newArrayListObjects;
+            return newObjectList;
         } else if (metaDataOut.getType().equals(Queue.class)) {
-            // TODO: 8/8/2021 add variant with QUEUE collection
-            return null;
+            Queue<Object> newObjectQueue = new LinkedList<>();
+            Collection<?> collection = (Collection<?>) valueIn;
+            if (!collection.isEmpty()) {
+                for (Object next : collection) {
+                    Object o = convertStructure(next, metaDataOut.getGenericType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
+                    newObjectQueue.add(o);
+                }
+            }
+            return newObjectQueue;
         } else if (metaDataOut.getType().equals(Set.class)) {
             // TODO: 8/8/2021 add variant with SET collection
             return null;
@@ -162,7 +176,7 @@ public class Mapper {
         for (Method method : methodList) {
             MetaData metaData = new MetaData();
             Class<?> type = getType(method, setOrGet);
-            if (type.equals(List.class)) {
+            if (collectionClassHashSet.contains(type)) {
                 Class<?> genericFromMethod = getGenericFromMethod(method, setOrGet);
                 metaData.setGenericType(genericFromMethod);
                 if (!classHashSet.contains(genericFromMethod)) {

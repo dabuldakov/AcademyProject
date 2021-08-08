@@ -3,6 +3,7 @@ package practice.mapper.model;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Queue;
 
 public class Doc {
     private int id;
@@ -11,14 +12,7 @@ public class Doc {
     private Car car;
     private List<Car> cars;
     private Car[] carsArray;
-
-    public Car[] getCarsArray() {
-        return carsArray;
-    }
-
-    public void setCarsArray(Car[] carsArray) {
-        this.carsArray = carsArray;
-    }
+    private Queue<Car> carQueue;
 
     @Override
     public String toString() {
@@ -29,7 +23,24 @@ public class Doc {
                 ", car=" + car +
                 ", cars=" + cars +
                 ", carsArray=" + Arrays.toString(carsArray) +
+                ", carQueue=" + carQueue +
                 '}';
+    }
+
+    public Queue<Car> getCarQueue() {
+        return carQueue;
+    }
+
+    public void setCarQueue(Queue<Car> carQueue) {
+        this.carQueue = carQueue;
+    }
+
+    public Car[] getCarsArray() {
+        return carsArray;
+    }
+
+    public void setCarsArray(Car[] carsArray) {
+        this.carsArray = carsArray;
     }
 
 

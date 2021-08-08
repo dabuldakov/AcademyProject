@@ -2,9 +2,7 @@ package practice.mapper;
 
 import practice.mapper.model.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Test {
     public static void main(String[] args){
@@ -47,6 +45,11 @@ public class Test {
         carsArray[1] = car2;
         carsArray[2] = car3;
 
+        Queue<Car> carQueue = new LinkedList<>();
+        carQueue.add(car);
+        carQueue.add(car2);
+        carQueue.add(car3);
+
         Doc doc = new Doc();
         doc.setId(22);
         doc.setNumber("222-sss-555");
@@ -54,6 +57,7 @@ public class Test {
         doc.setCar(car);
         doc.setCars(carList);
         doc.setCarsArray(carsArray);
+        doc.setCarQueue(carQueue);
 
         ArrayList<Class<?>> classes = new ArrayList<>();
         classes.add(Doc.class);
