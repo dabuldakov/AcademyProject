@@ -1,9 +1,10 @@
 package practice.mapper;
 
-import practice.mapper.model.CarDto;
-
 import java.beans.Introspector;
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -72,7 +73,7 @@ public class Mapper {
                 if (valueIn == null)
                     continue;
                 if (metaDataOut.type.isArray()) {
-                    if (metaDataOut.getMetaData() != null){
+                    if (metaDataOut.getMetaData() != null) {
                         Object[] o = convertArray(valueIn, metaDataIn, metaDataOut, metaDataOut.getGenericType());
                         entry.getValue().getMethod().invoke(objectOut, new Object[]{o});
                     } else {
@@ -107,7 +108,7 @@ public class Mapper {
                 metaDataSetters.get(typeOut));
     }
 
-    private <IN,OUT> OUT[] convertArray(Object valueIn, MetaData metaDataIn, MetaData metaDataOut, Class<IN> type) {
+    private <IN, OUT> OUT[] convertArray(Object valueIn, MetaData metaDataIn, MetaData metaDataOut, Class<IN> type) {
         Object[] valueInArray = (Object[]) valueIn;
         OUT[] newArray = (OUT[]) Array.newInstance(type, valueInArray.length);
         for (int i = 0; i < valueInArray.length; i++) {
