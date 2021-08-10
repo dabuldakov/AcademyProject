@@ -17,9 +17,5 @@ class MapperTest {
         document.setNumber("aaa-sss-222");
         document.setExpiryDate(new Date());
 
-        Mapper mapper = new Mapper();
-        DocumentDto documentDto = mapper.convert(document, DocumentDto.class);
-        System.out.println(document);
-        System.out.println(documentDto);
     }
 }

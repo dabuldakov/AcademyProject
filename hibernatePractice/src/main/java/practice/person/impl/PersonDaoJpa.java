@@ -26,9 +26,6 @@ public class PersonDaoJpa implements PersonDao {
     @Autowired
     private PersonRepository repository;
 
-    @Autowired
-    Mapper mapper;
-
     @Override
     public Person find(int id) throws NotFoundException {
         Person person = em.find(Person.class, id);
