@@ -1,7 +1,9 @@
 package practice.mapper.model;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Queue;
 
 public class DocDto {
     private int id;
@@ -9,6 +11,37 @@ public class DocDto {
     private Date expiryDate;
     private CarDto car;
     private List<CarDto> cars;
+    private CarDto[] carsArray;
+    private Queue<CarDto> carQueue;
+
+    @Override
+    public String toString() {
+        return "DocDto{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", expiryDate=" + expiryDate +
+                ", car=" + car +
+                ", cars=" + cars +
+                ", carsArray=" + Arrays.toString(carsArray) +
+                ", carQueue=" + carQueue +
+                '}';
+    }
+
+    public Queue<CarDto> getCarQueue() {
+        return carQueue;
+    }
+
+    public void setCarQueue(Queue<CarDto> carQueue) {
+        this.carQueue = carQueue;
+    }
+
+    public CarDto[] getCarsArray() {
+        return carsArray;
+    }
+
+    public void setCarsArray(CarDto[] carsArray) {
+        this.carsArray = carsArray;
+    }
 
     public List<CarDto> getCars() {
         return cars;
@@ -50,14 +83,4 @@ public class DocDto {
         this.expiryDate = expiryDate;
     }
 
-    @Override
-    public String toString() {
-        return "DocDto{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
-                ", expiryDate=" + expiryDate +
-                ", car=" + car +
-                ", cars=" + cars +
-                '}';
-    }
 }

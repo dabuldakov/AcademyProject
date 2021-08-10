@@ -1,7 +1,7 @@
 package practice.mapper;
 
 import java.beans.Introspector;
-import java.lang.reflect.Constructor;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -12,6 +12,7 @@ public class Mapper {
     private HashMap<Class<?>, HashMap<String, MetaData>> metaDataSetters;
     private HashMap<Class<?>, HashMap<String, MetaData>> metaDataGetters;
     private HashSet<Class<?>> classHashSet;
+    private HashSet<Class<?>> collectionClassHashSet;
     private static final String GET = "get";
     private static final String SET = "set";
 
@@ -19,17 +20,17 @@ public class Mapper {
     public Mapper() {
         metaDataGetters = new HashMap<>();
         metaDataSetters = new HashMap<>();
-        createTypeMap();
+        createTypeSet();
     }
 
     public Mapper(ArrayList<Class<?>> classes) {
         metaDataGetters = new HashMap<>();
         metaDataSetters = new HashMap<>();
-        createTypeMap();
+        createTypeSet();
         startUpClasses(classes);
     }
 
-    private void createTypeMap() {
+    private void createTypeSet() {
         classHashSet = new HashSet<>();
         classHashSet.add(String.class);
         classHashSet.add(long.class);
@@ -40,129 +41,157 @@ public class Mapper {
         classHashSet.add(Date.class);
         classHashSet.add(Double.class);
         classHashSet.add(double.class);
+        classHashSet.add(Character.class);
+        classHashSet.add(char.class);
+        classHashSet.add(Short.class);
+        classHashSet.add(short.class);
+        classHashSet.add(Float.class);
+        classHashSet.add(float.class);
+
+        collectionClassHashSet = new HashSet<>();
+        collectionClassHashSet.add(List.class);
+        collectionClassHashSet.add(Queue.class);
+        collectionClassHashSet.add(Set.class);
     }
 
-    private void startUpClasses(ArrayList<Class<?>> classes){
+    private void startUpClasses(ArrayList<Class<?>> classes) {
         for (Class<?> startClass : classes) {
-            checkMetaDataGet(startClass);
-            checkMetaDataSet(startClass);
+            createMetaDataGet(startClass);
+            createMetaDataSet(startClass);
         }
     }
 
-    public <T> T run(Object objectIn, Class<T> typeOut){
-        Object objectOut = new Object();
+    public <T> T convertStructure(Object objectIn, Class<T> typeOut, HashMap<String, MetaData> hashMapIn, HashMap<String, MetaData> hashMapOut) {
         try {
-            Class<?> typeIn = objectIn.getClass();
-            Constructor<T> constructor = typeOut.getConstructor();
-            objectOut = constructor.newInstance();
-            HashMap<String, MetaData> hashMapIn = checkMetaDataGet(typeIn);
-            HashMap<String, MetaData> hashMapOut = checkMetaDataSet(typeOut);
-
+            T objectOut = typeOut.getConstructor().newInstance();
             for (Map.Entry<String, MetaData> entry : hashMapOut.entrySet()) {
-                MetaData metaData = hashMapIn.get(entry.getKey());
-                if (metaData != null) {
-                    Object getParam = metaData.getMethod().invoke(objectIn);
-                    if (getParam != null) {
-                        if (getParam.getClass().isArray()) {
-                            //Object[] newArray = (Object[]) getParam;
-                            entry.getValue().getMethod().invoke(objectOut, getParam);
-                            // TODO: 8/1/2021 down if array contain objects
-                        } else if (getParam instanceof Collection) {
-                            List<?> arrayListIn = new ArrayList<>((Collection<?>) getParam);
-                            List<Object> newArrayListObjects = new ArrayList<>();
-
-                            if (!arrayListIn.isEmpty()) {
-                                Object o1 = arrayListIn.get(0);
-                                if (!classHashSet.contains(o1.getClass())) {
-                                    for (Object o : arrayListIn) {
-                                        Class<?> genericFromSetMethod = getGenericFromSetMethod(entry.getValue().getMethod());
-                                        Object run = run(o, genericFromSetMethod);
-                                        newArrayListObjects.add(run);
-                                    }
-                                    entry.getValue().getMethod().invoke(objectOut, newArrayListObjects);
-                                } else {
-                                    entry.getValue().getMethod().invoke(objectOut, arrayListIn);
-                                }
-                            }
-
-                        } else {
-                            if (!classHashSet.contains(getParam.getClass())) {
-                                Class<?> aClass = entry.getValue().getMethod().getParameterTypes()[0];
-                                getParam = run(getParam, aClass);
-                            }
-                            entry.getValue().getMethod().invoke(objectOut, getParam);
-                        }
+                MetaData metaDataIn = hashMapIn.get(entry.getKey());
+                MetaData metaDataOut = hashMapOut.get((entry.getKey()));
+                if (metaDataIn == null || metaDataOut == null)
+                    continue;
+                Object valueIn = metaDataIn.getMethod().invoke(objectIn);
+                if (valueIn == null)
+                    continue;
+                if (metaDataOut.type.isArray()) {
+                    if (metaDataOut.getMetaData() != null) {
+                        Object[] o = convertArray(valueIn, metaDataIn, metaDataOut, metaDataOut.getGenericType());
+                        entry.getValue().getMethod().invoke(objectOut, new Object[]{o});
+                    } else {
+                        entry.getValue().getMethod().invoke(objectOut, valueIn);
                     }
+                } else if (valueIn instanceof Collection) {
+                    if (metaDataOut.getMetaData() != null) {
+                        Collection<?> objects = convertCollection(valueIn, metaDataIn, metaDataOut);
+                        entry.getValue().getMethod().invoke(objectOut, objects);
+                    } else {
+                        entry.getValue().getMethod().invoke(objectOut, valueIn);
+                    }
+                } else {
+                    if (metaDataOut.getMetaData() != null) {
+                        valueIn = convertStructure(valueIn, metaDataOut.getType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
+                    }
+                    entry.getValue().getMethod().invoke(objectOut, valueIn);
                 }
             }
-        }catch (Exception e){
+            return objectOut;
+        } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return (T) objectOut;
     }
 
-    private Class<?> getGenericFromSetMethod(Method method) {
-        Type genericParameterType = method.getGenericParameterTypes()[0];
+    public <T> T convert(Object objectIn, Class<T> typeOut) {
+        return convertStructure(
+                objectIn,
+                typeOut,
+                metaDataGetters.get(objectIn.getClass()),
+                metaDataSetters.get(typeOut));
+    }
+
+    private <IN, OUT> OUT[] convertArray(Object valueIn, MetaData metaDataIn, MetaData metaDataOut, Class<IN> type) {
+        Object[] valueInArray = (Object[]) valueIn;
+        OUT[] newArray = (OUT[]) Array.newInstance(type, valueInArray.length);
+        for (int i = 0; i < valueInArray.length; i++) {
+            newArray[i] = (OUT) convertStructure(valueInArray[i], type, metaDataIn.getMetaData(), metaDataOut.getMetaData());
+        }
+        return newArray;
+    }
+
+    private Collection<?> convertCollection(Object valueIn, MetaData metaDataIn, MetaData metaDataOut) {
+        if (metaDataOut.getType().equals(List.class)) {
+            List<Object> newObjectList = new ArrayList<>();
+            Collection<?> collection = (Collection<?>) valueIn;
+            if (!collection.isEmpty()) {
+                for (Object next : collection) {
+                    Object o = convertStructure(next, metaDataOut.getGenericType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
+                    newObjectList.add(o);
+                }
+            }
+            return newObjectList;
+        } else if (metaDataOut.getType().equals(Queue.class)) {
+            Queue<Object> newObjectQueue = new LinkedList<>();
+            Collection<?> collection = (Collection<?>) valueIn;
+            if (!collection.isEmpty()) {
+                for (Object next : collection) {
+                    Object o = convertStructure(next, metaDataOut.getGenericType(), metaDataIn.getMetaData(), metaDataOut.getMetaData());
+                    newObjectQueue.add(o);
+                }
+            }
+            return newObjectQueue;
+        } else if (metaDataOut.getType().equals(Set.class)) {
+            // TODO: 8/8/2021 add variant with SET collection
+            return null;
+        }
+        return null;
+    }
+
+    private Class<?> getGenericFromMethod(Method method, String setOrGet) {
+        Type genericParameterType;
+        if (setOrGet.equals(SET))
+            genericParameterType = method.getGenericParameterTypes()[0];
+        else
+            genericParameterType = method.getGenericReturnType();
         ParameterizedType parameterizedType = (ParameterizedType) genericParameterType;
         return (Class<?>) parameterizedType.getActualTypeArguments()[0];
     }
 
-    private HashMap<String, MetaData> checkMetaDataSet(Class<?> type) {
+    private void createMetaDataSet(Class<?> type) {
         HashMap<String, MetaData> hashMap;
         if (metaDataSetters.get(type) == null) {
-            hashMap = addMetaData(type, SET);
-        } else {
-            hashMap = metaDataSetters.get(type);
+            hashMap = addMetaDataStructure(type, SET);
+            metaDataSetters.put(type, hashMap);
         }
-        return hashMap;
     }
 
-    private HashMap<String, MetaData> checkMetaDataGet(Class<?> type) {
+    private void createMetaDataGet(Class<?> type) {
         HashMap<String, MetaData> hashMap;
         if (metaDataGetters.get(type) == null) {
-            hashMap = addMetaData(type, GET);
-        } else {
-            hashMap = metaDataGetters.get(type);
+            hashMap = addMetaDataStructure(type, GET);
+            metaDataGetters.put(type, hashMap);
         }
-        return hashMap;
     }
 
-    private HashMap<String, MetaData> addMetaData(Class<?> typeIn, String setGet) {
-        List<Method> methods = Arrays.stream(typeIn.getMethods())
-                .filter(x -> x.getName().startsWith(setGet))
-                .collect(Collectors.toList());
+    private HashMap<String, MetaData> addMetaDataStructure(Class<?> typeIn, String setOrGet) {
         HashMap<String, MetaData> hashMap = new HashMap<>();
-        for (Method method : methods) {
-            String paramName = Introspector.decapitalize(method.getName().substring(3));
-            MetaData metaData = new MetaData(paramName, method);
-            hashMap.put(paramName, metaData);
-        }
-        if (setGet.equals(GET))
-            metaDataGetters.put(typeIn, hashMap);
-        else if (setGet.equals(SET))
-            metaDataSetters.put(typeIn, hashMap);
-
-        return hashMap;
-    }
-
-    public HashMap<String, MetaData> addMetaDataSet(Class<?> typeIn) {
-        HashMap<String, MetaData> hashMap = new HashMap<>();
-
-        List<Method> methods = Arrays.stream(typeIn.getMethods())
-                .filter(x -> x.getName().startsWith(SET))
-                .collect(Collectors.toList());
-
-        for (Method method : methods) {
+        List<Method> methodList = getMethodList(typeIn, setOrGet);
+        for (Method method : methodList) {
             MetaData metaData = new MetaData();
-            Class<?> type = method.getParameterTypes()[0];
-            if (type.equals(List.class)) {
-                metaData.setGenericType(getGenericFromSetMethod(method));
-            } else if(type.isArray()){
-                System.out.println(type);
-            }
-            else {
+            Class<?> type = getType(method, setOrGet);
+            if (collectionClassHashSet.contains(type)) {
+                Class<?> genericFromMethod = getGenericFromMethod(method, setOrGet);
+                metaData.setGenericType(genericFromMethod);
+                if (!classHashSet.contains(genericFromMethod)) {
+                    metaData.setMetaData(addMetaDataStructure(genericFromMethod, setOrGet));
+                }
+            } else if (type.isArray()) {
+                Class<?> componentType = type.getComponentType();
+                metaData.setGenericType(componentType);
+                if (componentType != null && !classHashSet.contains(componentType)) {
+                    metaData.setMetaData(addMetaDataStructure(componentType, setOrGet));
+                }
+            } else {
                 if (!classHashSet.contains(type)) {
-                    metaData.setMetaData(addMetaDataSet(type));
+                    metaData.setMetaData(addMetaDataStructure(type, setOrGet));
                 }
             }
             String paramName = Introspector.decapitalize(method.getName().substring(3));
@@ -171,10 +200,20 @@ public class Mapper {
             metaData.setType(type);
             hashMap.put(paramName, metaData);
         }
-        if (!metaDataSetters.containsKey(typeIn)) {
-            metaDataSetters.put(typeIn, hashMap);
-        }
         return hashMap;
+    }
+
+    private List<Method> getMethodList(Class<?> type, String setOrGet) {
+        return Arrays.stream(type.getMethods())
+                .filter(x -> x.getName().startsWith(setOrGet) && !x.getName().contains("getClass"))
+                .collect(Collectors.toList());
+    }
+
+    private Class<?> getType(Method method, String setOrGet) {
+        if (setOrGet.equals(SET))
+            return method.getParameterTypes()[0];
+        else
+            return method.getReturnType();
     }
 
     private class MetaData {

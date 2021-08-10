@@ -24,7 +24,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentDto find(int id) {
         DepartmentDto departmentDto;
-        departmentDto = mapper.run(dao.find(id), DepartmentDto.class);
+        departmentDto = mapper.convert(dao.find(id), DepartmentDto.class);
         if (departmentDto == null){
             throw new NotFoundException();
         }
@@ -34,23 +34,23 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<DepartmentDto> findAll() {
         return dao.findAll().stream()
-                .map(x -> (mapper.run(x, DepartmentDto.class)))
+                .map(x -> (mapper.convert(x, DepartmentDto.class)))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void update(@Valid DepartmentDto dto) throws NotFoundException {
-        dao.update(mapper.run(dto, Department.class));
+        dao.update(mapper.convert(dto, Department.class));
     }
 
     @Override
     public DepartmentDto create(@Valid DepartmentDto dto) {
-        Department department = dao.create(mapper.run(dto, Department.class));
-        return mapper.run(department, DepartmentDto.class);
+        Department department = dao.create(mapper.convert(dto, Department.class));
+        return mapper.convert(department, DepartmentDto.class);
     }
 
     @Override
     public void delete(@Valid DepartmentDto dto) {
-        dao.delete(mapper.run(dto, Department.class));
+        dao.delete(mapper.convert(dto, Department.class));
     }
 }
