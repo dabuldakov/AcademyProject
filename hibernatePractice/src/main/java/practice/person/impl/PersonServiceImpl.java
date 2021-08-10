@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import practice.exception.NotFoundException;
 import practice.department.Department;
-import practice.mapper.Mapper;
-import practice.person.*;
-import practice.exception.PersonException;
 import practice.exception.IdException;
+import practice.exception.NotFoundException;
+import practice.mapper.Mapper;
+import practice.person.Person;
+import practice.person.PersonDao;
+import practice.person.PersonDto;
+import practice.person.PersonService;
 import practice.util.Constants;
 
 import javax.validation.Valid;
@@ -40,7 +42,7 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
-    public void update(@Valid PersonDto personDTO) throws PersonException, NotFoundException {
+    public void update(@Valid PersonDto personDTO) throws NotFoundException {
         if (personDTO.getId() == 0)
             throw new IdException("Person id: " + personDTO.getId());
         dao.update(mapper.convert(personDTO, Person.class));

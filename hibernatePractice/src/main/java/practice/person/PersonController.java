@@ -28,8 +28,7 @@ public class PersonController {
     ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey,
                                       @PathVariable @Min(1) int id) {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
-                PersonDto result = service.find(id);
-                return new ResponseEntity<>(result, HttpStatus.OK);
+                return new ResponseEntity<>(service.find(id), HttpStatus.OK);
         } else {
             throw new AccessException();
         }
@@ -38,8 +37,7 @@ public class PersonController {
     @GetMapping()
     ResponseEntity<List<PersonDto>> getAll(@RequestHeader(value = "access_key") String accessKey) {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
-                List<PersonDto> result = service.findAll();
-                return new ResponseEntity<>(result, HttpStatus.OK);
+                return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
         } else {
             throw new AccessException();
         }
@@ -49,8 +47,7 @@ public class PersonController {
     ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey,
                                      @Valid @RequestBody PersonDto dto) {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
-            PersonDto result = service.create(dto);
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
+            return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
         } else {
             throw new AccessException();
         }
@@ -61,8 +58,7 @@ public class PersonController {
     ResponseEntity<List<PersonDto>> createList(@RequestHeader(value = "access_key") String accessKey,
                                                @RequestBody ArrayList<PersonDto> list) {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
-            List<PersonDto> serviceList = service.createList(list);
-            return new ResponseEntity<>(serviceList, HttpStatus.CREATED);
+            return new ResponseEntity<>(service.createList(list), HttpStatus.CREATED);
         } else {
             throw new AccessException();
         }

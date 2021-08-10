@@ -20,54 +20,31 @@ public class DocumentController {
 
     @GetMapping("{id}")
     ResponseEntity<DocumentDto> getById(@PathVariable @Min(1) int id) {
-        try {
-            DocumentDto result = service.find(id);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        DocumentDto result = service.find(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping()
-    ResponseEntity<List<DocumentDto>> getAll(){
-        try {
-            List<DocumentDto> result = service.findAll();
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<List<DocumentDto>> getAll() {
+        List<DocumentDto> result = service.findAll();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping
-    ResponseEntity<DocumentDto> create(@Valid @RequestBody DocumentDto dto){
-        try{
-            DocumentDto result = service.create(dto);
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<DocumentDto> create(@Valid @RequestBody DocumentDto dto) {
+        DocumentDto result = service.create(dto);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PutMapping
-    ResponseEntity<DocumentDto> update(@Valid @RequestBody DocumentDto dto){
-        try{
-            service.update(dto);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<DocumentDto> update(@Valid @RequestBody DocumentDto dto) {
+        service.update(dto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping()
-    ResponseEntity<DocumentDto> delete(@Valid @RequestBody DocumentDto dto){
-        try {
-            service.delete(dto);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<DocumentDto> delete(@Valid @RequestBody DocumentDto dto) {
+        service.delete(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

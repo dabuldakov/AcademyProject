@@ -19,52 +19,32 @@ public class DepartmentController {
     DepartmentService service;
 
     @GetMapping("{id}")
-    ResponseEntity<DepartmentDto> getById(@PathVariable @Min(1) int id){
-            DepartmentDto dto = service.find(id);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
+    ResponseEntity<DepartmentDto> getById(@PathVariable @Min(1) int id) {
+        DepartmentDto dto = service.find(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping()
-    ResponseEntity<List<DepartmentDto>> getAll(){
-        try{
-            List<DepartmentDto> all = service.findAll();
-            return new ResponseEntity<>(all, HttpStatus.OK);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<List<DepartmentDto>> getAll() {
+        List<DepartmentDto> all = service.findAll();
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @PostMapping
-    ResponseEntity<DepartmentDto> create(@Valid @RequestBody DepartmentDto dto){
-        try{
-            DepartmentDto result = service.create(dto);
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<DepartmentDto> create(@Valid @RequestBody DepartmentDto dto) {
+        DepartmentDto result = service.create(dto);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PutMapping
-    ResponseEntity<DepartmentDto> update(@Valid @RequestBody DepartmentDto dto){
-        try{
-            service.update(dto);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<DepartmentDto> update(@Valid @RequestBody DepartmentDto dto) {
+        service.update(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping()
-    ResponseEntity<DepartmentDto> delete(@Valid @RequestBody DepartmentDto dto){
-        try{
-            service.delete(dto);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    ResponseEntity<DepartmentDto> delete(@Valid @RequestBody DepartmentDto dto) {
+        service.delete(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
