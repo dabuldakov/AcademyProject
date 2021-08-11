@@ -11,4 +11,5 @@ public interface PersonService {
     PersonDto create(@Valid PersonDto personDTO);
     void delete(@Valid PersonDto personDTO);
     List<PersonDto> createList(ArrayList<PersonDto> list);
+    public List<Person> getAllByFirstName(String firstName);
 }

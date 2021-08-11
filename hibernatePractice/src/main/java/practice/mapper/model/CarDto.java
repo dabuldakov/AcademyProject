@@ -1,5 +1,7 @@
 package practice.mapper.model;
 
+import java.util.Objects;
+
 public class CarDto {
     private int id;
     private String name;
@@ -46,5 +48,18 @@ public class CarDto {
                 ", price=" + price +
                 ", human=" + human +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CarDto carDto = (CarDto) o;
+        return id == carDto.id && Objects.equals(name, carDto.name) && Objects.equals(price, carDto.price) && Objects.equals(human, carDto.human);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, human);
     }
 }

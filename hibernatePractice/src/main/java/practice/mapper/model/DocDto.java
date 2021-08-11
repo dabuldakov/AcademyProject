@@ -1,9 +1,6 @@
 package practice.mapper.model;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class DocDto {
     private int id;
@@ -83,4 +80,18 @@ public class DocDto {
         this.expiryDate = expiryDate;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DocDto docDto = (DocDto) o;
+        return id == docDto.id && Objects.equals(number, docDto.number) && Objects.equals(expiryDate, docDto.expiryDate) && Objects.equals(car, docDto.car) && Objects.equals(cars, docDto.cars) && Arrays.equals(carsArray, docDto.carsArray) && Objects.equals(carQueue, docDto.carQueue);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, number, expiryDate, car, cars, carQueue);
+        result = 31 * result + Arrays.hashCode(carsArray);
+        return result;
+    }
 }

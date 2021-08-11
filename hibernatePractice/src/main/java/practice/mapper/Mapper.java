@@ -101,6 +101,10 @@ public class Mapper {
     }
 
     public <T> T convert(Object objectIn, Class<T> typeOut) {
+        if (metaDataGetters.get(objectIn.getClass()) == null)
+            createMetaDataGet(objectIn.getClass());
+        if (metaDataSetters.get(typeOut) == null)
+            createMetaDataSet(typeOut);
         return convertStructure(
                 objectIn,
                 typeOut,

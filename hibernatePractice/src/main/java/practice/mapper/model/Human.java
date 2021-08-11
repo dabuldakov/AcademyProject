@@ -2,6 +2,7 @@ package practice.mapper.model;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Human {
     private Integer id;
@@ -50,5 +51,20 @@ public class Human {
 
     public void setDescriptions(List<String> descriptions) {
         this.descriptions = descriptions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Human human = (Human) o;
+        return Objects.equals(id, human.id) && Objects.equals(name, human.name) && Arrays.equals(marks, human.marks) && Objects.equals(descriptions, human.descriptions);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, name, descriptions);
+        result = 31 * result + Arrays.hashCode(marks);
+        return result;
     }
 }

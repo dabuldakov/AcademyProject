@@ -10,8 +10,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 class ResolveServiceTest {

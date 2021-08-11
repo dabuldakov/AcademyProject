@@ -72,33 +72,6 @@ public class PersonServiceImpl implements PersonService {
         return personDtoList;
     }
 
-    public void updatePersons() throws ParseException {
-        Department department = new Department();
-        department.setId(1);
-        ArrayList<Person> list = new ArrayList<>();
-        for (int i = 65; i < 70; i++) {
-            Person person = new Person();
-            person.setId(i);
-            person.setFirstName("check spring " + i);
-            person.setSecondName("Pchelintsev");
-            person.setBirthday(Constants.DATE_FORMAT.parse("1983-02-14"));
-            person.setDepartment(department);
-            list.add(person);
-        }
-        dao.updateList(list);
-    }
-
-    public void deletePersons() {
-        ArrayList<Person> list = new ArrayList<>();
-
-        for (int i = 16; i < 60; i++) {
-            Person person = new Person();
-            person.setId(i);
-            list.add(person);
-        }
-        dao.deleteList(list);
-    }
-
     public List<Person> getAllByFirstName(String firstName) {
         return dao.getAllByFirstName(firstName);
     }
