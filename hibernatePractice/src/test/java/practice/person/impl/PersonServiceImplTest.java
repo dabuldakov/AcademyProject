@@ -43,17 +43,18 @@ class PersonServiceImplTest {
         //given
         Person person = createPerson("Sergey");
         PersonDto personDto = createPersonDto("Sergey");
+        //when
         Mockito.when(personDao.find(1)).thenReturn(person);
         Mockito.when(mapper.convert(person, PersonDto.class)).thenReturn(personDto);
-        //when
         PersonDto personDtoResult = service.find(1);
         //then
         Mockito.verify(personDao).find(1);
+        Mockito.verify(mapper).convert(person, PersonDto.class);
         assertEquals(person.getFirstName(), personDtoResult.getFirstName());
         assertEquals(person.getSecondName(), personDtoResult.getSecondName());
         assertEquals(person.getBirthday(), personDtoResult.getBirthday());
         assertEquals(person.getDepartment().getName(), personDtoResult.getDepartment().getName());
-        assertEquals(person.getLanguage().size(), 2);
+        assertEquals(person.getLanguage().size(), personDtoResult.getLanguage().size());
         assertEquals(person.getDocument().getNumber(), personDtoResult.getDocument().getNumber());
     }
 
@@ -74,6 +75,7 @@ class PersonServiceImplTest {
         for (PersonDto personDto : personDtoResult) {
             assertEquals(personDto.getFirstName(), personDto.getFirstName());
         }
+        // TODO: 8/12/2021 assertJ compare lists
     }
 
     @Test
@@ -85,7 +87,7 @@ class PersonServiceImplTest {
             service.update(personDto);
         });
         //then
-        assertEquals("Id incorrect: Person id: " + 0, idException.getMessage());
+        assertEquals("Id incorrect: Person id is empty.", idException.getMessage());
     }
 
     @Test
@@ -105,24 +107,49 @@ class PersonServiceImplTest {
         //given
         PersonDto personDto = new PersonDto();
         personDto.setFirstName("Sergey");
+
         Person personFromMapper = new Person();
         personFromMapper.setFirstName("Sergey");
+
         Person personFromDao = new Person();
         personFromDao.setFirstName("Sergey");
         personFromDao.setId(1);
+
+        Person personFromDaoFind = new Person();
+        personFromDaoFind.setFirstName("Sergey");
+        personFromDaoFind.setId(1);
+
         PersonDto personDtoFromFind = new PersonDto();
         personDtoFromFind.setFirstName("Sergey");
         personDtoFromFind.setId(1);
-        Mockito.when(service.find(personFromDao.getId())).thenReturn(personDtoFromFind);
-        Mockito.when(mapper.convert(null, PersonDto.class)).thenReturn(personDtoFromFind);
+        //when
         Mockito.when(mapper.convert(personDto, Person.class)).thenReturn(personFromMapper);
         Mockito.when(personDao.create(personFromMapper)).thenReturn(personFromDao);
-        //when
+        Mockito.when(personDao.find(personFromDao.getId())).thenReturn(personFromDaoFind);
+        Mockito.when(mapper.convert(personFromDaoFind, PersonDto.class)).thenReturn(personDtoFromFind);
         PersonDto personDtoResult = service.create(personDto);
         //then
-        Mockito.verify(personDao).create(personFromMapper);
         Mockito.verify(mapper).convert(personDto, Person.class);
+        Mockito.verify(personDao).create(personFromMapper);
+        Mockito.verify(personDao).find(personFromDao.getId());
+        Mockito.verify(mapper).convert(personFromDaoFind, PersonDto.class);
         assertEquals(personDtoFromFind, personDtoResult);
+    }
+
+    @Test
+    void createListShouldReturnPersonDtoList() {
+        //given
+        ArrayList<PersonDto> personDtoList = createPersonDtoList();
+        PersonServiceImpl mock = Mockito.mock(PersonServiceImpl.class);
+        Mockito.when(mock.createList(personDtoList)).thenCallRealMethod();
+        Mockito.when(mock.create(personDtoList.get(0))).thenReturn(personDtoList.get(0));
+        Mockito.when(mock.create(personDtoList.get(1))).thenReturn(personDtoList.get(1));
+        Mockito.when(mock.create(personDtoList.get(2))).thenReturn(personDtoList.get(2));
+        //when
+        List<PersonDto> personDtoListResult = mock.createList(personDtoList);
+        //then
+        Mockito.verify(mock, Mockito.times(3)).create(any());
+        assertEquals(3, personDtoListResult.size());
     }
 
     @Test
@@ -149,10 +176,6 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void createList() {
-    }
-
-    @Test
     void getAllByFirstName() {
     }
 
@@ -164,8 +187,8 @@ class PersonServiceImplTest {
         return personList;
     }
 
-    private List<PersonDto> createPersonDtoList(){
-        List<PersonDto> personDtoList = new ArrayList<>();
+    private ArrayList<PersonDto> createPersonDtoList(){
+        ArrayList<PersonDto> personDtoList = new ArrayList<>();
         personDtoList.add(createPersonDto("Sergey"));
         personDtoList.add(createPersonDto("Vladimir"));
         personDtoList.add(createPersonDto("Vitaly"));

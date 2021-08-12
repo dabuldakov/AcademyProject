@@ -28,9 +28,9 @@ public class LanguageDaoJpa implements LanguageDao {
     @Override
     public Language find(int id) {
         Language language = em.find(Language.class, id);
-                if (language == null){
-                    throw new NotFoundException();
-                }
+        if (language == null) {
+            throw new NotFoundException();
+        }
         return language;
     }
 
@@ -47,9 +47,8 @@ public class LanguageDaoJpa implements LanguageDao {
 
     @Override
     public void update(Language language) throws NotFoundException {
-        Optional<Language> byId = repository.findById(language.getId());
-        if(byId.isPresent())
-        em.merge(language);
+        if (repository.existsById(language.getId()))
+            em.merge(language);
         else throw new NotFoundException();
     }
 

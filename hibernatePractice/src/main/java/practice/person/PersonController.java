@@ -56,7 +56,7 @@ public class PersonController {
 
     @PostMapping("list")
     ResponseEntity<List<PersonDto>> createList(@RequestHeader(value = "access_key") String accessKey,
-                                               @RequestBody ArrayList<PersonDto> list) {
+                                               @RequestBody ArrayList< @Valid PersonDto> list) {
         if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
             return new ResponseEntity<>(service.createList(list), HttpStatus.CREATED);
         } else {

@@ -48,8 +48,7 @@ public class PersonDaoJpa implements PersonDao {
 
     @Override
     public void update(Person person) throws NotFoundException {
-        Optional<Person> foundPerson = repository.findById(person.getId());
-        if(foundPerson.isPresent())
+        if(repository.existsById(person.getId()))
             em.merge(person);
         else
             throw new NotFoundException();

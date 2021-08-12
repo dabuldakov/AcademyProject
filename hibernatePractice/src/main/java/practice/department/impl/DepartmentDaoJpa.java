@@ -27,7 +27,7 @@ public class DepartmentDaoJpa implements DepartmentDao {
     @Override
     public Department find(int id) {
         Department department = em.find(Department.class, id);
-        if (department == null){
+        if (department == null) {
             throw new NotFoundException();
         }
         return department;
@@ -40,10 +40,10 @@ public class DepartmentDaoJpa implements DepartmentDao {
 
     @Override
     public void update(Department department) throws NotFoundException {
-        Optional<Department> foundDepartment = repository.findById(department.getId());
-        if(foundDepartment.isPresent())
-        em.merge(department);
-        else throw new NotFoundException();
+        if (repository.existsById(department.getId()))
+            em.merge(department);
+        else
+            throw new NotFoundException();
     }
 
     @Override

@@ -42,8 +42,7 @@ public class DocumentDaoJpa implements DocumentDao {
 
     @Override
     public void update(Document document) throws NotFoundException {
-        Optional<Document> byId = repository.findById(document.getId());
-        if(byId.isPresent())
+        if (repository.existsById(document.getId()))
             em.merge(document);
         else throw new NotFoundException();
     }

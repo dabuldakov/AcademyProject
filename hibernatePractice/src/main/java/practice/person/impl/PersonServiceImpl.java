@@ -1,5 +1,6 @@
 package practice.person.impl;
 
+import org.hibernate.annotations.BatchSize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class PersonServiceImpl implements PersonService {
 
     public void update(PersonDto personDTO) throws NotFoundException {
         if (personDTO.getId() == 0)
-            throw new IdException("Person id: " + personDTO.getId());
+            throw new IdException("Person id is empty.");
         dao.update(mapper.convert(personDTO, Person.class));
     }
 
@@ -62,12 +63,8 @@ public class PersonServiceImpl implements PersonService {
     public List<PersonDto> createList(ArrayList<PersonDto> list){
         List<PersonDto> personDtoList = new ArrayList<>();
         for (PersonDto personDto : list) {
-            try{
                 PersonDto createdPerson = create(personDto);
                 personDtoList.add(createdPerson);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
         }
         return personDtoList;
     }
