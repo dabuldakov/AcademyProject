@@ -11,19 +11,22 @@ import practice.department.Department;
 import practice.department.DepartmentDto;
 import practice.document.Document;
 import practice.document.DocumentDto;
+import practice.exception.IdException;
 import practice.language.Language;
 import practice.language.LanguageDto;
 import practice.mapper.Mapper;
 import practice.person.Person;
 import practice.person.PersonDao;
 import practice.person.PersonDto;
+import practice.util.Constants;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 class PersonServiceImplTest {
@@ -32,18 +35,18 @@ class PersonServiceImplTest {
     PersonServiceImpl service;
     @Mock
     PersonDao personDao;
-    @Spy
+    @Mock
     Mapper mapper;
 
     @Test
     void findShouldReturnPersonDto() {
         //given
         Person person = createPerson("Sergey");
-
-        //when
+        PersonDto personDto = createPersonDto("Sergey");
         Mockito.when(personDao.find(1)).thenReturn(person);
+        Mockito.when(mapper.convert(person, PersonDto.class)).thenReturn(personDto);
+        //when
         PersonDto personDtoResult = service.find(1);
-
         //then
         Mockito.verify(personDao).find(1);
         assertEquals(person.getFirstName(), personDtoResult.getFirstName());
@@ -55,13 +58,16 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void findAllShouldReturnPersonList() {
+    void findAllShouldReturnPersonDtoList() {
         //given
         List<Person> personList = createPersonList();
+        List<PersonDto> personDtoList = createPersonDtoList();
         //when
         Mockito.when(personDao.findAll()).thenReturn(personList);
+        Mockito.when(mapper.convert(personList.get(0), PersonDto.class)).thenReturn(personDtoList.get(0));
+        Mockito.when(mapper.convert(personList.get(1), PersonDto.class)).thenReturn(personDtoList.get(1));
+        Mockito.when(mapper.convert(personList.get(2), PersonDto.class)).thenReturn(personDtoList.get(2));
         List<PersonDto> personDtoResult = service.findAll();
-
         //then
         Mockito.verify(personDao).findAll();
         assertEquals(3, personDtoResult.size());
@@ -71,40 +77,75 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void update() {
+    void updateShouldReturnThrow() {
+        //given
+        PersonDto personDto = new PersonDto();
+        //when
+        IdException idException = assertThrows(IdException.class, () -> {
+            service.update(personDto);
+        });
+        //then
+        assertEquals("Id incorrect: Person id: " + 0, idException.getMessage());
     }
 
     @Test
-    void create() {
-        Date date = new Date();
-        DepartmentDto departmentDto = new DepartmentDto();
-        departmentDto.setId(1);
-        departmentDto.setName("City");
-        DocumentDto documentDto = new DocumentDto();
-        documentDto.setId(1);
-        documentDto.setExpiryDate(date);
-        documentDto.setNumber("qqq-aaa-zzz");
-        LanguageDto languageDto1 = new LanguageDto();
-        languageDto1.setId(1);
-        languageDto1.setName("Russian");
-        LanguageDto languageDto2 = new LanguageDto();
-        languageDto2.setId(2);
-        languageDto2.setName("English");
-        List<LanguageDto> languageDtoList = new ArrayList<>();
-        languageDtoList.add(languageDto2);
-        languageDtoList.add(languageDto2);
+    void updateShouldNotGetException(){
+        //given
         PersonDto personDto = new PersonDto();
         personDto.setId(1);
-        personDto.setFirstName("test name");
-        personDto.setSecondName("test second name");
-        personDto.setBirthday(date);
-        personDto.setLanguage(languageDtoList);
-        personDto.setDepartment(departmentDto);
-        personDto.setDocument(documentDto);
+        //when
+        service.update(personDto);
+        //then
+        Mockito.verify(personDao).update(any());
+    }
+
+
+    @Test
+    void createShouldReturnPersonDtoWithId() {
+        //given
+        PersonDto personDto = new PersonDto();
+        personDto.setFirstName("Sergey");
+        Person personFromMapper = new Person();
+        personFromMapper.setFirstName("Sergey");
+        Person personFromDao = new Person();
+        personFromDao.setFirstName("Sergey");
+        personFromDao.setId(1);
+        PersonDto personDtoFromFind = new PersonDto();
+        personDtoFromFind.setFirstName("Sergey");
+        personDtoFromFind.setId(1);
+        Mockito.when(service.find(personFromDao.getId())).thenReturn(personDtoFromFind);
+        Mockito.when(mapper.convert(null, PersonDto.class)).thenReturn(personDtoFromFind);
+        Mockito.when(mapper.convert(personDto, Person.class)).thenReturn(personFromMapper);
+        Mockito.when(personDao.create(personFromMapper)).thenReturn(personFromDao);
+        //when
+        PersonDto personDtoResult = service.create(personDto);
+        //then
+        Mockito.verify(personDao).create(personFromMapper);
+        Mockito.verify(mapper).convert(personDto, Person.class);
+        assertEquals(personDtoFromFind, personDtoResult);
     }
 
     @Test
-    void delete() {
+    void deleteShouldReturnThrow() {
+        //given
+        PersonDto personDto = new PersonDto();
+        //when
+        IdException idException = assertThrows(IdException.class, () -> {
+            service.delete(personDto);
+        });
+        //then
+        assertEquals("Id incorrect: Person id: " + 0, idException.getMessage());
+    }
+
+    @Test
+    void deleteShouldNotGetException(){
+        //given
+        PersonDto personDto = new PersonDto();
+        personDto.setId(1);
+        //when
+        service.delete(personDto);
+        //then
+        Mockito.verify(personDao).delete(any());
     }
 
     @Test
@@ -123,17 +164,44 @@ class PersonServiceImplTest {
         return personList;
     }
 
+    private List<PersonDto> createPersonDtoList(){
+        List<PersonDto> personDtoList = new ArrayList<>();
+        personDtoList.add(createPersonDto("Sergey"));
+        personDtoList.add(createPersonDto("Vladimir"));
+        personDtoList.add(createPersonDto("Vitaly"));
+        return personDtoList;
+    }
+
     private Person createPerson(String name){
-        Date date = new Date();
         Person person = new Person();
         person.setId(1);
         person.setFirstName(name);
         person.setSecondName("test second name");
-        person.setBirthday(date);
+        try {
+            person.setBirthday(Constants.DATE_FORMAT.parse("2021-08-12"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         person.setLanguage(createLanguageList());
         person.setDepartment(createDepartmentCity());
         person.setDocument(createDocument("zzz-sss-qqq"));
         return person;
+    }
+
+    private PersonDto createPersonDto(String name){
+        PersonDto personDto = new PersonDto();
+        personDto.setId(1);
+        personDto.setFirstName(name);
+        personDto.setSecondName("test second name");
+        try {
+            personDto.setBirthday(Constants.DATE_FORMAT.parse("2021-08-12"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        personDto.setLanguage(createLanguageDtoList());
+        personDto.setDepartment(createDepartmentDtoCity());
+        personDto.setDocument(createDocumentDto("zzz-sss-qqq"));
+        return personDto;
     }
 
     private Department createDepartmentCity(){
@@ -163,5 +231,34 @@ class PersonServiceImplTest {
         document.setExpiryDate(date);
         document.setNumber(number);
         return document;
+    }
+
+    private List<LanguageDto> createLanguageDtoList(){
+        LanguageDto languageDto1 = new LanguageDto();
+        languageDto1.setId(1);
+        languageDto1.setName("Russian");
+        LanguageDto languageDto2 = new LanguageDto();
+        languageDto2.setId(2);
+        languageDto2.setName("English");
+        List<LanguageDto> languageDtoList = new ArrayList<>();
+        languageDtoList.add(languageDto2);
+        languageDtoList.add(languageDto2);
+        return languageDtoList;
+    }
+
+    private DocumentDto createDocumentDto(String number){
+        Date date = new Date();
+        DocumentDto documentDto = new DocumentDto();
+        documentDto.setId(1);
+        documentDto.setExpiryDate(date);
+        documentDto.setNumber(number);
+        return documentDto;
+    }
+
+    private DepartmentDto createDepartmentDtoCity(){
+        DepartmentDto departmentDto = new DepartmentDto();
+        departmentDto.setId(1);
+        departmentDto.setName("City");
+        return departmentDto;
     }
 }

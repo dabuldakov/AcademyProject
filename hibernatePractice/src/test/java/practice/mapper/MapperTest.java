@@ -1,5 +1,7 @@
 package practice.mapper;
 
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -15,20 +17,24 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 class MapperTest {
 
+    Mapper mapper;
+
+    @BeforeEach
+    public void before(){
+        ArrayList<Class<?>> classes = new ArrayList<>();
+        classes.add(Doc.class);
+        classes.add(DocDto.class);
+        mapper = new Mapper(classes);
+    }
+
     @Test
     void shouldReturnNewMappedObject() {
         //Given
         Doc doc = createDocData();
         ModelMapper modelMapper = modelMapper();
         DocDto docDto = modelMapper.map(doc, DocDto.class);
-        ArrayList<Class<?>> classes = new ArrayList<>();
-        classes.add(Doc.class);
-        classes.add(DocDto.class);
-
         //When
-        Mapper mapper = new Mapper(classes);
         DocDto docDtoResult = mapper.convert(doc, DocDto.class);
-
         //Then
         assertEquals(docDto, docDtoResult);
     }

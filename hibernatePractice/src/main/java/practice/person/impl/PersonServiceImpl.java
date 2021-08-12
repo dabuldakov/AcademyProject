@@ -42,18 +42,18 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
-    public void update(@Valid PersonDto personDTO) throws NotFoundException {
+    public void update(PersonDto personDTO) throws NotFoundException {
         if (personDTO.getId() == 0)
             throw new IdException("Person id: " + personDTO.getId());
         dao.update(mapper.convert(personDTO, Person.class));
     }
 
-    public PersonDto create(@Valid PersonDto personDto) throws NotFoundException {
+    public PersonDto create(PersonDto personDto) throws NotFoundException {
         Person person = dao.create(mapper.convert(personDto, Person.class));
         return find(person.getId());
     }
 
-    public void delete(@Valid PersonDto personDto) throws IdException {
+    public void delete(PersonDto personDto) throws IdException {
         if (personDto.getId() == 0)
             throw new IdException("Person id: " + personDto.getId());
         dao.delete(mapper.convert(personDto, Person.class));

@@ -61,7 +61,7 @@ public class Mapper {
         }
     }
 
-    public <T> T convertStructure(Object objectIn, Class<T> typeOut, HashMap<String, MetaData> hashMapIn, HashMap<String, MetaData> hashMapOut) {
+    private  <T> T convertStructure(Object objectIn, Class<T> typeOut, HashMap<String, MetaData> hashMapIn, HashMap<String, MetaData> hashMapOut) {
         try {
             T objectOut = typeOut.getConstructor().newInstance();
             for (Map.Entry<String, MetaData> entry : hashMapOut.entrySet()) {
