@@ -1,7 +1,6 @@
 package practice.mapper;
 
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -17,29 +16,50 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 class MapperTest {
 
-    Mapper mapper;
+    private static Mapper mapper;
+    private static ModelMapper modelMapper;
 
-    @BeforeEach
-    public void before(){
+    @BeforeAll
+    public static void before() {
+        System.out.println("before");
         ArrayList<Class<?>> classes = new ArrayList<>();
         classes.add(Doc.class);
         classes.add(DocDto.class);
         mapper = new Mapper(classes);
+        modelMapper = modelMapper();
     }
 
     @Test
     void shouldReturnNewMappedObject() {
         //Given
         Doc doc = createDocData();
-        ModelMapper modelMapper = modelMapper();
-        DocDto docDto = modelMapper.map(doc, DocDto.class);
         //When
+        DocDto docDto = modelMapper.map(doc, DocDto.class);
         DocDto docDtoResult = mapper.convert(doc, DocDto.class);
         //Then
         assertEquals(docDto, docDtoResult);
     }
 
-    private ModelMapper modelMapper() {
+    @Test
+    void shouldReturnNewMappedObjectWithNullParams() {
+        //Given
+        Doc doc = new Doc();
+        doc.setId(1);
+        doc.setNumber("sss-zzz-sss");
+        doc.setExpiryDate(new Date());
+        //When
+        DocDto docDto = modelMapper.map(doc, DocDto.class);
+        DocDto docDtoResult = mapper.convert(doc, DocDto.class);
+        //Then
+        assertEquals(docDto, docDtoResult);
+    }
+
+    @Test
+    void performanceTestMappers(){
+
+    }
+
+    private static ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT)
@@ -49,7 +69,7 @@ class MapperTest {
         return mapper;
     }
 
-    private Doc createDocData(){
+    private Doc createDocData() {
         Human human = new Human();
         human.setId(1);
         human.setName("Korney");

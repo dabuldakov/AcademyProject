@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import practice.department.Department;
 import practice.department.DepartmentDto;
@@ -25,7 +24,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -91,7 +91,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void updateShouldNotGetException(){
+    void updateShouldNotGetException() {
         //given
         PersonDto personDto = new PersonDto();
         personDto.setId(1);
@@ -165,7 +165,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void deleteShouldNotGetException(){
+    void deleteShouldNotGetException() {
         //given
         PersonDto personDto = new PersonDto();
         personDto.setId(1);
@@ -179,7 +179,7 @@ class PersonServiceImplTest {
     void getAllByFirstName() {
     }
 
-    private List<Person> createPersonList(){
+    private List<Person> createPersonList() {
         List<Person> personList = new ArrayList<>();
         personList.add(createPerson("Sergey"));
         personList.add(createPerson("Vladimir"));
@@ -187,7 +187,7 @@ class PersonServiceImplTest {
         return personList;
     }
 
-    private ArrayList<PersonDto> createPersonDtoList(){
+    private ArrayList<PersonDto> createPersonDtoList() {
         ArrayList<PersonDto> personDtoList = new ArrayList<>();
         personDtoList.add(createPersonDto("Sergey"));
         personDtoList.add(createPersonDto("Vladimir"));
@@ -195,7 +195,7 @@ class PersonServiceImplTest {
         return personDtoList;
     }
 
-    private Person createPerson(String name){
+    private Person createPerson(String name) {
         Person person = new Person();
         person.setId(1);
         person.setFirstName(name);
@@ -211,7 +211,7 @@ class PersonServiceImplTest {
         return person;
     }
 
-    private PersonDto createPersonDto(String name){
+    private PersonDto createPersonDto(String name) {
         PersonDto personDto = new PersonDto();
         personDto.setId(1);
         personDto.setFirstName(name);
@@ -227,14 +227,14 @@ class PersonServiceImplTest {
         return personDto;
     }
 
-    private Department createDepartmentCity(){
+    private Department createDepartmentCity() {
         Department department = new Department();
         department.setId(1);
         department.setName("City");
         return department;
     }
 
-    private List<Language> createLanguageList(){
+    private List<Language> createLanguageList() {
         Language language1 = new Language();
         language1.setId(1);
         language1.setName("Russian");
@@ -247,7 +247,7 @@ class PersonServiceImplTest {
         return languageList;
     }
 
-    private Document createDocument(String number){
+    private Document createDocument(String number) {
         Date date = new Date();
         Document document = new Document();
         document.setId(1);
@@ -256,7 +256,7 @@ class PersonServiceImplTest {
         return document;
     }
 
-    private List<LanguageDto> createLanguageDtoList(){
+    private List<LanguageDto> createLanguageDtoList() {
         LanguageDto languageDto1 = new LanguageDto();
         languageDto1.setId(1);
         languageDto1.setName("Russian");
@@ -269,7 +269,7 @@ class PersonServiceImplTest {
         return languageDtoList;
     }
 
-    private DocumentDto createDocumentDto(String number){
+    private DocumentDto createDocumentDto(String number) {
         Date date = new Date();
         DocumentDto documentDto = new DocumentDto();
         documentDto.setId(1);
@@ -278,7 +278,7 @@ class PersonServiceImplTest {
         return documentDto;
     }
 
-    private DepartmentDto createDepartmentDtoCity(){
+    private DepartmentDto createDepartmentDtoCity() {
         DepartmentDto departmentDto = new DepartmentDto();
         departmentDto.setId(1);
         departmentDto.setName("City");
