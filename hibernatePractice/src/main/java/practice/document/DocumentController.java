@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import practice.document.service.DocumentService;
+import practice.document.model.DocumentDto;
+import practice.valid.validator.Marker;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -31,18 +34,21 @@ public class DocumentController {
     }
 
     @PostMapping
+    @Validated({Marker.OnCreate.class})
     ResponseEntity<DocumentDto> create(@Valid @RequestBody DocumentDto dto) {
         DocumentDto result = service.create(dto);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PutMapping
+    @Validated({Marker.OnUpdate.class})
     ResponseEntity<DocumentDto> update(@Valid @RequestBody DocumentDto dto) {
         service.update(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping()
+    @Validated({Marker.OnCreate.class})
     ResponseEntity<DocumentDto> delete(@Valid @RequestBody DocumentDto dto) {
         service.delete(dto);
         return new ResponseEntity<>(HttpStatus.OK);

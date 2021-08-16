@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import practice.exception.AccessException;
+import practice.person.model.PersonDto;
+import practice.person.service.PersonService;
+import practice.valid.validator.Marker;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -25,64 +28,37 @@ public class PersonController {
     Environment environment;
 
     @GetMapping(value = "{id}")
-    ResponseEntity<PersonDto> getById(@RequestHeader(value = "access_key") String accessKey,
-                                      @PathVariable @Min(1) int id) {
-        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
+    ResponseEntity<PersonDto> getById(@PathVariable @Min(1) int id) {
                 return new ResponseEntity<>(service.find(id), HttpStatus.OK);
-        } else {
-            throw new AccessException();
-        }
     }
 
     @GetMapping()
-    ResponseEntity<List<PersonDto>> getAll(@RequestHeader(value = "access_key") String accessKey) {
-        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
+    ResponseEntity<List<PersonDto>> getAll() {
                 return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
-        } else {
-            throw new AccessException();
-        }
     }
 
     @PostMapping
-    ResponseEntity<PersonDto> create(@RequestHeader(value = "access_key") String accessKey,
-                                     @Valid @RequestBody PersonDto dto) {
-        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
+    @Validated({Marker.OnCreate.class})
+    ResponseEntity<PersonDto> create(@Valid @RequestBody PersonDto dto) {
             return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
-        } else {
-            throw new AccessException();
-        }
-
     }
 
     @PostMapping("list")
-    ResponseEntity<List<PersonDto>> createList(@RequestHeader(value = "access_key") String accessKey,
-                                               @RequestBody ArrayList< @Valid PersonDto> list) {
-        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
+    ResponseEntity<List<PersonDto>> createList(@RequestBody ArrayList<@Valid PersonDto> list) {
             return new ResponseEntity<>(service.createList(list), HttpStatus.CREATED);
-        } else {
-            throw new AccessException();
-        }
     }
 
     @PutMapping
-    ResponseEntity<PersonDto> update(@RequestHeader(value = "access_key") String accessKey,
-                                     @Valid @RequestBody PersonDto dto) {
-        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
+    @Validated({Marker.OnUpdate.class})
+    ResponseEntity<PersonDto> update(@Valid @RequestBody PersonDto dto) {
             service.update(dto);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            throw new AccessException();
-        }
     }
 
     @DeleteMapping
-    ResponseEntity<PersonDto> delete(@RequestHeader(value = "access_key") String accessKey,
-                                     @Valid @RequestBody PersonDto dto) {
-        if (accessKey.equals(environment.getProperty("rest.accessKey"))) {
+    @Validated({Marker.OnCreate.class})
+    ResponseEntity<PersonDto> delete(@Valid @RequestBody PersonDto dto) {
             service.delete(dto);
             return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            throw new AccessException();
-        }
     }
 }

@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import practice.language.service.LanguageService;
+import practice.language.model.LanguageDto;
+import practice.valid.validator.Marker;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -32,18 +35,21 @@ public class LanguageController {
     }
 
     @PostMapping
+    @Validated({Marker.OnCreate.class})
     public ResponseEntity<LanguageDto> create(@Valid @RequestBody LanguageDto dto) {
         LanguageDto result = service.create(dto);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PutMapping
+    @Validated({Marker.OnUpdate.class})
     public ResponseEntity<LanguageDto> update(@Valid @RequestBody LanguageDto dto) {
         service.update(dto);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     @DeleteMapping
+    @Validated({Marker.OnCreate.class})
     public ResponseEntity<LanguageDto> delete(@Valid @RequestBody LanguageDto dto) {
         service.delete(dto);
         return new ResponseEntity<>(HttpStatus.OK);
