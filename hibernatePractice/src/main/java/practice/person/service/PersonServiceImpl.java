@@ -27,7 +27,7 @@ public class PersonServiceImpl implements PersonService {
     Mapper mapper;
 
 
-    public PersonDto find(int id) throws NotFoundException {
+    public PersonDto find(int id){
         return mapper.convert(dao.find(id), PersonDto.class);
     }
 
@@ -37,20 +37,16 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
-    public void update(PersonDto personDTO) throws NotFoundException {
-        if (personDTO.getId() == 0)
-            throw new IdException("Person id is empty.");
+    public void update(PersonDto personDTO){
         dao.update(mapper.convert(personDTO, Person.class));
     }
 
-    public PersonDto create(PersonDto personDto) throws NotFoundException {
+    public PersonDto create(PersonDto personDto){
         Person person = dao.create(mapper.convert(personDto, Person.class));
         return find(person.getId());
     }
 
-    public void delete(PersonDto personDto) throws IdException {
-        if (personDto.getId() == 0)
-            throw new IdException("Person id: " + personDto.getId());
+    public void delete(PersonDto personDto){
         dao.delete(mapper.convert(personDto, Person.class));
     }
 

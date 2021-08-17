@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import practice.exception.AccessException;
 import practice.person.model.PersonDto;
 import practice.person.service.PersonService;
 import practice.valid.validator.Marker;

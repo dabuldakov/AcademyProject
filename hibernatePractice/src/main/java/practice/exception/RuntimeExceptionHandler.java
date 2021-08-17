@@ -23,11 +23,4 @@ public class RuntimeExceptionHandler {
         return e.getMessage();
     }
 
-    @ResponseBody
-    @ExceptionHandler(AccessException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    String access(AccessException e){
-        return e.getMessage();
-    }
-
 }

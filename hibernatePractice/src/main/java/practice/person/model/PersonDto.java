@@ -17,7 +17,7 @@ public class PersonDto {
 
     @Null(groups = Marker.OnCreate.class)
     @NotNull(groups = Marker.OnUpdate.class)
-    private int id;
+    private Integer id;
 
     @NotBlank
     @CapitalLetter
@@ -36,11 +36,11 @@ public class PersonDto {
     private DocumentDto document;
     private List<LanguageDto> language;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

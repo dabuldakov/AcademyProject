@@ -13,7 +13,7 @@ public class DocumentDto {
 
     @Null(groups = Marker.OnCreate.class)
     @NotNull(groups = Marker.OnUpdate.class)
-    private int id;
+    private Integer id;
 
     @NotBlank
     private String number;
@@ -21,14 +21,14 @@ public class DocumentDto {
     @NotEmpty
     private Date expiryDate;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     public DocumentDto() {
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
