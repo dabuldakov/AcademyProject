@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import practice.department.dao.DepartmentDao;
 import practice.department.model.Department;
 import practice.department.model.DepartmentDto;
-import practice.exception.NotFoundException;
 import practice.mapper.Mapper;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void update(DepartmentDto dto) throws NotFoundException {
+    public void update(DepartmentDto dto){
         dao.update(mapper.convert(dto, Department.class));
     }
 

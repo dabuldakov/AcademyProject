@@ -3,8 +3,8 @@ package practice.department.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import practice.exception.NotFoundException;
 import practice.department.model.Department;
+import practice.exception.NotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,7 +36,7 @@ public class DepartmentDaoJpa implements DepartmentDao {
     }
 
     @Override
-    public void update(Department department) throws NotFoundException {
+    public void update(Department department) {
         if (repository.existsById(department.getId()))
             em.merge(department);
         else

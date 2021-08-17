@@ -43,7 +43,7 @@ public class LanguageDaoJpa implements LanguageDao {
     }
 
     @Override
-    public void update(Language language) throws NotFoundException {
+    public void update(Language language){
         if (repository.existsById(language.getId()))
             em.merge(language);
         else throw new NotFoundException();

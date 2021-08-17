@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import practice.exception.IdException;
-import practice.exception.NotFoundException;
 import practice.mapper.Mapper;
-import practice.person.model.Person;
 import practice.person.dao.PersonDao;
+import practice.person.model.Person;
 import practice.person.model.PersonDto;
 
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ public class PersonServiceImpl implements PersonService {
     Mapper mapper;
 
 
-    public PersonDto find(int id){
+    public PersonDto find(int id) {
         return mapper.convert(dao.find(id), PersonDto.class);
     }
 
@@ -37,24 +35,24 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
-    public void update(PersonDto personDTO){
+    public void update(PersonDto personDTO) {
         dao.update(mapper.convert(personDTO, Person.class));
     }
 
-    public PersonDto create(PersonDto personDto){
+    public PersonDto create(PersonDto personDto) {
         Person person = dao.create(mapper.convert(personDto, Person.class));
         return find(person.getId());
     }
 
-    public void delete(PersonDto personDto){
+    public void delete(PersonDto personDto) {
         dao.delete(mapper.convert(personDto, Person.class));
     }
 
-    public List<PersonDto> createList(List<PersonDto> list){
+    public List<PersonDto> createList(List<PersonDto> list) {
         List<PersonDto> personDtoList = new ArrayList<>();
         for (PersonDto personDto : list) {
-                PersonDto createdPerson = create(personDto);
-                personDtoList.add(createdPerson);
+            PersonDto createdPerson = create(personDto);
+            personDtoList.add(createdPerson);
         }
         return personDtoList;
     }

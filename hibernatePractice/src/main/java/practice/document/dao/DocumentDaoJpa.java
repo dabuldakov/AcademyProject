@@ -3,8 +3,8 @@ package practice.document.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import practice.exception.NotFoundException;
 import practice.document.model.Document;
+import practice.exception.NotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,7 +23,11 @@ public class DocumentDaoJpa implements DocumentDao {
 
     @Override
     public Document find(int id) {
-        return em.find(Document.class, id);
+        Document document = em.find(Document.class, id);
+        if (document == null)
+            throw new NotFoundException();
+        em.refresh(document);
+        return document;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class DocumentDaoJpa implements DocumentDao {
     }
 
     @Override
-    public void update(Document document) throws NotFoundException {
+    public void update(Document document) {
         if (repository.existsById(document.getId()))
             em.merge(document);
         else throw new NotFoundException();

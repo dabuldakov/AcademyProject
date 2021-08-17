@@ -7,10 +7,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import practice.Utils;
-import practice.exception.IdException;
 import practice.mapper.Mapper;
-import practice.person.model.Person;
 import practice.person.dao.PersonDao;
+import practice.person.model.Person;
 import practice.person.model.PersonDto;
 import practice.person.service.PersonServiceImpl;
 
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static practice.Utils.createPerson;
 import static practice.Utils.createPersonDto;
@@ -79,18 +77,6 @@ class PersonServiceImplTest {
         assertEquals(personDtoResult.get(1), personDtoList.get(1));
         assertEquals(personDtoResult.get(2), personDtoList.get(2));
         // TODO: 8/12/2021 assertJ compare lists
-    }
-
-    @Test
-    void updateShouldReturnException() {
-        //given
-        personDto = new PersonDto();
-        //when
-        IdException idException = assertThrows(IdException.class, () -> {
-            service.update(personDto);
-        });
-        //then
-        assertEquals("Id incorrect: Person id is empty.", idException.getMessage());
     }
 
     @Test
@@ -155,18 +141,6 @@ class PersonServiceImplTest {
         //then
         Mockito.verify(mock, Mockito.times(3)).create(any());
         assertEquals(3, personDtoListResult.size());
-    }
-
-    @Test
-    void deleteShouldReturnThrow() {
-        //given
-        personDto = new PersonDto();
-        //when
-        IdException idException = assertThrows(IdException.class, () -> {
-            service.delete(personDto);
-        });
-        //then
-        assertEquals("Id incorrect: Person id: " + 0, idException.getMessage());
     }
 
     @Test

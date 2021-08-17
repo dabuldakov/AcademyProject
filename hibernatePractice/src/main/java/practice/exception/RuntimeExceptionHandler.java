@@ -16,11 +16,4 @@ public class RuntimeExceptionHandler {
         return e.getMessage();
     }
 
-    @ResponseBody
-    @ExceptionHandler(IdException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String idIncorrect(IdException e){
-        return e.getMessage();
-    }
-
 }

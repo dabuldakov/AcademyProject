@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import practice.document.dao.DocumentDao;
 import practice.document.model.Document;
 import practice.document.model.DocumentDto;
-import practice.exception.NotFoundException;
 import practice.mapper.Mapper;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void update(DocumentDto dto) throws NotFoundException {
+    public void update(DocumentDto dto){
         dao.update(mapper.convert(dto, Document.class));
     }
 

@@ -23,9 +23,9 @@ public class PersonDaoJpa implements PersonDao {
     private PersonRepository repository;
 
     @Override
-    public Person find(int id) throws NotFoundException {
+    public Person find(int id) {
         Person person = em.find(Person.class, id);
-        if(person == null)
+        if (person == null)
             throw new NotFoundException();
         em.refresh(person);
         return person;
@@ -43,13 +43,12 @@ public class PersonDaoJpa implements PersonDao {
     }
 
     @Override
-    public void update(Person person) throws NotFoundException {
-        if(repository.existsById(person.getId()))
+    public void update(Person person) {
+        if (repository.existsById(person.getId()))
             em.merge(person);
         else
             throw new NotFoundException();
     }
-
 
 
     @Override
