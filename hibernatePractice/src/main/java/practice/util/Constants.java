@@ -40,4 +40,5 @@ public abstract class Constants {
     public static final String UPDATE_DEPARTMENT = "UPDATE department SET name=? WHERE id = ?";
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String DATE_PATTERN = "yyyy-MM-dd hh:mm:ss";
 }

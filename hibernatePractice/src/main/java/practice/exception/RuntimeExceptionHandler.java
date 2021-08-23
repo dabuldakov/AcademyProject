@@ -16,4 +16,10 @@ public class RuntimeExceptionHandler {
         return e.getMessage();
     }
 
+//    @ResponseBody
+//    @ExceptionHandler(WeatherBadResponse.class)
+//    @ResponseStatus(HttpStatus.OK)
+//    String weatherBadResponse(WeatherBadResponse e){
+//        return e.getMessage();
+//    }
 }

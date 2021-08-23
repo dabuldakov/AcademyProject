@@ -1,13 +1,13 @@
 package practice;
 
-import practice.department.model.Department;
-import practice.department.model.DepartmentDto;
-import practice.document.model.Document;
-import practice.document.model.DocumentDto;
-import practice.language.model.Language;
-import practice.language.model.LanguageDto;
-import practice.person.model.Person;
-import practice.person.model.PersonDto;
+import practice.objects.department.Department;
+import practice.objects.department.DepartmentDto;
+import practice.objects.document.Document;
+import practice.objects.document.DocumentDto;
+import practice.objects.language.Language;
+import practice.objects.language.LanguageDto;
+import practice.objects.person.Person;
+import practice.objects.person.PersonDto;
 import practice.util.Constants;
 
 import java.text.ParseException;
